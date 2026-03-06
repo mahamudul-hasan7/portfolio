@@ -3326,11 +3326,75 @@ body.light .nav-links a.active {
   }
 }
 
+/* Navbar corrective fixes */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar .logo-flex {
+  display: inline-flex;
+  align-items: center;
+  min-width: max-content;
+}
+
+.navbar #primaryNav.nav-links {
+  display: flex;
+  align-items: center;
+  list-style: none;
+  margin: 0 auto;
+  min-height: 52px;
+}
+
+.navbar #primaryNav.nav-links a {
+  white-space: nowrap;
+  text-underline-offset: 0;
+}
+
+.navbar #primaryNav.nav-links a:focus-visible {
+  outline: 2px solid #77d9ff;
+  outline-offset: 2px;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  margin-left: 0.9rem;
+}
+
+@media (max-width: 1050px) {
+  .navbar #primaryNav.nav-links {
+    gap: 0.2rem;
+  }
+
+  .navbar #primaryNav.nav-links a {
+    font-size: 0.92rem;
+    padding: 0.5rem 0.76rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .navbar #primaryNav.nav-links {
+    min-height: 0;
+    margin: 0;
+  }
+
+  .nav-right {
+    margin-left: auto;
+  }
+}
+
 /* Keep hero badge text on a single line */
 .hero-content .badge {
   white-space: nowrap;
   width: fit-content;
   max-width: 100%;
+}
+
+/* Keep anchored sections clear of sticky navbar during smooth scrolling */
+section[id] {
+  scroll-margin-top: 84px;
 }
 
 /* Tighten top spacing so the badge sits closer to the navbar */

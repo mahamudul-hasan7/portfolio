@@ -111,18 +111,23 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 // Profile image slider with fade animation
 document.addEventListener('DOMContentLoaded', function() {
-  const profileImages = [
+  const defaultProfileImages = [
     'rakib.jpg',
     'rakib2.jpg',
     'rakib3.jpg',
     'rakib4.jpg'
   ];
+  const profileImages = Array.isArray(window.PORTFOLIO_PROFILE_IMAGES)
+    ? window.PORTFOLIO_PROFILE_IMAGES.filter(function(src) { return typeof src === 'string' && src.trim() !== ''; })
+    : defaultProfileImages;
   let currentProfile = 0;
   const profileSlider = document.getElementById('profileSlider');
-  if (profileSlider) {
+  if (profileSlider && profileImages.length > 0) {
+    profileSlider.src = profileImages[0];
     let isAnimating = false;
     setInterval(() => {
       if (isAnimating) return;
+      if (profileImages.length <= 1) return;
       isAnimating = true;
       profileSlider.classList.add('profile-slider-slide');
       setTimeout(() => {
@@ -167,21 +172,25 @@ document.addEventListener('DOMContentLoaded', function() {
     revealEls.forEach(function(el) { el.classList.add('revealed'); });
   }
 });
-// Smooth scroll for navigation
-const navLinks = document.querySelectorAll('.nav-links a');
-navLinks.forEach(link => {
+// Smooth scroll with sticky-navbar offset for all in-page anchors.
+const anchorLinks = document.querySelectorAll('a[href^="#"]');
+anchorLinks.forEach(function(link) {
   link.addEventListener('click', function(e) {
-    const href = this.getAttribute('href');
-    // Only handle in-page anchors; ignore non-anchor links.
-    if (!href || href.charAt(0) !== '#') {
-      return;
-    }
+    const href = link.getAttribute('href');
+    if (!href || href === '#') return;
 
     const target = document.querySelector(href);
-    if (target) {
-      e.preventDefault();
-      target.scrollIntoView({ behavior: 'smooth' });
-    }
+    if (!target) return;
+
+    e.preventDefault();
+    const nav = document.querySelector('.navbar');
+    const navHeight = nav ? nav.offsetHeight : 0;
+    const targetTop = target.getBoundingClientRect().top + window.scrollY - navHeight - 10;
+
+    window.scrollTo({
+      top: Math.max(0, targetTop),
+      behavior: 'smooth'
+    });
   });
 });
 
