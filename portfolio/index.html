@@ -15,9 +15,9 @@
             } else {
               document.documentElement.classList.remove('light');
             }
-            // Prevent stale hash from causing unexpected jump on reload.
+            // Use manual mode; reload restore is handled explicitly in script.js.
             if (window.history && window.history.scrollRestoration) {
-              window.history.scrollRestoration = 'auto';
+              window.history.scrollRestoration = 'manual';
             }
           } catch(e) {}
         })();
@@ -119,6 +119,74 @@
           <span class="icon postgres" title="PostgreSQL">
             <svg width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#336791"/><path d="M16 10c-3 0-6 2-6 5 0 2 2 4 6 7 4-3 6-5 6-7 0-3-3-5-6-5z" fill="#fff"/><rect x="15" y="15" width="2" height="7" rx="1" fill="#336791"/></svg>
           </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Me Section -->
+  <section id="aboutme" class="section aboutme-section">
+    <div class="aboutme-container">
+      <div class="aboutme-img-col">
+        <div class="aboutme-img-wrap">
+          <img src="rakib.jpg" alt="Rakib - Professional headshot" class="aboutme-img" loading="lazy" />
+          <div class="aboutme-badge aboutme-badge-top">
+            <span class="aboutme-badge-icon"><svg width="28" height="28" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#00add8"/><ellipse cx="16" cy="16" rx="7" ry="7" fill="#fff"/><ellipse cx="16" cy="16" rx="3" ry="3" fill="#00add8"/></svg></span>
+            <span class="aboutme-badge-text"><b>Projects</b><br><span style="font-size:0.9em; font-weight:400;">Design + code shipped</span></span>
+          </div>
+          <div class="aboutme-badge aboutme-badge-bottom">
+            <span class="aboutme-badge-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M8 22c4-4 12-4 16 0" stroke="#232b2d" stroke-width="2" fill="none"/></svg></span>
+            <span class="aboutme-badge-text"><b>CSE @ UIU</b><br><span style="font-size:0.9em; font-weight:400;">2023 - 2028</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="aboutme-content-col">
+        <span class="aboutme-label">About Me</span>
+        <h2 class="aboutme-title">I Build Reliable Digital <span class="aboutme-green">Experiences</span></h2>
+        <p class="aboutme-desc">I am Rakib, a CSE student and builder who enjoys solving practical problems with clean, maintainable code. My work combines thoughtful UI, performance-aware development, and clear structure so products feel simple to use and easy to improve over time.</p>
+        <p class="aboutme-desc aboutme-desc-secondary">Outside classes, I spend time on project-based learning, system thinking, and refining development habits. I care about writing code that is not only functional but also readable, scalable, and team-friendly.</p>
+
+        <div class="aboutme-stats">
+          <div class="aboutme-stat-item"><span class="aboutme-stat-number">12+</span><span class="aboutme-stat-label">Projects Built</span></div>
+          <div class="aboutme-stat-item"><span class="aboutme-stat-number">200+</span><span class="aboutme-stat-label">Problem Solves</span></div>
+          <div class="aboutme-stat-item"><span class="aboutme-stat-number">3</span><span class="aboutme-stat-label">Active Learning Tracks</span></div>
+        </div>
+
+        <div class="aboutme-cards">
+          <div class="aboutme-card">
+            <span class="aboutme-card-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M16 10v12M10 16h12" stroke="#232b2d" stroke-width="2"/></svg></span>
+            <div>
+              <b>Frontend Development</b><br>
+              <span class="aboutme-card-desc">Responsive UI, interaction design, and component structure</span>
+            </div>
+          </div>
+          <div class="aboutme-card">
+            <span class="aboutme-card-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M16 10v12M10 16h12" stroke="#232b2d" stroke-width="2"/></svg></span>
+            <div>
+              <b>Core CS Foundation</b><br>
+              <span class="aboutme-card-desc">DSA, OOP, DBMS, and software engineering fundamentals</span>
+            </div>
+          </div>
+          <div class="aboutme-card">
+            <span class="aboutme-card-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M16 10v12M10 16h12" stroke="#232b2d" stroke-width="2"/></svg></span>
+            <div>
+              <b>Growth Mindset</b><br>
+              <span class="aboutme-card-desc">Continuous iteration, feedback loops, and fast adaptation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="aboutme-tags" aria-label="Areas of focus">
+          <span class="aboutme-tag">Web Development</span>
+          <span class="aboutme-tag">Clean Code</span>
+          <span class="aboutme-tag">Problem Solving</span>
+          <span class="aboutme-tag">Team Collaboration</span>
+        </div>
+
+        <blockquote class="aboutme-quote">"I believe strong software is built where clarity, curiosity, and consistency meet."</blockquote>
+        <div class="aboutme-actions">
+          <a href="#projects" class="btn green-btn">See My Work</a>
+          <a href="#journey" class="aboutme-timeline-link">View my timeline</a>
         </div>
       </div>
     </div>
@@ -405,74 +473,6 @@
         <h3>Certification</h3>
         <p>Google IT Support, AWS Cloud, Microsoft Learn, or other—add certification name.</p>
         <span class="cert-meta">Issuer · Year</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- About Me Section -->
-  <section id="aboutme" class="section aboutme-section">
-    <div class="aboutme-container">
-      <div class="aboutme-img-col">
-        <div class="aboutme-img-wrap">
-          <img src="rakib.jpg" alt="Rakib - Professional headshot" class="aboutme-img" loading="lazy" />
-          <div class="aboutme-badge aboutme-badge-top">
-            <span class="aboutme-badge-icon"><svg width="28" height="28" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#00add8"/><ellipse cx="16" cy="16" rx="7" ry="7" fill="#fff"/><ellipse cx="16" cy="16" rx="3" ry="3" fill="#00add8"/></svg></span>
-            <span class="aboutme-badge-text"><b>Projects</b><br><span style="font-size:0.9em; font-weight:400;">Design + code shipped</span></span>
-          </div>
-          <div class="aboutme-badge aboutme-badge-bottom">
-            <span class="aboutme-badge-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M8 22c4-4 12-4 16 0" stroke="#232b2d" stroke-width="2" fill="none"/></svg></span>
-            <span class="aboutme-badge-text"><b>CSE @ UIU</b><br><span style="font-size:0.9em; font-weight:400;">2023 - 2028</span></span>
-          </div>
-        </div>
-      </div>
-      <div class="aboutme-content-col">
-        <span class="aboutme-label">About Me</span>
-        <h2 class="aboutme-title">I Build Reliable Digital <span class="aboutme-green">Experiences</span></h2>
-        <p class="aboutme-desc">I am Rakib, a CSE student and builder who enjoys solving practical problems with clean, maintainable code. My work combines thoughtful UI, performance-aware development, and clear structure so products feel simple to use and easy to improve over time.</p>
-        <p class="aboutme-desc aboutme-desc-secondary">Outside classes, I spend time on project-based learning, system thinking, and refining development habits. I care about writing code that is not only functional but also readable, scalable, and team-friendly.</p>
-
-        <div class="aboutme-stats">
-          <div class="aboutme-stat-item"><span class="aboutme-stat-number">12+</span><span class="aboutme-stat-label">Projects Built</span></div>
-          <div class="aboutme-stat-item"><span class="aboutme-stat-number">200+</span><span class="aboutme-stat-label">Problem Solves</span></div>
-          <div class="aboutme-stat-item"><span class="aboutme-stat-number">3</span><span class="aboutme-stat-label">Active Learning Tracks</span></div>
-        </div>
-
-        <div class="aboutme-cards">
-          <div class="aboutme-card">
-            <span class="aboutme-card-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M16 10v12M10 16h12" stroke="#232b2d" stroke-width="2"/></svg></span>
-            <div>
-              <b>Frontend Development</b><br>
-              <span class="aboutme-card-desc">Responsive UI, interaction design, and component structure</span>
-            </div>
-          </div>
-          <div class="aboutme-card">
-            <span class="aboutme-card-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M16 10v12M10 16h12" stroke="#232b2d" stroke-width="2"/></svg></span>
-            <div>
-              <b>Core CS Foundation</b><br>
-              <span class="aboutme-card-desc">DSA, OOP, DBMS, and software engineering fundamentals</span>
-            </div>
-          </div>
-          <div class="aboutme-card">
-            <span class="aboutme-card-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M16 10v12M10 16h12" stroke="#232b2d" stroke-width="2"/></svg></span>
-            <div>
-              <b>Growth Mindset</b><br>
-              <span class="aboutme-card-desc">Continuous iteration, feedback loops, and fast adaptation</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="aboutme-tags" aria-label="Areas of focus">
-          <span class="aboutme-tag">Web Development</span>
-          <span class="aboutme-tag">Clean Code</span>
-          <span class="aboutme-tag">Problem Solving</span>
-          <span class="aboutme-tag">Team Collaboration</span>
-        </div>
-
-        <blockquote class="aboutme-quote">"I believe strong software is built where clarity, curiosity, and consistency meet."</blockquote>
-        <div class="aboutme-actions">
-          <a href="#projects" class="btn green-btn">See My Work</a>
-          <a href="#journey" class="aboutme-timeline-link">View my timeline</a>
-        </div>
       </div>
     </div>
   </section>

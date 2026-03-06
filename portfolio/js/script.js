@@ -3,6 +3,30 @@
 // Organized: js/script.js
 // ============================================
 
+// Preserve scroll position specifically across page reloads.
+const RELOAD_SCROLL_KEY = 'portfolio-scroll-y';
+window.addEventListener('beforeunload', function() {
+  try {
+    sessionStorage.setItem(RELOAD_SCROLL_KEY, String(window.scrollY || 0));
+  } catch (e) {}
+});
+
+window.addEventListener('pageshow', function() {
+  try {
+    const navEntries = performance.getEntriesByType('navigation');
+    const navType = navEntries && navEntries.length ? navEntries[0].type : '';
+    const isReload = navType === 'reload' || (performance.navigation && performance.navigation.type === 1);
+    if (!isReload) return;
+
+    const savedY = parseInt(sessionStorage.getItem(RELOAD_SCROLL_KEY) || '0', 10);
+    if (!Number.isFinite(savedY) || savedY <= 0) return;
+
+    window.requestAnimationFrame(function() {
+      window.scrollTo(0, savedY);
+    });
+  } catch (e) {}
+});
+
 // Dark/Light mode toggle
 const themeToggle = document.getElementById('themeToggle');
 if (themeToggle) {
