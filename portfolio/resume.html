@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resume | Rakib</title>
+  <link rel="stylesheet" href="css/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    .resume-page { max-width: 780px; margin: 0 auto; padding: 2rem 1.5rem; color: var(--color-main, #e6e6e6); font-family: 'Montserrat', sans-serif; }
+    .resume-page a { color: #3fff7f; text-decoration: none; }
+    .resume-page a:hover { text-decoration: underline; }
+    .resume-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #232b2d; }
+    .resume-header h1 { font-size: 1.85rem; margin: 0 0 0.25em 0; color: #fff; }
+    .resume-header .subtitle { color: #3fff7f; font-weight: 600; font-size: 1.05rem; }
+    .resume-header .contact { margin-top: 0.75rem; font-size: 0.95rem; color: #bdbdbd; }
+    .resume-header .contact span { margin: 0 0.5em; }
+    .resume-section { margin-bottom: 1.75rem; }
+    .resume-section h2 { font-size: 1.15rem; color: #3fff7f; margin: 0 0 0.75rem 0; padding-bottom: 0.35rem; border-bottom: 2px solid #3fff7f44; }
+    .resume-section ul { margin: 0; padding-left: 1.25rem; line-height: 1.6; color: #bdbdbd; font-size: 0.98rem; }
+    .resume-section p { margin: 0 0 0.5em 0; color: #bdbdbd; font-size: 0.98rem; line-height: 1.5; }
+    .resume-item { margin-bottom: 1rem; }
+    .resume-item h3 { font-size: 1.05rem; color: #fff; margin: 0 0 0.2em 0; }
+    .resume-item .meta { color: #3fff7f; font-size: 0.9rem; }
+    .resume-item .meta span { margin-right: 0.5em; }
+    .resume-download { display: inline-block; margin-top: 1rem; padding: 0.5em 1.2em; background: #3fff7f; color: #101415; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .resume-download:hover { opacity: 0.9; text-decoration: none; }
+    .resume-nav { margin-bottom: 1.5rem; }
+    .resume-nav a { color: #bdbdbd; margin-right: 1rem; }
+    .resume-nav a:hover { color: #3fff7f; }
+    body { background: var(--bg-main, #101415); }
+  </style>
+</head>
+<body>
+  <div class="resume-page">
+    <nav class="resume-nav">
+      <a href="index.html">← Back to Portfolio</a>
+      <a href="resume.pdf" download class="resume-download">Download PDF</a>
+    </nav>
+
+    <header class="resume-header">
+      <h1>Rakib</h1>
+      <p class="subtitle">Computer Science & Engineering Student</p>
+      <p class="contact">
+        <span>📧 your@email.com</span>
+        <span>📍 Bangladesh</span>
+        <span><a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener">LinkedIn</a></span>
+        <span><a href="https://github.com/yourusername" target="_blank" rel="noopener">GitHub</a></span>
+      </p>
+    </header>
+
+    <section class="resume-section">
+      <h2>Education</h2>
+      <div class="resume-item">
+        <h3>B.Sc. in Computer Science & Engineering</h3>
+        <p class="meta"><span>United International University</span><span>2023 – 2028</span></p>
+        <p>Relevant coursework: Data Structures, Algorithms, OOP, DBMS, Web Technologies, Computer Networks, Software Engineering.</p>
+      </div>
+      <div class="resume-item">
+        <h3>Higher Secondary / A-Levels</h3>
+        <p class="meta"><span>Your College Name</span><span>Year</span></p>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>Skills</h2>
+      <ul>
+        <li><strong>Programming:</strong> C, C++, Python, JavaScript</li>
+        <li><strong>Web:</strong> HTML, CSS, JavaScript, React (learning)</li>
+        <li><strong>Tools:</strong> Git, VS Code</li>
+        <li><strong>Topics:</strong> Data Structures, Algorithms, OOP, DBMS</li>
+      </ul>
+    </section>
+
+    <section class="resume-section">
+      <h2>Projects</h2>
+      <div class="resume-item">
+        <h3>Portfolio Website</h3>
+        <p class="meta">HTML, CSS, JavaScript</p>
+        <p>Responsive personal portfolio with education, projects, certifications, and contact sections.</p>
+      </div>
+      <div class="resume-item">
+        <h3>Blog Platform</h3>
+        <p class="meta">React, Node.js, MongoDB</p>
+        <p>Full-stack blog with markdown support, search, and categories.</p>
+      </div>
+    </section>
+
+    <section class="resume-section">
+      <h2>Certifications & Achievements</h2>
+      <ul>
+        <li>Add your Coursera / Udemy / NPTEL course name – Issuer · Year</li>
+        <li>Hackathon or contest – Position · Year</li>
+        <li>Other certification – Issuer · Year</li>
+      </ul>
+    </section>
+
+    <p style="margin-top: 2rem; font-size: 0.9rem; color: #888;">Replace placeholders (email, college, certifications, GitHub/LinkedIn URLs) with your details. Add <code>resume.pdf</code> in the portfolio folder and the "Download PDF" button will work.</p>
+  </div>
+</body>
+</html>
