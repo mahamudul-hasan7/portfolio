@@ -26,6 +26,10 @@ if (themeToggle) {
 document.addEventListener('DOMContentLoaded', function() {
   const sections = document.querySelectorAll('section');
   const navLinks = document.querySelectorAll('.nav-links a');
+  const hashNavLinks = Array.from(navLinks).filter(function(link) {
+    const href = link.getAttribute('href') || '';
+    return href.charAt(0) === '#';
+  });
   const nav = document.querySelector('.navbar');
   const navToggle = document.getElementById('navToggle');
 
@@ -58,9 +62,9 @@ document.addEventListener('DOMContentLoaded', function() {
     let scrollPos = window.scrollY || document.documentElement.scrollTop;
     sections.forEach(section => {
       if (section.offsetTop - 80 <= scrollPos && section.offsetTop + section.offsetHeight > scrollPos) {
-        navLinks.forEach(link => {
+        hashNavLinks.forEach(link => {
           link.classList.remove('active');
-          if (link.getAttribute('href').substring(1) === section.id) {
+          if ((link.getAttribute('href') || '').substring(1) === section.id) {
             link.classList.add('active');
           }
         });
@@ -172,3 +176,42 @@ if (contactForm && contactSuccess) {
     }, 3500);
   });
 }
+
+// Project card Read More expand/collapse
+const projectReadMoreButtons = document.querySelectorAll('.project-read-more');
+projectReadMoreButtons.forEach(function(button) {
+  button.addEventListener('click', function() {
+    const targetId = button.getAttribute('aria-controls');
+    if (!targetId) return;
+
+    const panel = document.getElementById(targetId);
+    if (!panel) return;
+
+    const isExpanded = button.getAttribute('aria-expanded') === 'true';
+    button.setAttribute('aria-expanded', String(!isExpanded));
+    button.textContent = isExpanded ? 'Read More' : 'Read Less';
+
+    panel.hidden = isExpanded;
+  });
+});
+
+// Project action buttons (Live/Case Study/etc.) open same in-card details.
+const projectOpenMoreButtons = document.querySelectorAll('.project-open-more');
+projectOpenMoreButtons.forEach(function(button) {
+  button.addEventListener('click', function() {
+    const targetId = button.getAttribute('data-target');
+    if (!targetId) return;
+
+    const panel = document.getElementById(targetId);
+    if (!panel) return;
+
+    const readMoreButton = document.querySelector('.project-read-more[aria-controls="' + targetId + '"]');
+    if (!panel.hidden) return;
+
+    panel.hidden = false;
+    if (readMoreButton) {
+      readMoreButton.setAttribute('aria-expanded', 'true');
+      readMoreButton.textContent = 'Read Less';
+    }
+  });
+});
