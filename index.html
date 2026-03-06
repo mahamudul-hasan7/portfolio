@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+      <script>
+        // Set theme class before DOMContentLoaded to prevent flicker
+        (function() {
+          try {
+            var theme = localStorage.getItem('theme');
+            if (theme !== 'light' && theme !== 'dark') {
+              localStorage.setItem('theme', 'dark');
+              theme = 'dark';
+            }
+            if(theme === 'light') {
+              document.documentElement.classList.add('light');
+            } else {
+              document.documentElement.classList.remove('light');
+            }
+            // Prevent stale hash from causing unexpected jump on reload.
+            if (window.history && window.history.scrollRestoration) {
+              window.history.scrollRestoration = 'auto';
+            }
+          } catch(e) {}
+        })();
+      </script>
+    <link rel="icon" type="png" href="favicon.png" sizes="32x32" />
+    <meta name="description" content="Rakib's professional portfolio: projects, skills, experience, and contact." />
+    <meta name="keywords" content="Rakib, CSE Student, Portfolio, Computer Science, Projects, Skills, Contact, Resume" />
+    <meta name="author" content="Rakib" />
+    <meta property="og:title" content="Rakib - Professional Portfolio" />
+    <meta property="og:description" content="Rakib's professional portfolio: projects, skills, and contact." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="rakib.jpg" />
+    <meta property="og:url" content="https://yourdomain.com/" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Rakib - Professional Portfolio" />
+    <meta name="twitter:description" content="Rakib's professional portfolio: projects, skills, and contact." />
+    <meta name="twitter:image" content="rakib.jpg" />
+    <meta name="twitter:site" content="@yourhandle" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rakib - Professional Portfolio</title>
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="bg-grid"></div>
+  <div class="bg-aurora"></div>
+  <div class="bg-orbs" aria-hidden="true"></div>
+  <nav class="navbar">
+    <div class="logo logo-flex">
+      <span class="logo-svg">
+        <svg width="38" height="28" viewBox="0 0 38 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="22" width="34" height="4" rx="2" fill="#fff"/>
+          <path d="M2 22L19 4L36 22" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M10 14L19 4L28 14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="logo-text">RAKIB</span>
+    </div>
+    <ul id="primaryNav" class="nav-links">
+      <li><a href="#aboutme">About</a></li>
+      <li><a href="#education">Education</a></li>
+      <li><a href="#projects">Projects</a></li>
+      <li><a href="#journey">Journey</a></li>
+      <li><a href="#experience">Experience</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button id="navToggle" class="nav-toggle" aria-label="Open menu" aria-controls="primaryNav" aria-expanded="false">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <button id="themeToggle" class="theme-toggle" aria-label="Toggle dark/light mode">🌙</button>
+    </div>
+  </nav>
+  <section id="hero" class="hero-section">
+    <div class="hero-content fade-in">
+      <span class="badge">CSE Student · Open to opportunities</span>
+      <h1 class="hero-title">Hi there! I'm <span class="highlight">Rakib</span>
+        <span class="hero-underline"></span>
+      </h1>
+      <h2>CSE Student & Developer dedicated to building things.</h2>
+      <p>From coding projects to exploring web dev and problem-solving—I'm driven by a passion for creating clean, useful solutions through programming and continuous learning.
+      </p>
+      <div class="location-role">
+        <span class="location-icon"> <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8" r="4" stroke="#3fff7f" stroke-width="2"/><path d="M10 18c4-5 6-8 6-10a6 6 0 10-12 0c0 2 2 5 6 10z" stroke="#3fff7f" stroke-width="2"/></svg> Bangladesh</span>
+        <span class="role-dot">•</span>
+        <span>United International University</span>
+      </div>
+      <div class="hero-buttons">
+        <a href="resume.html" class="btn green-btn">View CV</a>
+        <a href="contact.html" class="btn dark-btn">Get in Touch</a>
+        <a href="#projects" class="btn dark-btn">View Projects</a>
+      </div>
+      <div class="social-links">
+        <a href="contact.html" class="icon-social linkedin" title="LinkedIn"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#0077b5"/><path d="M10.5 13.5v8h3v-8h-3zm1.5-1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm4.5 1.5v8h3v-4c0-1.1.9-2 2-2s2 .9 2 2v4h3v-4.5c0-2.5-2-4.5-4.5-4.5s-4.5 2-4.5 4.5z" fill="#fff"/></svg></a>
+        <a href="projects.html" class="icon-social github" title="GitHub"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#232b2d"/><path d="M16 6a10 10 0 00-3.2 19.5c.5.1.7-.2.7-.5v-2c-3 .7-3.7-1.3-3.7-1.3-.5-1.2-1.2-1.5-1.2-1.5-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.7 1.5 2.7 1.1.1-.7.4-1.1.7-1.3-2.4-.3-5-1.2-5-5.2 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .9-.3 2.8 1a9.7 9.7 0 015.1 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 4-2.6 4.9-5 5.2.4.3.7.9.7 1.8v2.7c0 .3.2.6.7.5A10 10 0 0016 6z" fill="#fff"/></svg></a>
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="profile-circle">
+        <img id="profileSlider" src="rakib.jpg" alt="Rakib - Professional Portfolio" loading="lazy" />
+        <div class="skills-icons">
+          <span class="icon go" title="Go">
+            <svg width="32" height="32" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#00add8"/><ellipse cx="12" cy="14" rx="2" ry="2.5" fill="#fff"/><ellipse cx="20" cy="14" rx="2" ry="2.5" fill="#fff"/><circle cx="12.7" cy="14.5" r="0.7" fill="#222"/><circle cx="19.3" cy="14.5" r="0.7" fill="#222"/></svg>
+          </span>
+          <span class="icon ts" title="TypeScript">
+            <svg width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3178c6"/><text x="16" y="22" text-anchor="middle" font-size="14" fill="#fff" font-family="Arial" font-weight="bold">TS</text></svg>
+          </span>
+          <span class="icon aws" title="AWS">
+            <svg width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#232b2d"/><path d="M8 22c4-4 12-4 16 0" stroke="#ff9900" stroke-width="2" fill="none"/></svg>
+          </span>
+          <span class="icon docker" title="Docker">
+            <svg width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#2496ed"/><rect x="10" y="18" width="12" height="4" rx="2" fill="#fff"/><rect x="12" y="16" width="2" height="2" rx="1" fill="#fff"/><rect x="16" y="16" width="2" height="2" rx="1" fill="#fff"/><rect x="20" y="16" width="2" height="2" rx="1" fill="#fff"/></svg>
+          </span>
+          <span class="icon postgres" title="PostgreSQL">
+            <svg width="32" height="32" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#336791"/><path d="M16 10c-3 0-6 2-6 5 0 2 2 4 6 7 4-3 6-5 6-7 0-3-3-5-6-5z" fill="#fff"/><rect x="15" y="15" width="2" height="7" rx="1" fill="#336791"/></svg>
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Education Section -->
+  <section id="education" class="section education-section">
+    <h2 class="fade-in">Education</h2>
+    <div class="education-list fade-in">
+      <div class="education-card">
+        <div class="education-icon">🎓</div>
+        <div class="education-body">
+          <h3>B.Sc. in Computer Science & Engineering</h3>
+          <p class="education-school">United International University</p>
+          <p class="education-meta">2023 – 2028</p>
+          <p class="education-courses">Relevant coursework: Data Structures, Algorithms, OOP, DBMS, Web Technologies, Computer Networks, Software Engineering.</p>
+        </div>
+      </div>
+      <div class="education-card education-card-minor">
+        <div class="education-icon">📚</div>
+        <div class="education-body">
+          <h3>Higher Secondary / A-Levels</h3>
+          <p class="education-school">Your College Name</p>
+          <p class="education-meta">Passing year</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="projects" class="section">
+    <h2 class="fade-in">Featured Projects</h2>
+    <p class="section-lead fade-in">Real builds where I focused on usability, clean architecture, and outcomes that can be measured.</p>
+    <div class="project-section-meta fade-in">
+      <span>3 spotlight projects</span>
+      <span>Product + engineering mindset</span>
+      <span>Built with iteration and feedback</span>
+    </div>
+    <div class="projects-list fade-in">
+      <article class="card project-card">
+        <img src="rakib2.jpg" alt="Portfolio Website project" class="project-thumb" loading="lazy" />
+        <div class="project-content">
+          <p class="project-kicker">Frontend Engineering · 2026</p>
+          <h3>Portfolio Website v2</h3>
+          <p class="project-desc">A personal brand platform designed for clarity and conversion, with modern layout flow, stronger copy hierarchy, and theme-aware visual identity.</p>
+          <div class="project-proof-grid">
+            <div class="project-proof"><span>95+</span>Lighthouse Performance</div>
+            <div class="project-proof"><span>100%</span>Responsive Layout</div>
+            <div class="project-proof"><span>8+</span>Modular Sections</div>
+          </div>
+          <ul class="project-highlights">
+            <li>Designed to showcase work, story, and credibility in one flow</li>
+            <li>Reusable section patterns for faster content updates</li>
+            <li>Clean animations without sacrificing readability</li>
+          </ul>
+          <div class="project-meta-row">
+            <span class="project-meta-chip">Status: Live</span>
+            <span class="project-meta-chip">Role: Design + Development</span>
+          </div>
+          <div class="tech-badges">
+            <span class="badge-tech">HTML</span>
+            <span class="badge-tech">CSS</span>
+            <span class="badge-tech">JavaScript</span>
+          </div>
+          <div class="project-links">
+            <button type="button" class="project-link project-link-live project-open-more" data-target="project-more-1">Live Preview</button>
+            <button type="button" class="project-link project-link-code project-open-more" data-target="project-more-1">Case Study</button>
+          </div>
+          <button type="button" class="project-read-more" aria-expanded="false" aria-controls="project-more-1">Read More</button>
+          <div id="project-more-1" class="project-more-content" hidden>
+            <p>This project went through multiple UI iterations to improve readability, first impression, and recruiter-focused navigation flow.</p>
+            <ul>
+              <li>Reusable component-like section patterns for easy scaling</li>
+              <li>Theme-aware styling and performance-conscious animations</li>
+              <li>Clear conversion path from intro to project proof</li>
+            </ul>
+          </div>
+          <p class="project-cta-note">Best for recruiters and collaborators who want a quick overview.</p>
+        </div>
+      </article>
+
+      <article class="card project-card">
+        <img src="rakib3.jpg" alt="Blog Platform project" class="project-thumb" loading="lazy" />
+        <div class="project-content">
+          <p class="project-kicker">Full-Stack Product · Ongoing</p>
+          <h3>Blog Platform</h3>
+          <p class="project-desc">A full-stack publishing platform for writing, filtering, and reading content with smooth UX and scalable post management flow.</p>
+          <div class="project-proof-grid">
+            <div class="project-proof"><span>3x</span>Faster Post Discovery</div>
+            <div class="project-proof"><span>Tag + Search</span>Smart Filtering</div>
+            <div class="project-proof"><span>Markdown</span>Author Workflow</div>
+          </div>
+          <ul class="project-highlights">
+            <li>Post lifecycle from draft to publish with clean data flow</li>
+            <li>Content discovery optimized by tags and query search</li>
+            <li>Architecture designed to support growth and maintainability</li>
+          </ul>
+          <div class="project-meta-row">
+            <span class="project-meta-chip">Status: In Progress</span>
+            <span class="project-meta-chip">Focus: Backend + UX</span>
+          </div>
+          <div class="tech-badges">
+            <span class="badge-tech">React</span>
+            <span class="badge-tech">Node.js</span>
+            <span class="badge-tech">MongoDB</span>
+          </div>
+          <div class="project-links">
+            <button type="button" class="project-link project-link-live project-open-more" data-target="project-more-2">Live Demo</button>
+            <button type="button" class="project-link project-link-code project-open-more" data-target="project-more-2">Code + Details</button>
+          </div>
+          <button type="button" class="project-read-more" aria-expanded="false" aria-controls="project-more-2">Read More</button>
+          <div id="project-more-2" class="project-more-content" hidden>
+            <p>The goal is to build a complete publishing pipeline from writing to discovery, with maintainable backend structure and fast client-side UX.</p>
+            <ul>
+              <li>Search and tag architecture for better content discovery</li>
+              <li>Cleaner author workflow with markdown-first writing</li>
+              <li>Scalable data model for category and growth support</li>
+            </ul>
+          </div>
+          <p class="project-cta-note">Built to learn production-style full-stack development.</p>
+        </div>
+      </article>
+
+      <article class="card project-card">
+        <img src="rakib4.jpg" alt="University Management Dashboard concept" class="project-thumb" loading="lazy" />
+        <div class="project-content">
+          <p class="project-kicker">UX + Product Thinking</p>
+          <h3>University Dashboard UI</h3>
+          <p class="project-desc">A student-first dashboard concept for course planning, assignment tracking, and progress analytics with minimal cognitive load.</p>
+          <div class="project-proof-grid">
+            <div class="project-proof"><span>Single View</span>Tasks + Deadlines</div>
+            <div class="project-proof"><span>Low Friction</span>Information Flow</div>
+            <div class="project-proof"><span>Future Ready</span>Notification Model</div>
+          </div>
+          <ul class="project-highlights">
+            <li>Visual hierarchy optimized for quick student decisions</li>
+            <li>Card-based system for scalable dashboard components</li>
+            <li>Concept aligned with real academic workflows</li>
+          </ul>
+          <div class="project-meta-row">
+            <span class="project-meta-chip">Status: Concept</span>
+            <span class="project-meta-chip">Goal: UX Research</span>
+          </div>
+          <div class="tech-badges">
+            <span class="badge-tech">Figma</span>
+            <span class="badge-tech">HTML</span>
+            <span class="badge-tech">CSS</span>
+          </div>
+          <div class="project-links">
+            <button type="button" class="project-link project-link-live project-open-more" data-target="project-more-3">Preview</button>
+            <button type="button" class="project-link project-link-code project-open-more" data-target="project-more-3">View Notes</button>
+          </div>
+          <button type="button" class="project-read-more" aria-expanded="false" aria-controls="project-more-3">Read More</button>
+          <div id="project-more-3" class="project-more-content" hidden>
+            <p>This concept explores how students can reduce planning friction with one dashboard that prioritizes deadlines, progress, and focus.</p>
+            <ul>
+              <li>Dashboard hierarchy designed for quick scanning decisions</li>
+              <li>Component system prepared for future feature expansion</li>
+              <li>UX choices mapped to real semester workflow habits</li>
+            </ul>
+          </div>
+          <p class="project-cta-note">Shows how I think about product design before coding.</p>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="blogs" class="section">
+    <h2 class="fade-in">Latest Blogs</h2>
+    <p class="section-lead fade-in">Short reads on web development, clean code, and practical lessons from building projects.</p>
+    <div class="blogs-list fade-in">
+      <article class="card blog-card">
+        <img src="rakib4.jpg" alt="Blog: How to Build a Portfolio" class="project-thumb" loading="lazy" />
+        <div class="blog-content-wrap">
+          <div class="blog-meta">Published Mar 2026 · 6 min read</div>
+          <h3>How to Build a Portfolio That Feels Professional</h3>
+          <p class="project-desc">A practical guide to structure, storytelling, and visual decisions that make a developer portfolio stand out.</p>
+          <div class="tech-badges">
+            <span class="badge-tech" title="HTML5">HTML</span>
+            <span class="badge-tech" title="CSS3">CSS</span>
+            <span class="badge-tech" title="JavaScript">JavaScript</span>
+          </div>
+          <a href="blogs.html" class="blog-read-link" target="_blank" rel="noopener">Read Article</a>
+        </div>
+      </article>
+
+      <article class="card blog-card">
+        <img src="rakib.jpg" alt="Blog: JavaScript Animation Tricks" class="project-thumb" loading="lazy" />
+        <div class="blog-content-wrap">
+          <div class="blog-meta">Published Feb 2026 · 5 min read</div>
+          <h3>JavaScript Animation Tricks for Smoother UI</h3>
+          <p class="project-desc">Learn animation patterns that improve feedback and flow without making interfaces feel heavy or distracting.</p>
+          <div class="tech-badges">
+            <span class="badge-tech" title="JavaScript">JavaScript</span>
+            <span class="badge-tech" title="CSS3">CSS</span>
+            <span class="badge-tech" title="UX">UX</span>
+          </div>
+          <a href="blogs.html" class="blog-read-link" target="_blank" rel="noopener">Read Article</a>
+        </div>
+      </article>
+
+      <article class="card blog-card">
+        <img src="rakib2.jpg" alt="Blog: Learning Path for CSE Students" class="project-thumb" loading="lazy" />
+        <div class="blog-content-wrap">
+          <div class="blog-meta">Published Jan 2026 · 7 min read</div>
+          <h3>A Practical Learning Path for CSE Students</h3>
+          <p class="project-desc">A no-fluff roadmap to balance university courses with real project work and consistent skill growth.</p>
+          <div class="tech-badges">
+            <span class="badge-tech" title="Career">Career</span>
+            <span class="badge-tech" title="DSA">DSA</span>
+            <span class="badge-tech" title="Projects">Projects</span>
+          </div>
+          <a href="blogs.html" class="blog-read-link" target="_blank" rel="noopener">Read Article</a>
+        </div>
+      </article>
+    </div>
+
+    <h2 class="fade-in">Skills</h2>
+    <p class="section-lead fade-in">Core technologies I use regularly, plus tools I am actively improving through real projects.</p>
+    <div class="skills-layout fade-in">
+      <div class="skills-bars">
+        <div class="skill-bar" title="HTML5">
+          <span class="skill-label"><svg width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" rx="4" fill="#e44d26"/><text x="10" y="15" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial" font-weight="bold">HTML</text></svg> HTML</span>
+          <div class="bar-bg"><div class="bar-fill" style="width: 95%; background:#e44d26"></div></div>
+          <span class="skill-percent">95%</span>
+        </div>
+        <div class="skill-bar" title="CSS3">
+          <span class="skill-label"><svg width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" rx="4" fill="#1572b6"/><text x="10" y="15" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial" font-weight="bold">CSS</text></svg> CSS</span>
+          <div class="bar-bg"><div class="bar-fill" style="width: 90%; background:#1572b6"></div></div>
+          <span class="skill-percent">90%</span>
+        </div>
+        <div class="skill-bar" title="JavaScript">
+          <span class="skill-label"><svg width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" rx="4" fill="#f7df1e"/><text x="10" y="15" text-anchor="middle" font-size="10" fill="#222" font-family="Arial" font-weight="bold">JS</text></svg> JavaScript</span>
+          <div class="bar-bg"><div class="bar-fill" style="width: 85%; background:#f7df1e"></div></div>
+          <span class="skill-percent">85%</span>
+        </div>
+        <div class="skill-bar" title="React.js">
+          <span class="skill-label"><svg width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" rx="4" fill="#61dafb"/><text x="10" y="15" text-anchor="middle" font-size="10" fill="#222" font-family="Arial" font-weight="bold">R</text></svg> React</span>
+          <div class="bar-bg"><div class="bar-fill" style="width: 80%; background:#61dafb"></div></div>
+          <span class="skill-percent">80%</span>
+        </div>
+        <div class="skill-bar" title="Node.js">
+          <span class="skill-label"><svg width="20" height="20" viewBox="0 0 20 20"><rect width="20" height="20" rx="4" fill="#3c873a"/><text x="10" y="15" text-anchor="middle" font-size="10" fill="#fff" font-family="Arial" font-weight="bold">N</text></svg> Node.js</span>
+          <div class="bar-bg"><div class="bar-fill" style="width: 75%; background:#3c873a"></div></div>
+          <span class="skill-percent">75%</span>
+        </div>
+      </div>
+
+      <aside class="skills-panel">
+        <h3>Current Focus</h3>
+        <ul>
+          <li>Building full-stack features with React and Node.js</li>
+          <li>Improving API design and data modeling habits</li>
+          <li>Practicing clean architecture and reusable UI</li>
+        </ul>
+        <div class="skills-mini-grid">
+          <div class="skills-mini-card"><span>12+</span> practice projects</div>
+          <div class="skills-mini-card"><span>200+</span> coding problem solves</div>
+          <div class="skills-mini-card"><span>3</span> active learning tracks</div>
+          <div class="skills-mini-card"><span>1</span> mission: ship quality work</div>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- Certifications & Achievements -->
+  <section id="certifications" class="section certifications-section">
+    <h2 class="fade-in">Certifications & Achievements</h2>
+    <p class="certifications-intro fade-in">Courses, competitions, and recognitions.</p>
+    <div class="certifications-grid fade-in">
+      <div class="cert-card">
+        <span class="cert-icon">📜</span>
+        <h3>Programming / CS Course</h3>
+        <p>Coursera, Udemy, NPTEL, or university course—add your completed course name here.</p>
+        <span class="cert-meta">Issuer · Year</span>
+      </div>
+      <div class="cert-card">
+        <span class="cert-icon">🏆</span>
+        <h3>Hackathon / Contest</h3>
+        <p>National Programming Contest, IEEE Xtreme, or other—add contest name and your position.</p>
+        <span class="cert-meta">Position · Year</span>
+      </div>
+      <div class="cert-card">
+        <span class="cert-icon">✅</span>
+        <h3>Certification</h3>
+        <p>Google IT Support, AWS Cloud, Microsoft Learn, or other—add certification name.</p>
+        <span class="cert-meta">Issuer · Year</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Me Section -->
+  <section id="aboutme" class="section aboutme-section">
+    <div class="aboutme-container">
+      <div class="aboutme-img-col">
+        <div class="aboutme-img-wrap">
+          <img src="rakib.jpg" alt="Rakib - Professional headshot" class="aboutme-img" loading="lazy" />
+          <div class="aboutme-badge aboutme-badge-top">
+            <span class="aboutme-badge-icon"><svg width="28" height="28" viewBox="0 0 32 32"><circle cx="16" cy="16" r="16" fill="#00add8"/><ellipse cx="16" cy="16" rx="7" ry="7" fill="#fff"/><ellipse cx="16" cy="16" rx="3" ry="3" fill="#00add8"/></svg></span>
+            <span class="aboutme-badge-text"><b>Projects</b><br><span style="font-size:0.9em; font-weight:400;">Design + code shipped</span></span>
+          </div>
+          <div class="aboutme-badge aboutme-badge-bottom">
+            <span class="aboutme-badge-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M8 22c4-4 12-4 16 0" stroke="#232b2d" stroke-width="2" fill="none"/></svg></span>
+            <span class="aboutme-badge-text"><b>CSE @ UIU</b><br><span style="font-size:0.9em; font-weight:400;">2023 - 2028</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="aboutme-content-col">
+        <span class="aboutme-label">About Me</span>
+        <h2 class="aboutme-title">I Build Reliable Digital <span class="aboutme-green">Experiences</span></h2>
+        <p class="aboutme-desc">I am Rakib, a CSE student and builder who enjoys solving practical problems with clean, maintainable code. My work combines thoughtful UI, performance-aware development, and clear structure so products feel simple to use and easy to improve over time.</p>
+        <p class="aboutme-desc aboutme-desc-secondary">Outside classes, I spend time on project-based learning, system thinking, and refining development habits. I care about writing code that is not only functional but also readable, scalable, and team-friendly.</p>
+
+        <div class="aboutme-stats">
+          <div class="aboutme-stat-item"><span class="aboutme-stat-number">12+</span><span class="aboutme-stat-label">Projects Built</span></div>
+          <div class="aboutme-stat-item"><span class="aboutme-stat-number">200+</span><span class="aboutme-stat-label">Problem Solves</span></div>
+          <div class="aboutme-stat-item"><span class="aboutme-stat-number">3</span><span class="aboutme-stat-label">Active Learning Tracks</span></div>
+        </div>
+
+        <div class="aboutme-cards">
+          <div class="aboutme-card">
+            <span class="aboutme-card-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M16 10v12M10 16h12" stroke="#232b2d" stroke-width="2"/></svg></span>
+            <div>
+              <b>Frontend Development</b><br>
+              <span class="aboutme-card-desc">Responsive UI, interaction design, and component structure</span>
+            </div>
+          </div>
+          <div class="aboutme-card">
+            <span class="aboutme-card-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M16 10v12M10 16h12" stroke="#232b2d" stroke-width="2"/></svg></span>
+            <div>
+              <b>Core CS Foundation</b><br>
+              <span class="aboutme-card-desc">DSA, OOP, DBMS, and software engineering fundamentals</span>
+            </div>
+          </div>
+          <div class="aboutme-card">
+            <span class="aboutme-card-icon"><svg width="28" height="28" viewBox="0 0 32 32"><rect width="32" height="32" rx="8" fill="#3fff7f"/><path d="M16 10v12M10 16h12" stroke="#232b2d" stroke-width="2"/></svg></span>
+            <div>
+              <b>Growth Mindset</b><br>
+              <span class="aboutme-card-desc">Continuous iteration, feedback loops, and fast adaptation</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="aboutme-tags" aria-label="Areas of focus">
+          <span class="aboutme-tag">Web Development</span>
+          <span class="aboutme-tag">Clean Code</span>
+          <span class="aboutme-tag">Problem Solving</span>
+          <span class="aboutme-tag">Team Collaboration</span>
+        </div>
+
+        <blockquote class="aboutme-quote">"I believe strong software is built where clarity, curiosity, and consistency meet."</blockquote>
+        <div class="aboutme-actions">
+          <a href="#projects" class="btn green-btn">See My Work</a>
+          <a href="#journey" class="aboutme-timeline-link">View my timeline</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- My Journey Timeline (Aranya-style) -->
+  <section id="journey" class="section journey-section">
+    <h2 class="fade-in">My Journey</h2>
+    <div class="timeline">
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2023</span>
+          <h3>Started CSE at UIU</h3>
+          <p>Began B.Sc. in Computer Science & Engineering at United International University.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2023 – 2025</span>
+          <h3>Building foundations</h3>
+          <p>Data Structures, Algorithms, OOP, Web Technologies, and side projects.</p>
+        </div>
+      </div>
+      <div class="timeline-item reveal">
+        <div class="timeline-dot"></div>
+        <div class="timeline-content">
+          <span class="timeline-year">2025 – Present</span>
+          <h3>Projects & growth</h3>
+          <p>Portfolio, web projects, and exploring internships and research opportunities.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience Section (Aranya-style) -->
+  <section id="experience" class="section experience-section">
+    <h2 class="fade-in">Experience</h2>
+    <div class="experience-list">
+      <div class="experience-card reveal">
+        <div class="experience-header">
+          <h3>Your Role / Club</h3>
+          <span class="experience-date">Year – Present</span>
+        </div>
+        <p class="experience-org">Organization or University</p>
+        <ul class="experience-bullets">
+          <li>Add your first key responsibility or achievement here.</li>
+          <li>Second point: projects, impact, or skills used.</li>
+          <li>Third point: leadership, collaboration, or results.</li>
+        </ul>
+      </div>
+      <div class="experience-card reveal">
+        <div class="experience-header">
+          <h3>Another Role / Project</h3>
+          <span class="experience-date">Year</span>
+        </div>
+        <p class="experience-org">Company or Club</p>
+        <ul class="experience-bullets">
+          <li>Brief description of what you did.</li>
+          <li>Tech or outcome.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-divider"></div>
+    <div class="footer-content">
+      <div class="footer-left">&copy; 2026 Rakib. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="#aboutme">About</a>
+        <a href="#education">Education</a>
+        <a href="#projects">Projects</a>
+        <a href="#journey">Journey</a>
+        <a href="#experience">Experience</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-socials">
+        <a href="projects.html" target="_blank" title="GitHub"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#232b2d"/><path d="M16 6a10 10 0 00-3.2 19.5c.5.1.7-.2.7-.5v-2c-3 .7-3.7-1.3-3.7-1.3-.5-1.2-1.2-1.5-1.2-1.5-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.7 1.5 2.7 1.1.1-.7.4-1.1.7-1.3-2.4-.3-5-1.2-5-5.2 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .9-.3 2.8 1a9.7 9.7 0 015.1 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 4-2.6 4.9-5 5.2.4.3.7.9.7 1.8v2.7c0 .3.2.6.7.5A10 10 0 0016 6z" fill="#fff"/></svg></a>
+        <a href="contact.html" target="_blank" title="LinkedIn"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#0077b5"/><path d="M10.5 13.5v8h3v-8h-3zm1.5-1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm4.5 1.5v8h3v-4c0-1.1.9-2 2-2s2 .9 2 2v4h3v-4.5c0-2.5-2-4.5-4.5-4.5s-4.5 2-4.5 4.5z" fill="#fff"/></svg></a>
+      </div>
+    </div>
+  </footer>
+  <script src="js/script.js"></script>
+</body>
+</html>
