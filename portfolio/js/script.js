@@ -198,15 +198,74 @@ anchorLinks.forEach(function(link) {
 const contactForm = document.getElementById('contactForm');
 const contactSuccess = document.getElementById('contactSuccess');
 if (contactForm && contactSuccess) {
-  contactForm.addEventListener('submit', function(e) {
+  contactForm.addEventListener('submit', async function(e) {
     e.preventDefault();
-    contactSuccess.classList.add('visible');
-    contactForm.style.display = 'none';
-    setTimeout(function() {
-      contactSuccess.classList.remove('visible');
-      contactForm.style.display = '';
+
+    const name = (document.getElementById('contactName') && document.getElementById('contactName').value || '').trim();
+    const email = (document.getElementById('contactEmail') && document.getElementById('contactEmail').value || '').trim();
+    const message = (document.getElementById('contactMessage') && document.getElementById('contactMessage').value || '').trim();
+    const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    if (!name || !email || !message) {
+      contactSuccess.textContent = 'Please fill in all fields before sending.';
+      contactSuccess.classList.add('visible');
+      setTimeout(function() {
+        contactSuccess.classList.remove('visible');
+      }, 2200);
+      return;
+    }
+
+    const oldBtnText = submitBtn ? submitBtn.textContent : '';
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+    }
+
+    const payload = {
+      name: name,
+      email: email,
+      message: message,
+      _subject: 'Portfolio Contact',
+      _captcha: 'false'
+    };
+
+    const oldSuccessText = contactSuccess.textContent;
+
+    try {
+      const response = await fetch('https://formsubmit.co/ajax/mahamud.7info@gmail.com', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json'
+        },
+        body: JSON.stringify(payload)
+      });
+
+      const data = await response.json().catch(function() { return {}; });
+      if (!response.ok || (data && data.success === false)) {
+        throw new Error('Request failed');
+      }
+
+      contactSuccess.textContent = 'Message sent successfully.';
+      contactSuccess.classList.add('visible');
       contactForm.reset();
-    }, 3500);
+      setTimeout(function() {
+        contactSuccess.classList.remove('visible');
+        contactSuccess.textContent = oldSuccessText;
+      }, 3200);
+    } catch (err) {
+      contactSuccess.textContent = 'Message could not be sent right now. Please try again.';
+      contactSuccess.classList.add('visible');
+      setTimeout(function() {
+        contactSuccess.classList.remove('visible');
+        contactSuccess.textContent = oldSuccessText;
+      }, 3200);
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.textContent = oldBtnText || 'Send Message';
+      }
+    }
   });
 }
 
