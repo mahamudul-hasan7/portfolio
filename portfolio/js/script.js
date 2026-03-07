@@ -121,29 +121,69 @@ document.addEventListener('DOMContentLoaded', function() {
   onScroll();
 });
 // Profile image slider with fade animation
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', async function() {
   const defaultProfileImages = [
     'rakib.jpg',
     'rakib2.jpg',
     'rakib3.jpg',
     'rakib4.jpg'
   ];
-  const profileImages = Array.isArray(window.PORTFOLIO_PROFILE_IMAGES)
-    ? window.PORTFOLIO_PROFILE_IMAGES.filter(function(src) { return typeof src === 'string' && src.trim() !== ''; })
-    : defaultProfileImages;
+
+  function uniqueStrings(list) {
+    const seen = new Set();
+    return list.filter(function(item) {
+      if (typeof item !== 'string') return false;
+      const value = item.trim();
+      if (!value || seen.has(value)) return false;
+      seen.add(value);
+      return true;
+    });
+  }
+
+  function checkImageExists(src) {
+    return new Promise(function(resolve) {
+      const probe = new Image();
+      probe.onload = function() { resolve(true); };
+      probe.onerror = function() { resolve(false); };
+      probe.src = src;
+    });
+  }
+
+  async function detectPatternImages() {
+    const candidates = ['rakib.jpg'];
+    for (let i = 2; i <= 30; i += 1) {
+      candidates.push('rakib' + i + '.jpg');
+    }
+
+    const found = [];
+    for (const candidate of candidates) {
+      // Probe files in sequence so naming order stays stable in the slider.
+      const exists = await checkImageExists(candidate);
+      if (exists) found.push(candidate);
+    }
+    return found;
+  }
+
+  const configuredImages = Array.isArray(window.PORTFOLIO_PROFILE_IMAGES)
+    ? uniqueStrings(window.PORTFOLIO_PROFILE_IMAGES)
+    : [];
+  const autoDetectedImages = await detectPatternImages();
+  const profileImages = uniqueStrings(configuredImages.concat(autoDetectedImages));
+  const finalProfileImages = profileImages.length > 0 ? profileImages : defaultProfileImages;
+
   let currentProfile = 0;
   const profileSlider = document.getElementById('profileSlider');
-  if (profileSlider && profileImages.length > 0) {
-    profileSlider.src = profileImages[0];
+  if (profileSlider && finalProfileImages.length > 0) {
+    profileSlider.src = finalProfileImages[0];
     let isAnimating = false;
     setInterval(() => {
       if (isAnimating) return;
-      if (profileImages.length <= 1) return;
+      if (finalProfileImages.length <= 1) return;
       isAnimating = true;
       profileSlider.classList.add('profile-slider-slide');
       setTimeout(() => {
-        currentProfile = (currentProfile + 1) % profileImages.length;
-        profileSlider.src = profileImages[currentProfile];
+        currentProfile = (currentProfile + 1) % finalProfileImages.length;
+        profileSlider.src = finalProfileImages[currentProfile];
         setTimeout(() => {
           profileSlider.classList.remove('profile-slider-slide');
           isAnimating = false;
