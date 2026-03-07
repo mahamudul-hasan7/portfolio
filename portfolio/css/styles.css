@@ -1,6 +1,7 @@
 .profile-slider-slide {
   animation: profileSlide 0.95s cubic-bezier(.4,0,.2,1);
 }
+
 @keyframes profileSlide {
   0% {
     opacity: 1;
@@ -26,6 +27,16 @@
 .profile-slider-fade {
   opacity: 0;
   transition: opacity 0.5s cubic-bezier(.6,0,.4,1.2);
+}
+
+.profile-circle.media-pending #profileSlider,
+.profile-circle.media-pending .skills-icons {
+  opacity: 0;
+}
+
+.profile-circle #profileSlider,
+.profile-circle .skills-icons {
+  transition: opacity 0.28s ease;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -4353,5 +4364,597 @@ body.light.contact-page .contact-form-v2 textarea {
     font-size: 0.58rem;
     letter-spacing: 0.02em;
     padding: 0.12rem 0.22rem;
+  }
+}
+
+/* Featured projects card redesign (final override) */
+#projects .projects-list {
+  gap: 1.45rem;
+}
+
+#projects .project-card {
+  position: relative;
+  border-radius: 24px;
+  border: 1px solid rgba(140, 255, 196, 0.18);
+  background:
+    radial-gradient(circle at 12% -8%, rgba(97, 229, 155, 0.2), transparent 56%),
+    linear-gradient(170deg, #1a2326 0%, #12191b 62%, #0f1416 100%);
+  box-shadow: 0 14px 34px rgba(6, 12, 14, 0.5);
+  overflow: hidden;
+}
+
+#projects .project-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+}
+
+#projects .project-card[data-tone="cyan"] {
+  border-color: rgba(111, 230, 255, 0.2);
+  background:
+    radial-gradient(circle at 12% -8%, rgba(109, 223, 255, 0.2), transparent 56%),
+    linear-gradient(170deg, #18242a 0%, #12181b 62%, #0e1417 100%);
+}
+
+#projects .project-card[data-tone="amber"] {
+  border-color: rgba(255, 206, 124, 0.25);
+  background:
+    radial-gradient(circle at 12% -8%, rgba(255, 198, 107, 0.18), transparent 56%),
+    linear-gradient(170deg, #241f17 0%, #17130f 62%, #13100d 100%);
+}
+
+#projects .project-card:hover {
+  transform: translateY(-10px);
+  border-color: rgba(146, 255, 199, 0.45);
+  box-shadow: 0 22px 42px rgba(6, 12, 14, 0.58);
+}
+
+#projects .project-thumb-wrap {
+  position: relative;
+  overflow: hidden;
+}
+
+#projects .project-thumb-wrap::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 0;
+  height: 52%;
+  background: linear-gradient(180deg, transparent 0%, rgba(10, 16, 19, 0.9) 100%);
+}
+
+#projects .project-thumb {
+  display: block;
+  width: 100%;
+  height: 178px;
+  object-fit: cover;
+  transform: scale(1.02);
+  transition: transform 0.45s ease;
+}
+
+#projects .project-card:hover .project-thumb {
+  transform: scale(1.08);
+}
+
+#projects .project-card-label {
+  position: absolute;
+  top: 0.85rem;
+  right: 0.85rem;
+  z-index: 1;
+  border: 1px solid rgba(197, 255, 221, 0.6);
+  background: rgba(7, 16, 13, 0.74);
+  color: #d8ffea;
+  font-size: 0.72rem;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-weight: 700;
+  padding: 0.28rem 0.58rem;
+  border-radius: 999px;
+  backdrop-filter: blur(4px);
+}
+
+#projects .project-content {
+  padding: 1rem 1rem 1.1rem;
+}
+
+#projects .project-kicker {
+  color: #8dffc0;
+}
+
+#projects .project-proof {
+  background: rgba(13, 24, 27, 0.8);
+  border-color: rgba(157, 243, 198, 0.24);
+}
+
+#projects .project-proof span {
+  color: #b0ffd2;
+}
+
+#projects .project-meta-chip {
+  border-color: rgba(115, 196, 154, 0.55);
+  background: rgba(28, 44, 38, 0.82);
+}
+
+#projects .badge-tech {
+  border: 1px solid rgba(145, 255, 203, 0.28);
+  background: rgba(20, 29, 31, 0.78);
+}
+
+#projects .project-link {
+  border-radius: 999px;
+  padding: 0.45rem 0.82rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.02em;
+}
+
+#projects .project-read-more {
+  margin-top: 0.7rem;
+}
+
+#projects .project-more-content {
+  border-color: rgba(125, 216, 176, 0.36);
+  background: linear-gradient(180deg, rgba(21, 33, 35, 0.96) 0%, rgba(15, 23, 25, 0.98) 100%);
+}
+
+body.light #projects .project-card {
+  border-color: rgba(44, 112, 78, 0.24);
+  background:
+    radial-gradient(circle at 12% -8%, rgba(70, 194, 129, 0.2), transparent 56%),
+    linear-gradient(170deg, #ffffff 0%, #f5f8f8 62%, #edf3f3 100%);
+  box-shadow: 0 16px 30px rgba(15, 28, 30, 0.1);
+}
+
+body.light #projects .project-card[data-tone="cyan"] {
+  border-color: rgba(38, 128, 156, 0.24);
+  background:
+    radial-gradient(circle at 12% -8%, rgba(84, 184, 213, 0.24), transparent 56%),
+    linear-gradient(170deg, #fefefe 0%, #f2f8fb 62%, #edf4f8 100%);
+}
+
+body.light #projects .project-card[data-tone="amber"] {
+  border-color: rgba(151, 111, 41, 0.28);
+  background:
+    radial-gradient(circle at 12% -8%, rgba(242, 187, 88, 0.24), transparent 56%),
+    linear-gradient(170deg, #fefcf7 0%, #f8f3e8 62%, #f3ecdf 100%);
+}
+
+body.light #projects .project-card-label {
+  border-color: rgba(22, 90, 60, 0.3);
+  background: rgba(250, 255, 252, 0.84);
+  color: #1f5b42;
+}
+
+body.light #projects .project-proof {
+  background: rgba(255, 255, 255, 0.86);
+  border-color: rgba(139, 187, 167, 0.38);
+}
+
+body.light #projects .badge-tech {
+  border-color: rgba(124, 171, 151, 0.35);
+  background: rgba(255, 255, 255, 0.86);
+}
+
+body.light #projects .project-more-content {
+  border-color: rgba(132, 180, 160, 0.36);
+  background: linear-gradient(180deg, #ffffff 0%, #f4f8f8 100%);
+}
+
+@media (max-width: 900px) {
+  #projects .projects-list {
+    gap: 1.15rem;
+  }
+
+  #projects .project-card {
+    max-width: 360px;
+  }
+}
+
+@media (max-width: 700px) {
+  #projects .project-card {
+    max-width: min(100%, 440px);
+  }
+
+  #projects .project-content {
+    padding: 0.9rem 0.88rem 0.98rem;
+  }
+
+  #projects .project-thumb {
+    height: clamp(180px, 56vw, 228px);
+  }
+}
+
+/* Hero visual style to match screenshot direction */
+#hero .hero-image {
+  width: 446px;
+  height: 446px;
+}
+
+#hero .profile-circle {
+  width: 304px;
+  height: 304px;
+  border-radius: 50%;
+  overflow: visible;
+  border: 3px solid rgba(29, 40, 44, 0.95);
+  box-shadow:
+    0 0 0 2px rgba(42, 255, 145, 0.22),
+    0 0 26px rgba(36, 255, 154, 0.48),
+    0 0 62px rgba(26, 166, 98, 0.34);
+}
+
+#hero .profile-circle::before {
+  inset: 8px;
+  border: 1px solid rgba(26, 38, 42, 0.66);
+}
+
+#hero .profile-circle img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: none;
+  box-shadow: none;
+  object-fit: cover;
+  object-position: center;
+}
+
+#hero .skills-icons {
+  pointer-events: none;
+}
+
+#hero .skills-icons .icon {
+  width: 52px;
+  height: 52px;
+  margin-left: -26px;
+  margin-top: -26px;
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(9, 13, 16, 0.84);
+  box-shadow: 0 8px 22px rgba(3, 7, 9, 0.5);
+  left: 50%;
+  top: 50%;
+  right: auto;
+  bottom: auto;
+  --orbit-angle: 0deg;
+  --orbit-radius: 194px;
+  animation: orbitItem 13.8s linear infinite;
+}
+
+#hero .skills-icons .icon svg {
+  width: 30px;
+  height: 30px;
+}
+
+#hero .skills-icons .icon.go {
+  --orbit-angle: 0deg;
+}
+
+#hero .skills-icons .icon.ts {
+  --orbit-angle: 60deg;
+}
+
+#hero .skills-icons .icon.aws {
+  --orbit-angle: 120deg;
+}
+
+
+#hero .skills-icons .icon.docker {
+  --orbit-angle: 180deg;
+}
+
+#hero .skills-icons .icon.postgres {
+  --orbit-angle: 240deg;
+  display: flex;
+}
+
+#hero .skills-icons .icon.graph {
+  --orbit-angle: 300deg;
+}
+
+body.light #hero .profile-circle {
+  border-color: rgba(31, 59, 45, 0.92);
+  box-shadow:
+    0 0 0 2px rgba(49, 188, 116, 0.26),
+    0 0 22px rgba(57, 188, 125, 0.26),
+    0 0 44px rgba(40, 142, 97, 0.22);
+}
+
+body.light #hero .skills-icons .icon {
+  border-color: rgba(42, 78, 60, 0.18);
+  background: rgba(251, 254, 252, 0.94);
+  box-shadow: 0 8px 20px rgba(34, 62, 49, 0.16);
+}
+
+@media (max-width: 1024px) {
+  #hero .hero-image {
+    width: 408px;
+    height: 408px;
+  }
+
+  #hero .profile-circle {
+    width: 274px;
+    height: 274px;
+  }
+
+  #hero .skills-icons .icon {
+    --orbit-radius: 178px;
+  }
+}
+
+@media (max-width: 700px) {
+  #hero .hero-image {
+    width: 356px;
+    height: 356px;
+    margin-top: 1.1rem;
+  }
+
+  #hero .profile-circle {
+    width: 242px;
+    height: 242px;
+  }
+
+  #hero .skills-icons .icon {
+    width: 42px;
+    height: 42px;
+    margin-left: -21px;
+    margin-top: -21px;
+    --orbit-radius: 158px;
+  }
+
+  #hero .skills-icons .icon svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+/* Global mobile compact pass */
+@media (max-width: 700px) {
+  body {
+    font-size: 15px;
+  }
+
+  .navbar {
+    padding: 0.5rem 0.85rem;
+  }
+
+  .logo-text {
+    font-size: 0.95rem;
+    letter-spacing: 0.08em;
+  }
+
+  .section {
+    padding: 2.1rem 0.9rem;
+  }
+
+  .section h2,
+  .aboutme-title,
+  .hero-title {
+    font-size: clamp(1.3rem, 6vw, 1.8rem);
+    line-height: 1.2;
+  }
+
+  .section-lead,
+  .hero-content p,
+  .aboutme-desc {
+    font-size: 0.92rem;
+    line-height: 1.55;
+  }
+
+  .hero-section {
+    gap: 1rem;
+    padding-top: 1.35rem;
+  }
+
+  .hero-content {
+    gap: 0.7rem;
+  }
+
+  .hero-content h2 {
+    font-size: 1rem;
+    line-height: 1.35;
+  }
+
+  .hero-content .badge {
+    font-size: 0.72rem;
+    padding: 0.28rem 0.52rem;
+  }
+
+  .location-role {
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+  }
+
+  .hero-buttons {
+    gap: 0.42rem;
+  }
+
+  .hero-buttons .btn,
+  .btn {
+    padding: 0.44rem 0.68rem;
+    border-radius: 10px;
+    font-size: 0.8rem;
+  }
+
+  .social-links {
+    gap: 0.44rem;
+  }
+
+  .icon-social {
+    width: 30px;
+    height: 30px;
+  }
+
+  #hero .hero-image {
+    width: 318px;
+    height: 318px;
+  }
+
+  #hero .profile-circle {
+    width: 220px;
+    height: 220px;
+  }
+
+  #hero .skills-icons .icon {
+    width: 40px;
+    height: 40px;
+    margin-left: -20px;
+    margin-top: -20px;
+    --orbit-radius: 140px;
+  }
+
+  #hero .skills-icons .icon svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  #aboutme .aboutme-container,
+  #education .education-grid,
+  #experience .experience-grid,
+  #projects .projects-list,
+  #blogs .blogs-list,
+  .journey-list,
+  .certifications-grid {
+    gap: 0.75rem;
+  }
+
+  #aboutme .aboutme-img-col,
+  #aboutme .aboutme-content-col,
+  #education .education-card,
+  #experience .experience-card,
+  #projects .project-card,
+  #blogs .blog-card,
+  .journey-item,
+  .cert-card,
+  .timeline-content {
+    border-radius: 14px;
+  }
+
+  #aboutme .aboutme-img-col {
+    min-width: 0;
+  }
+
+  #aboutme .aboutme-stats {
+    gap: 0.5rem;
+  }
+
+  #aboutme .aboutme-stat-item {
+    padding: 0.58rem 0.52rem;
+  }
+
+  #aboutme .aboutme-stat-number {
+    font-size: 1.05rem;
+  }
+
+  #aboutme .aboutme-cards,
+  #aboutme .aboutme-tags {
+    gap: 0.46rem;
+  }
+
+  #aboutme .aboutme-card {
+    padding: 0.6rem 0.62rem;
+  }
+
+  #aboutme .aboutme-tag {
+    font-size: 0.72rem;
+    padding: 0.2rem 0.52rem;
+  }
+
+  #projects .project-content,
+  #blogs .blog-content-wrap,
+  .education-card,
+  .experience-card,
+  .journey-item,
+  .cert-card {
+    padding: 0.78rem 0.74rem;
+  }
+
+  #projects .project-card h3,
+  #blogs .blog-card h3,
+  .education-card h3,
+  .experience-card h3 {
+    font-size: 0.96rem;
+    line-height: 1.35;
+  }
+
+  #projects .project-desc,
+  #blogs .project-desc,
+  .education-card p,
+  .experience-card p,
+  .journey-item p,
+  .cert-card p {
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
+  #projects .project-proof-grid {
+    gap: 0.35rem;
+  }
+
+  #projects .project-proof {
+    padding: 0.42rem 0.46rem;
+    font-size: 0.7rem;
+  }
+
+  #projects .tech-badges,
+  #blogs .tech-badges {
+    gap: 0.34rem;
+    margin-top: 0.65rem;
+  }
+
+  #projects .badge-tech,
+  #blogs .badge-tech {
+    font-size: 0.68rem;
+    padding: 0.22rem 0.5rem;
+  }
+
+  #projects .project-links {
+    gap: 0.42rem;
+    margin-top: 0.62rem;
+  }
+
+  #projects .project-link {
+    font-size: 0.7rem;
+    padding: 0.34rem 0.56rem;
+  }
+
+  .timeline-content,
+  .journey-item,
+  .education-card,
+  .experience-card {
+    min-height: 0;
+  }
+
+  .footer {
+    padding: 1.2rem 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .section {
+    padding: 1.9rem 0.72rem;
+  }
+
+  .hero-buttons {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .hero-buttons .btn:last-child {
+    grid-column: 1 / -1;
+  }
+
+  #hero .hero-image {
+    width: 288px;
+    height: 288px;
+  }
+
+  #hero .profile-circle {
+    width: 202px;
+    height: 202px;
+  }
+
+  #hero .skills-icons .icon {
+    --orbit-radius: 126px;
   }
 }

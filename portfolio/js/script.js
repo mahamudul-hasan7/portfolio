@@ -167,29 +167,246 @@ document.addEventListener('DOMContentLoaded', async function() {
   const configuredImages = Array.isArray(window.PORTFOLIO_PROFILE_IMAGES)
     ? uniqueStrings(window.PORTFOLIO_PROFILE_IMAGES)
     : [];
+  const fallbackProfileImages = configuredImages.length > 0
+    ? configuredImages
+    : defaultProfileImages;
+
+  const profileCircle = document.querySelector('#hero .profile-circle');
+  let heroMediaRevealed = false;
+  function revealHeroMedia() {
+    if (heroMediaRevealed) return;
+    heroMediaRevealed = true;
+    if (profileCircle) {
+      profileCircle.classList.remove('media-pending');
+    }
+  }
+
+  const profileSlider = document.getElementById('profileSlider');
+  const quickSlideDurationMs = 3500;
+
+  // Prevent reload flash of the hardcoded first image by setting a clock-synced image instantly.
+  if (profileSlider && fallbackProfileImages.length > 0) {
+    const quickIndex = Math.floor(Date.now() / quickSlideDurationMs) % fallbackProfileImages.length;
+    profileSlider.src = fallbackProfileImages[quickIndex];
+  }
+
+  // Sync orbit icon phase immediately so reload does not show first-cycle behavior.
+  const orbitIconsEarly = document.querySelectorAll('#hero .skills-icons .icon');
+  if (orbitIconsEarly.length > 0) {
+    const parseCssTimeToMsEarly = function(value) {
+      if (!value || typeof value !== 'string') return 0;
+      const first = value.split(',')[0].trim();
+      if (first.endsWith('ms')) {
+        const num = parseFloat(first.slice(0, -2));
+        return Number.isFinite(num) ? num : 0;
+      }
+      if (first.endsWith('s')) {
+        const num = parseFloat(first.slice(0, -1));
+        return Number.isFinite(num) ? num * 1000 : 0;
+      }
+      return 0;
+    };
+
+    const syncOrbitIconsEarly = function() {
+      const now = Date.now();
+      orbitIconsEarly.forEach(function(icon) {
+        const style = window.getComputedStyle(icon);
+        const durationMs = parseCssTimeToMsEarly(style.animationDuration) || 13800;
+        const offsetMs = now % durationMs;
+        icon.style.animationDelay = '-' + (offsetMs / 1000).toFixed(3) + 's';
+        icon.style.animationPlayState = 'running';
+      });
+    };
+
+    syncOrbitIconsEarly();
+    window.requestAnimationFrame(function() {
+      syncOrbitIconsEarly();
+      revealHeroMedia();
+    });
+  } else {
+    window.requestAnimationFrame(function() {
+      revealHeroMedia();
+    });
+  }
+
   const autoDetectedImages = await detectPatternImages();
   const profileImages = uniqueStrings(configuredImages.concat(autoDetectedImages));
-  const finalProfileImages = profileImages.length > 0 ? profileImages : defaultProfileImages;
+  const finalProfileImages = profileImages.length > 0 ? profileImages : fallbackProfileImages;
 
-  let currentProfile = 0;
-  const profileSlider = document.getElementById('profileSlider');
   if (profileSlider && finalProfileImages.length > 0) {
-    profileSlider.src = finalProfileImages[0];
-    let isAnimating = false;
-    setInterval(() => {
-      if (isAnimating) return;
-      if (finalProfileImages.length <= 1) return;
-      isAnimating = true;
-      profileSlider.classList.add('profile-slider-slide');
-      setTimeout(() => {
-        currentProfile = (currentProfile + 1) % finalProfileImages.length;
+    const slideDurationMs = 3500;
+    const imageCount = finalProfileImages.length;
+    const switchDelayMs = 430;
+    const animationResetMs = 980;
+    const pollIntervalMs = 180;
+    const resumeSettlingMs = 950;
+
+    let currentProfile = 0;
+    let lastClockStep = Math.floor(Date.now() / slideDurationMs);
+    let imageSwapTimer = null;
+    let animationResetTimer = null;
+    let sliderInterval = null;
+    let suppressAnimationUntil = 0;
+
+    function startSliderLoop() {
+      if (sliderInterval) return;
+      sliderInterval = window.setInterval(tickSlider, pollIntervalMs);
+    }
+
+    function stopSliderLoop() {
+      if (!sliderInterval) return;
+      clearInterval(sliderInterval);
+      sliderInterval = null;
+    }
+
+    function clearSlideAnimation() {
+      if (imageSwapTimer) {
+        clearTimeout(imageSwapTimer);
+        imageSwapTimer = null;
+      }
+      profileSlider.classList.remove('profile-slider-slide');
+      if (animationResetTimer) {
+        clearTimeout(animationResetTimer);
+        animationResetTimer = null;
+      }
+    }
+
+    function applyStep(step, withAnimation) {
+      const nextIndex = ((step % imageCount) + imageCount) % imageCount;
+      if (nextIndex === currentProfile) return;
+
+      if (withAnimation) {
+        clearSlideAnimation();
+        // Force reflow so re-adding the class reliably restarts keyframes.
+        void profileSlider.offsetWidth;
+        profileSlider.classList.add('profile-slider-slide');
+
+        imageSwapTimer = setTimeout(function() {
+          currentProfile = nextIndex;
+          profileSlider.src = finalProfileImages[currentProfile];
+          imageSwapTimer = null;
+        }, switchDelayMs);
+
+        animationResetTimer = setTimeout(function() {
+          clearSlideAnimation();
+        }, animationResetMs);
+      } else {
+        clearSlideAnimation();
+        currentProfile = nextIndex;
         profileSlider.src = finalProfileImages[currentProfile];
-        setTimeout(() => {
-          profileSlider.classList.remove('profile-slider-slide');
-          isAnimating = false;
-        }, 500);
-      }, 430);
-    }, 3500);
+      }
+    }
+
+    function findImageIndexBySrc(images, currentSrc) {
+      if (!currentSrc) return -1;
+      const normalizedSrc = String(currentSrc).toLowerCase();
+      for (let i = 0; i < images.length; i += 1) {
+        const name = String(images[i] || '').toLowerCase();
+        if (name && normalizedSrc.endsWith('/' + name)) {
+          return i;
+        }
+      }
+      return -1;
+    }
+
+    function tickSlider() {
+      const now = Date.now();
+      const stepNow = Math.floor(now / slideDurationMs);
+      if (stepNow === lastClockStep) return;
+
+      const stepDiff = stepNow - lastClockStep;
+      const pageVisible = document.visibilityState === 'visible';
+      const canAnimateNow = now >= suppressAnimationUntil;
+      const shouldAnimate = pageVisible && document.hasFocus() && stepDiff === 1 && canAnimateNow;
+
+      applyStep(stepNow, shouldAnimate);
+      lastClockStep = stepNow;
+    }
+
+    const existingIndex = findImageIndexBySrc(finalProfileImages, profileSlider.getAttribute('src') || profileSlider.src);
+    if (existingIndex >= 0) {
+      currentProfile = existingIndex;
+    } else {
+      currentProfile = ((lastClockStep % imageCount) + imageCount) % imageCount;
+      profileSlider.src = finalProfileImages[currentProfile];
+    }
+
+    startSliderLoop();
+
+    // Ensure we resync immediately after tab visibility changes.
+    document.addEventListener('visibilitychange', function() {
+      if (document.hidden) {
+        clearSlideAnimation();
+        suppressAnimationUntil = Date.now() + resumeSettlingMs;
+        return;
+      }
+      const stepNow = Math.floor(Date.now() / slideDurationMs);
+      applyStep(stepNow, false);
+      lastClockStep = stepNow;
+      suppressAnimationUntil = Date.now() + resumeSettlingMs;
+    });
+
+    window.addEventListener('blur', function() {
+      clearSlideAnimation();
+      suppressAnimationUntil = Date.now() + resumeSettlingMs;
+    });
+
+    window.addEventListener('focus', function() {
+      const stepNow = Math.floor(Date.now() / slideDurationMs);
+      applyStep(stepNow, false);
+      lastClockStep = stepNow;
+      suppressAnimationUntil = Date.now() + resumeSettlingMs;
+    });
+
+    // Cleanup for page transitions to avoid orphaned timers.
+    window.addEventListener('beforeunload', function() {
+      stopSliderLoop();
+      clearSlideAnimation();
+    }, { once: true });
+  }
+
+  const orbitIcons = document.querySelectorAll('#hero .skills-icons .icon');
+  if (orbitIcons.length > 0) {
+    function parseCssTimeToMs(value) {
+      if (!value || typeof value !== 'string') return 0;
+      const first = value.split(',')[0].trim();
+      if (first.endsWith('ms')) {
+        const num = parseFloat(first.slice(0, -2));
+        return Number.isFinite(num) ? num : 0;
+      }
+      if (first.endsWith('s')) {
+        const num = parseFloat(first.slice(0, -1));
+        return Number.isFinite(num) ? num * 1000 : 0;
+      }
+      return 0;
+    }
+
+    function syncOrbitIconsToClock() {
+      const now = Date.now();
+      orbitIcons.forEach(function(icon) {
+        const style = window.getComputedStyle(icon);
+        const durationMs = parseCssTimeToMs(style.animationDuration) || 13800;
+        const offsetMs = now % durationMs;
+        icon.style.animationDelay = '-' + (offsetMs / 1000).toFixed(3) + 's';
+        icon.style.animationPlayState = 'running';
+      });
+    }
+
+    syncOrbitIconsToClock();
+
+    document.addEventListener('visibilitychange', function() {
+      if (!document.hidden) {
+        syncOrbitIconsToClock();
+      }
+    });
+
+    window.addEventListener('focus', function() {
+      syncOrbitIconsToClock();
+    });
+
+    window.addEventListener('pageshow', function() {
+      syncOrbitIconsToClock();
+    });
   }
 
   const fadeEls = document.querySelectorAll('.fade-in');
