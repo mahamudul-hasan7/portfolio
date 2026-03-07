@@ -72,7 +72,14 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     navLinks.forEach(function(link) {
-      link.addEventListener('click', closeMobileMenu);
+      link.addEventListener('click', function() {
+        const href = link.getAttribute('href') || '';
+        if (href.charAt(0) === '#') {
+          hashNavLinks.forEach(function(item) { item.classList.remove('active'); });
+          link.classList.add('active');
+        }
+        closeMobileMenu();
+      });
     });
 
     window.addEventListener('resize', function() {
@@ -83,16 +90,20 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function onScroll() {
-    let scrollPos = window.scrollY || document.documentElement.scrollTop;
-    sections.forEach(section => {
-      if (section.offsetTop - 80 <= scrollPos && section.offsetTop + section.offsetHeight > scrollPos) {
-        hashNavLinks.forEach(link => {
-          link.classList.remove('active');
-          if ((link.getAttribute('href') || '').substring(1) === section.id) {
-            link.classList.add('active');
-          }
-        });
+    const scrollPos = window.scrollY || document.documentElement.scrollTop;
+    const navOffset = (nav ? nav.offsetHeight : 0) + 16;
+    let activeId = '';
+
+    sections.forEach(function(section) {
+      if (!section.id) return;
+      if (section.offsetTop - navOffset <= scrollPos) {
+        activeId = section.id;
       }
+    });
+
+    hashNavLinks.forEach(function(link) {
+      const id = (link.getAttribute('href') || '').substring(1);
+      link.classList.toggle('active', id === activeId);
     });
   }
 
