@@ -5509,55 +5509,7 @@ body.light .status-concept { background: rgba(195,125,15,0.1); color: #8a5500; b
   margin-bottom: 0.6rem;
 }
 
-/* Mobile: stack vertically */
-@media (max-width: 680px) {
-  #projects .projects-list {
-    gap: 1.1rem !important;
-  }
-
-  #projects .project-card {
-    flex-direction: column !important;
-    width: 100% !important;
-  }
-
-  #projects .project-banner {
-    width: 100% !important;
-    min-width: 0 !important;
-    height: auto !important;
-    min-height: 98px !important;
-    border-right: none !important;
-    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
-    padding: 0.85rem 1rem 0.75rem !important;
-  }
-
-  #projects .project-banner-icons {
-    gap: 0.3rem !important;
-  }
-
-  #projects .project-content {
-    padding: 0.95rem 1rem 1rem !important;
-  }
-
-  #projects .project-content h3 {
-    font-size: 1rem !important;
-    margin-bottom: 0.3rem !important;
-  }
-
-  #projects .project-desc {
-    font-size: 0.84rem !important;
-    margin-bottom: 0.65rem !important;
-  }
-
-  #projects .project-links {
-    flex-wrap: wrap !important;
-    gap: 0.4rem !important;
-    margin-top: 0.55rem !important;
-  }
-
-  #projects .project-read-more {
-    margin-top: 0.65rem !important;
-  }
-}
+/* Mobile: stack vertically — see file-end for the authoritative override */
 
 /* Light mode overrides */
 body.light #projects .project-banner {
@@ -6313,5 +6265,113 @@ body {
   .skills-icons .icon svg {
     width: 22px !important;
     height: 22px !important;
+  }
+}
+
+/* ══════════════════════════════════════════
+   FEATURED PROJECTS — MOBILE STACK LAYOUT
+   Must be last in file to win all cascades.
+══════════════════════════════════════════ */
+@media (max-width: 900px) {
+  /* List: full width, column, tight gap */
+  #projects .projects-list {
+    max-width: 100% !important;
+    width: 100% !important;
+    gap: 1rem !important;
+  }
+
+  /* Card: column layout, full width */
+  #projects .project-card {
+    display: flex !important;
+    flex-direction: column !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    border-radius: 16px !important;
+  }
+
+  /* Banner: full-width top strip */
+  #projects .project-banner {
+    width: 100% !important;
+    min-width: 0 !important;
+    height: 86px !important;
+    border-right: none !important;
+    border-bottom: 1px solid rgba(255,255,255,0.07) !important;
+    padding: 0.8rem 1rem 0.7rem !important;
+    flex-direction: row !important;
+    align-items: flex-end !important;
+    justify-content: space-between !important;
+  }
+
+  #projects .project-banner-icons {
+    flex-wrap: wrap !important;
+    gap: 0.28rem !important;
+    align-self: flex-start !important;
+  }
+
+  #projects .project-banner-bottom {
+    flex-shrink: 0 !important;
+  }
+
+  /* Content: compact padding, tight text */
+  #projects .project-content {
+    padding: 0.9rem 1rem 0.95rem !important;
+  }
+
+  #projects .project-content h3 {
+    font-size: 1rem !important;
+    margin-bottom: 0.28rem !important;
+  }
+
+  #projects .project-kicker {
+    font-size: 0.7rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  #projects .project-desc {
+    font-size: 0.84rem !important;
+    margin-bottom: 0.6rem !important;
+    line-height: 1.45 !important;
+  }
+
+  #projects .tech-badges {
+    margin-bottom: 0.55rem !important;
+  }
+
+  #projects .project-links {
+    flex-wrap: wrap !important;
+    gap: 0.38rem !important;
+    margin-top: 0.5rem !important;
+  }
+
+  #projects .project-read-more {
+    margin-top: 0.6rem !important;
+    font-size: 0.76rem !important;
+  }
+
+  #projects .project-more-content {
+    margin-top: 0.75rem !important;
+    padding-top: 0.75rem !important;
+  }
+
+  #projects .project-proof-grid {
+    grid-template-columns: 1fr 1fr !important;
+    gap: 0.38rem !important;
+  }
+
+  #projects .project-proof {
+    padding: 0.4rem 0.5rem !important;
+    font-size: 0.7rem !important;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 480px) {
+  #projects .project-banner {
+    height: 80px !important;
+    padding: 0.65rem 0.9rem 0.6rem !important;
+  }
+
+  #projects .project-proof-grid {
+    grid-template-columns: 1fr !important;
   }
 }
