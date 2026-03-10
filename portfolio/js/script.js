@@ -39,14 +39,18 @@ setInterval(_saveScrollPos, 1000);
       window.scrollTo(0, savedY);
     }
 
+    // Store target so other code (revealHeroMedia, etc.) can re-apply after layout shifts
+    window._reloadScrollTarget = savedY;
+
     // Multiple attempts to beat browser/async-layout resets
     doScroll();
     window.addEventListener('DOMContentLoaded', doScroll, { once: true });
     window.addEventListener('load', function() {
       doScroll();
-      // Extra pass after all async work (orbit sync, image detection, etc.) settles
+      // Extra passes after async work (image detection, orbit sync, etc.) settles
       setTimeout(doScroll, 50);
-      setTimeout(doScroll, 200);
+      setTimeout(doScroll, 300);
+      setTimeout(doScroll, 800);
     }, { once: true });
   } catch (e) {}
 })();
@@ -264,13 +268,12 @@ document.addEventListener('DOMContentLoaded', async function() {
       candidates.push('rakib' + i + '.jpg');
     }
 
-    const found = [];
-    for (const candidate of candidates) {
-      // Probe files in sequence so naming order stays stable in the slider.
-      const exists = await checkImageExists(candidate);
-      if (exists) found.push(candidate);
-    }
-    return found;
+    // Probe all candidates in parallel — much faster than sequential await
+    const results = await Promise.all(candidates.map(function(c) {
+      return checkImageExists(c).then(function(ok) { return ok ? c : null; });
+    }));
+    // Filter nulls while preserving order
+    return results.filter(Boolean);
   }
 
   const configuredImages = Array.isArray(window.PORTFOLIO_PROFILE_IMAGES)
@@ -287,6 +290,12 @@ document.addEventListener('DOMContentLoaded', async function() {
     heroMediaRevealed = true;
     if (profileCircle) {
       profileCircle.classList.remove('media-pending');
+    }
+    // Re-apply scroll after this layout shift (media-pending removal causes reflow)
+    if (window._reloadScrollTarget > 0) {
+      requestAnimationFrame(function() {
+        window.scrollTo(0, window._reloadScrollTarget);
+      });
     }
   }
 
