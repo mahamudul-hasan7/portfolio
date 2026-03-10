@@ -147,26 +147,14 @@ document.addEventListener('DOMContentLoaded', function() {
     nav.classList.remove('nav-open');
     navToggle.setAttribute('aria-expanded', 'false');
     navToggle.setAttribute('aria-label', 'Open menu');
-    const bd = document.getElementById('navBackdrop');
-    if (bd) bd.classList.remove('active');
   }
 
   if (nav && navToggle) {
-    const navBackdrop = document.getElementById('navBackdrop');
-
     navToggle.addEventListener('click', function() {
       const isOpen = nav.classList.toggle('nav-open');
       navToggle.setAttribute('aria-expanded', String(isOpen));
       navToggle.setAttribute('aria-label', isOpen ? 'Close menu' : 'Open menu');
-      if (navBackdrop) navBackdrop.classList.toggle('active', isOpen);
     });
-
-    if (navBackdrop) {
-      navBackdrop.addEventListener('click', function() {
-        closeMobileMenu();
-        navBackdrop.classList.remove('active');
-      });
-    }
 
     navLinks.forEach(function(link) {
       link.addEventListener('click', function() {
