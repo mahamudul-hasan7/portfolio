@@ -5824,9 +5824,9 @@ body.light .skills-focus-block ul  { color: #364c54; }
    Must stay at file end to win specificity wars.
 ═══════════════════════════════════════════════ */
 
-/* Prevent entire page from overflowing horizontally */
-body, html {
-  overflow-x: hidden;
+/* Prevent horizontal overflow without blocking touch scroll */
+body {
+  overflow-x: clip;
 }
 
 @media (max-width: 900px) {
