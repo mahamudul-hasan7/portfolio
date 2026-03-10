@@ -480,11 +480,6 @@ body.light {
 
 /* ── Mobile: compact lamp ── */
 @media (max-width: 900px) {
-  .lamp-toggle {
-    height: 50px;
-    width: 36px;
-  }
-
   .lamp-shade {
     width: 36px;
     height: 20px;
@@ -5855,3 +5850,80 @@ body.light .skill-stat-suffix { color: #1a6844; }
 body.light .skill-stat-label  { color: #547565; }
 body.light .skills-focus-block h4 { color: #1a6844; }
 body.light .skills-focus-block ul  { color: #364c54; }
+
+/* ═══════════════════════════════════════════════════
+   LAMP MOBILE FIX — must stay at very end of file
+   Forces lamp visible on mobile, overrides conflicts
+═══════════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  /* Force lamp-toggle to size naturally — no height constraint */
+  #lampToggle.lamp-toggle {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    width: 30px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    flex-shrink: 0 !important;
+    position: relative !important;
+  }
+
+  #lampToggle .lamp-body {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    height: auto !important;
+  }
+
+  #lampToggle .lamp-cap {
+    width: 10px !important;
+    height: 4px !important;
+    flex-shrink: 0 !important;
+  }
+
+  #lampToggle .lamp-shade {
+    width: 30px !important;
+    height: 17px !important;
+    flex-shrink: 0 !important;
+  }
+
+  #lampToggle .lamp-bulb {
+    width: 9px !important;
+    height: 9px !important;
+    bottom: -4px !important;
+  }
+
+  #lampToggle .lamp-chain-wrap {
+    margin-top: 3px !important;
+  }
+
+  /* Show only 3 chain links */
+  #lampToggle .lamp-chain i:nth-child(n+4) {
+    display: none !important;
+  }
+
+  #lampToggle .lamp-chain i {
+    /* Make links more visible against dark navbar */
+    border-color: rgba(200,218,230,0.85) !important;
+    border-width: 1.5px !important;
+  }
+
+  #lampToggle .lamp-tassel-top {
+    width: 7px !important;
+    height: 3px !important;
+  }
+
+  #lampToggle .lamp-tassel-mid {
+    width: 10px !important;
+    height: 8px !important;
+  }
+
+  /* Ensure nav-right layout is correct */
+  .nav-right {
+    display: flex !important;
+    align-items: center !important;
+    flex-shrink: 0 !important;
+    overflow: visible !important;
+  }
+}
