@@ -1,27 +1,253 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Projects | Mahamudul Hasan</title>
-  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    (function() {
+      try {
+        var theme = localStorage.getItem('theme');
+        if (theme !== 'light' && theme !== 'dark') { localStorage.setItem('theme', 'dark'); theme = 'dark'; }
+        if (theme === 'light') { document.documentElement.classList.add('light'); } else { document.documentElement.classList.remove('light'); }
+        if (window.history && window.history.scrollRestoration) { window.history.scrollRestoration = 'manual'; }
+      } catch(e) {}
+    })();
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects | Rakib</title>
+  <meta name="description" content="Featured projects by Rakib — frontend and full-stack builds with real outcomes." />
+  <link rel="icon" type="image/png" href="favicon.png" sizes="32x32" />
+  <link rel="stylesheet" href="css/styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .subpage-wrap { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 5rem; }
+    .subpage-title { font-size: clamp(1.8rem,5vw,2.6rem); font-weight: 800; color: #3fff7f; margin: 0 0 0.4rem; line-height: 1.15; }
+    .subpage-lead { color: #97aab0; font-size: 1rem; line-height: 1.6; margin: 0 0 1.75rem; }
+    body.light .subpage-title { color: #167a40; }
+    body.light .subpage-lead { color: #546e75; }
+    @media (max-width:700px) { .subpage-wrap { padding:2rem 1rem 4rem; } }
+  </style>
 </head>
 <body>
+  <div class="bg-grid"></div>
+  <div class="bg-aurora"></div>
+  <div class="bg-orbs" aria-hidden="true"></div>
   <nav class="navbar">
-    <ul>
+    <a href="index.html" class="logo logo-flex" aria-label="Go to home page">
+      <span class="logo-svg">
+        <svg width="38" height="28" viewBox="0 0 38 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="2" y="22" width="34" height="4" rx="2" fill="#fff"/>
+          <path d="M2 22L19 4L36 22" stroke="#fff" stroke-width="4" stroke-linecap="round"/>
+          <path d="M10 14L19 4L28 14" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="logo-text">RAKIB</span>
+    </a>
+    <ul id="primaryNav" class="nav-links">
       <li><a href="index.html">Home</a></li>
-      <li><a href="resume.html">Resume</a></li>
       <li><a href="projects.html" class="active">Projects</a></li>
       <li><a href="blogs.html">Blogs</a></li>
       <li><a href="gallery.html">Gallery</a></li>
       <li><a href="contact.html">Contact</a></li>
     </ul>
+    <div class="nav-right">
+      <div id="lampToggle" class="lamp-toggle" role="button" tabindex="0" aria-label="Toggle dark/light mode" title="Pull to toggle">
+        <div class="lamp-body">
+          <div class="lamp-cap"></div>
+          <div class="lamp-shade">
+            <div class="lamp-shade-face"></div>
+            <div class="lamp-shade-rim"></div>
+            <div class="lamp-bulb"></div>
+            <div class="lamp-glow"></div>
+          </div>
+          <div class="lamp-chain-wrap" id="lampChainWrap">
+            <div class="lamp-chain"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+            <div class="lamp-tassel"><div class="lamp-tassel-top"></div><div class="lamp-tassel-mid"></div></div>
+          </div>
+        </div>
+      </div>
+      <button id="navToggle" class="nav-toggle" aria-label="Open menu" aria-controls="primaryNav" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
   </nav>
+  <div id="navBackdrop" class="nav-backdrop" aria-hidden="true"></div>
   <main>
-    <section class="projects-section">
-      <h1>Projects</h1>
-      <p>This is the projects page. Add your projects here.</p>
-    </section>
+    <div class="subpage-wrap">
+      <h1 class="subpage-title">All Projects</h1>
+      <p class="subpage-lead">Real builds where I focused on usability, clean architecture, and outcomes that can be measured.</p>
+      <section id="projects">
+        <div class="project-section-meta">
+          <span>3 spotlight projects</span>
+          <span>Product + engineering mindset</span>
+          <span>Built with iteration and feedback</span>
+        </div>
+        <div class="projects-list">
+
+          <article class="card project-card" data-tone="emerald">
+            <div class="project-banner project-banner-emerald">
+              <div class="project-banner-icons">
+                <span class="pbi pbi-html">HTML</span>
+                <span class="pbi pbi-css">CSS</span>
+                <span class="pbi pbi-js">JavaScript</span>
+              </div>
+              <div class="project-banner-bottom">
+                <span class="project-number">#01</span>
+                <span class="project-card-status status-live">● Live</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <p class="project-kicker">Frontend Engineering · 2026</p>
+              <h3>Portfolio Website v2</h3>
+              <p class="project-desc">A personal brand platform designed for clarity and conversion, with modern layout flow, stronger copy hierarchy, and theme-aware visual identity.</p>
+              <div class="tech-badges">
+                <span class="badge-tech">HTML</span>
+                <span class="badge-tech">CSS</span>
+                <span class="badge-tech">JavaScript</span>
+              </div>
+              <div class="project-links">
+                <a href="index.html" class="project-link project-link-live">
+                  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 10h10M13 7l3 3-3 3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Live Preview
+                </a>
+                <a href="https://github.com/mahamudul-hasan7" class="project-link project-link-code" target="_blank" rel="noopener noreferrer">
+                  <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 00-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.23.49-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.82 1.23.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.97 0-.88.31-1.6.82-2.16-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 014 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.16 0 3.09-1.87 3.77-3.66 3.97.29.25.54.74.54 1.49l-.01 2.21c0 .21.14.46.55.38A8 8 0 0010 2z"/></svg>
+                  Source Code
+                </a>
+              </div>
+              <button type="button" class="project-read-more" aria-expanded="false" aria-controls="pp-more-1">Details <span class="rmr-arrow" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+              <div id="pp-more-1" class="project-more-content" hidden>
+                <div class="project-proof-grid">
+                  <div class="project-proof"><span>95+</span>Lighthouse Score</div>
+                  <div class="project-proof"><span>100%</span>Responsive</div>
+                  <div class="project-proof"><span>8+</span>Sections Built</div>
+                </div>
+                <ul class="project-highlights">
+                  <li>Recruiter-optimized: story → proof → contact flow</li>
+                  <li>Reusable section patterns for fast content updates</li>
+                  <li>Clean animations without sacrificing readability</li>
+                </ul>
+                <div class="project-meta-row">
+                  <span class="project-meta-chip">Status: Live</span>
+                  <span class="project-meta-chip">Role: Design + Dev</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project-card" data-tone="cyan">
+            <div class="project-banner project-banner-cyan">
+              <div class="project-banner-icons">
+                <span class="pbi pbi-react">React</span>
+                <span class="pbi pbi-node">Node.js</span>
+                <span class="pbi pbi-mongo">MongoDB</span>
+              </div>
+              <div class="project-banner-bottom">
+                <span class="project-number">#02</span>
+                <span class="project-card-status status-ongoing">◉ Ongoing</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <p class="project-kicker">Full-Stack Product · Ongoing</p>
+              <h3>Blog Platform</h3>
+              <p class="project-desc">A full-stack publishing platform for writing, filtering, and reading content with smooth UX and scalable post management flow.</p>
+              <div class="tech-badges">
+                <span class="badge-tech">React</span>
+                <span class="badge-tech">Node.js</span>
+                <span class="badge-tech">MongoDB</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link project-link-live">
+                  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 10h10M13 7l3 3-3 3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Live Demo
+                </a>
+                <a href="https://github.com/mahamudul-hasan7" class="project-link project-link-code" target="_blank" rel="noopener noreferrer">
+                  <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 00-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.23.49-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.82 1.23.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.97 0-.88.31-1.6.82-2.16-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 014 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.16 0 3.09-1.87 3.77-3.66 3.97.29.25.54.74.54 1.49l-.01 2.21c0 .21.14.46.55.38A8 8 0 0010 2z"/></svg>
+                  View Code
+                </a>
+              </div>
+              <button type="button" class="project-read-more" aria-expanded="false" aria-controls="pp-more-2">Details <span class="rmr-arrow" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+              <div id="pp-more-2" class="project-more-content" hidden>
+                <div class="project-proof-grid">
+                  <div class="project-proof"><span>3x</span>Faster Discovery</div>
+                  <div class="project-proof"><span>Tag + Search</span>Filtering</div>
+                  <div class="project-proof"><span>Markdown</span>Workflow</div>
+                </div>
+                <ul class="project-highlights">
+                  <li>Post lifecycle from draft to publish with clean data flow</li>
+                  <li>Content discovery via tags and full-text search</li>
+                  <li>Architecture designed for growth and maintainability</li>
+                </ul>
+                <div class="project-meta-row">
+                  <span class="project-meta-chip">Status: In Progress</span>
+                  <span class="project-meta-chip">Focus: Backend + UX</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="card project-card" data-tone="amber">
+            <div class="project-banner project-banner-amber">
+              <div class="project-banner-icons">
+                <span class="pbi pbi-figma">Figma</span>
+                <span class="pbi pbi-html">HTML</span>
+                <span class="pbi pbi-css">CSS</span>
+              </div>
+              <div class="project-banner-bottom">
+                <span class="project-number">#03</span>
+                <span class="project-card-status status-concept">◈ Concept</span>
+              </div>
+            </div>
+            <div class="project-content">
+              <p class="project-kicker">UX + Product Thinking · 2025</p>
+              <h3>University Dashboard UI</h3>
+              <p class="project-desc">A student-first dashboard concept for course planning, assignment tracking, and progress analytics with minimal cognitive load.</p>
+              <div class="tech-badges">
+                <span class="badge-tech">Figma</span>
+                <span class="badge-tech">HTML</span>
+                <span class="badge-tech">CSS</span>
+              </div>
+              <div class="project-links">
+                <a href="#" class="project-link project-link-live">
+                  <svg width="12" height="12" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M5 10h10M13 7l3 3-3 3" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                  Preview
+                </a>
+                <a href="https://github.com/mahamudul-hasan7" class="project-link project-link-code" target="_blank" rel="noopener noreferrer">
+                  <svg width="12" height="12" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 00-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.23.49-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.82 1.23.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.97 0-.88.31-1.6.82-2.16-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 014 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.16 0 3.09-1.87 3.77-3.66 3.97.29.25.54.74.54 1.49l-.01 2.21c0 .21.14.46.55.38A8 8 0 0010 2z"/></svg>
+                  View Notes
+                </a>
+              </div>
+              <button type="button" class="project-read-more" aria-expanded="false" aria-controls="pp-more-3">Details <span class="rmr-arrow" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 20 20" fill="none"><path d="M5 8l5 5 5-5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span></button>
+              <div id="pp-more-3" class="project-more-content" hidden>
+                <div class="project-proof-grid">
+                  <div class="project-proof"><span>Single View</span>Tasks + Deadlines</div>
+                  <div class="project-proof"><span>Low Friction</span>Info Flow</div>
+                  <div class="project-proof"><span>Scalable</span>Components</div>
+                </div>
+                <ul class="project-highlights">
+                  <li>Visual hierarchy optimized for quick student decisions</li>
+                  <li>Card-based system for scalable dashboard components</li>
+                  <li>Concept aligned with real academic workflows</li>
+                </ul>
+                <div class="project-meta-row">
+                  <span class="project-meta-chip">Status: Concept</span>
+                  <span class="project-meta-chip">Goal: UX Research</span>
+                </div>
+              </div>
+            </div>
+          </article>
+
+        </div>
+        <div class="projects-cta" style="margin-top:2rem;">
+          <a href="https://github.com/mahamudul-hasan7" class="projects-view-all btn dark-btn" target="_blank" rel="noopener noreferrer">
+            <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a8 8 0 00-2.53 15.59c.4.07.55-.17.55-.38l-.01-1.49c-2.23.49-2.69-1.07-2.69-1.07-.36-.92-.89-1.17-.89-1.17-.73-.5.05-.49.05-.49.8.06 1.23.82 1.23.82.71 1.22 1.87.87 2.33.66.07-.52.28-.87.5-1.07-1.78-.2-3.65-.89-3.65-3.97 0-.88.31-1.6.82-2.16-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.6 7.6 0 014 0c1.53-1.03 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.28.82 2.16 0 3.09-1.87 3.77-3.66 3.97.29.25.54.74.54 1.49l-.01 2.21c0 .21.14.46.55.38A8 8 0 0010 2z"/></svg>
+            View All on GitHub
+          </a>
+        </div>
+      </section>
+    </div>
   </main>
+  <script src="js/script.js"></script>
 </body>
 </html>
