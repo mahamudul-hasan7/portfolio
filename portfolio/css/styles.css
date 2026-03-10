@@ -5511,16 +5511,51 @@ body.light .status-concept { background: rgba(195,125,15,0.1); color: #8a5500; b
 
 /* Mobile: stack vertically */
 @media (max-width: 680px) {
+  #projects .projects-list {
+    gap: 1.1rem !important;
+  }
+
   #projects .project-card {
     flex-direction: column !important;
+    width: 100% !important;
   }
 
   #projects .project-banner {
     width: 100% !important;
     min-width: 0 !important;
-    height: 110px !important;
+    height: auto !important;
+    min-height: 98px !important;
     border-right: none !important;
     border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    padding: 0.85rem 1rem 0.75rem !important;
+  }
+
+  #projects .project-banner-icons {
+    gap: 0.3rem !important;
+  }
+
+  #projects .project-content {
+    padding: 0.95rem 1rem 1rem !important;
+  }
+
+  #projects .project-content h3 {
+    font-size: 1rem !important;
+    margin-bottom: 0.3rem !important;
+  }
+
+  #projects .project-desc {
+    font-size: 0.84rem !important;
+    margin-bottom: 0.65rem !important;
+  }
+
+  #projects .project-links {
+    flex-wrap: wrap !important;
+    gap: 0.4rem !important;
+    margin-top: 0.55rem !important;
+  }
+
+  #projects .project-read-more {
+    margin-top: 0.65rem !important;
   }
 }
 
