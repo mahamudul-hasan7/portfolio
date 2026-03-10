@@ -6280,3 +6280,29 @@ body {
     height: 22px !important;
   }
 }
+
+/* ── Featured Projects: mobile fix ── */
+@media (max-width: 700px) {
+  /* Ensure the list fills the section width */
+  #projects .projects-list {
+    width: 100% !important;
+  }
+
+  /* Remove extra padding from .card base class — banner & content handle their own */
+  #projects .project-card {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+
+  /* Allow banner to grow if pills wrap — no fixed height clipping */
+  #projects .project-banner {
+    height: auto !important;
+    min-height: 100px !important;
+  }
+
+  /* Status badge must never wrap or be clipped on the right */
+  #projects .project-card-status {
+    white-space: nowrap !important;
+    flex-shrink: 0 !important;
+  }
+}
