@@ -3,15 +3,21 @@
 // Organized: js/script.js
 // ============================================
 
-// Preserve scroll position specifically across page reloads.
+// Preserve scroll position across page reloads.
 const RELOAD_SCROLL_KEY = 'portfolio-scroll-y';
+
+// Disable browser's own scroll restoration so it doesn't fight us.
+if ('scrollRestoration' in history) {
+  history.scrollRestoration = 'manual';
+}
+
 window.addEventListener('beforeunload', function() {
   try {
     sessionStorage.setItem(RELOAD_SCROLL_KEY, String(window.scrollY || 0));
   } catch (e) {}
 });
 
-window.addEventListener('pageshow', function() {
+(function restoreScrollOnReload() {
   try {
     const navEntries = performance.getEntriesByType('navigation');
     const navType = navEntries && navEntries.length ? navEntries[0].type : '';
@@ -21,11 +27,16 @@ window.addEventListener('pageshow', function() {
     const savedY = parseInt(sessionStorage.getItem(RELOAD_SCROLL_KEY) || '0', 10);
     if (!Number.isFinite(savedY) || savedY <= 0) return;
 
-    window.requestAnimationFrame(function() {
-      window.scrollTo(0, savedY);
-    });
+    function doScroll() {
+      window.scrollTo({ top: savedY, behavior: 'instant' });
+    }
+
+    // Try immediately, then again after DOM + images are ready
+    doScroll();
+    window.addEventListener('DOMContentLoaded', doScroll, { once: true });
+    window.addEventListener('load', doScroll, { once: true });
   } catch (e) {}
-});
+})();
 
 // Dark/Light mode toggle — Pull Chain Lamp (3D drag)
 const lampToggle = document.getElementById('lampToggle');
