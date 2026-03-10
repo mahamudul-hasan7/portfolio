@@ -5818,11 +5818,288 @@ body.light .skills-focus-block h4 { color: #1a6844; }
 body.light .skills-focus-block ul  { color: #364c54; }
 
 /* ═══════════════════════════════════════════════
-   MOBILE COMPACT — index page
-   Fixes: lamp overflow, hero profile side overflow,
-   orbit icons out of viewport, navbar column bug.
+   MOBILE NAV DRAWER + COMPACT FIXES
    Must stay at file end to win specificity wars.
 ═══════════════════════════════════════════════ */
+
+/* ── Backdrop overlay ── */
+.nav-backdrop {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 10, 12, 0.6);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  z-index: 98;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.nav-backdrop.active {
+  display: block;
+  opacity: 1;
+}
+
+@media (max-width: 900px) {
+  /* ── Navbar strip ── */
+  .navbar {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    height: 56px !important;
+    min-height: 56px !important;
+    padding: 0 0.85rem !important;
+    position: sticky !important;
+    top: 0 !important;
+    z-index: 100 !important;
+    overflow: visible !important;
+    gap: 0 !important;
+  }
+
+  /* ── nav-right stays right, tight ── */
+  .nav-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.5rem !important;
+    margin-left: auto !important;
+    flex-shrink: 0 !important;
+  }
+
+  /* ── Hamburger button ── */
+  .nav-toggle {
+    display: inline-flex !important;
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 12px !important;
+    background: rgba(255,255,255,0.06) !important;
+    border: 1px solid rgba(255,255,255,0.1) !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex-direction: column !important;
+    gap: 4px !important;
+    transition: background 0.2s ease !important;
+  }
+
+  .nav-toggle:hover,
+  .navbar.nav-open .nav-toggle {
+    background: rgba(63,255,127,0.12) !important;
+    border-color: rgba(63,255,127,0.3) !important;
+  }
+
+  .nav-toggle span {
+    width: 18px !important;
+    height: 2px !important;
+    background: #e6e6e6 !important;
+    border-radius: 99px !important;
+    transition: transform 0.28s ease, opacity 0.2s ease !important;
+  }
+
+  .navbar.nav-open .nav-toggle span:nth-child(1) {
+    transform: translateY(6px) rotate(45deg) !important;
+  }
+  .navbar.nav-open .nav-toggle span:nth-child(2) {
+    opacity: 0 !important;
+  }
+  .navbar.nav-open .nav-toggle span:nth-child(3) {
+    transform: translateY(-6px) rotate(-45deg) !important;
+  }
+
+  /* ── Lamp compact ── */
+  #lampToggle.lamp-toggle {
+    position: relative !important;
+    width: 26px !important;
+    height: auto !important;
+    min-height: 0 !important;
+    overflow: visible !important;
+    flex-shrink: 0 !important;
+    display: block !important;
+  }
+
+  #lampToggle .lamp-body {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    height: auto !important;
+  }
+
+  #lampToggle .lamp-cap  { width: 9px !important; height: 3px !important; }
+  #lampToggle .lamp-shade { width: 26px !important; height: 15px !important; }
+  #lampToggle .lamp-bulb  { width: 8px !important; height: 8px !important; bottom: -4px !important; }
+  #lampToggle .lamp-glow  { width: 36px !important; height: 24px !important; }
+  #lampToggle .lamp-chain-wrap { margin-top: 2px !important; }
+  #lampToggle .lamp-chain i:nth-child(n+5) { display: none !important; }
+  #lampToggle .lamp-chain i:nth-child(odd)  { width: 4px !important; height: 6px !important; }
+  #lampToggle .lamp-chain i:nth-child(even) { width: 6px !important; height: 4px !important; }
+  #lampToggle .lamp-tassel-top { width: 6px !important; height: 2px !important; }
+  #lampToggle .lamp-tassel-mid { width: 9px !important; height: 7px !important; }
+
+  /* ── Nav drawer (slide-down panel) ── */
+  .navbar #primaryNav.nav-links {
+    position: fixed !important;
+    top: 56px !important;
+    left: 0 !important;
+    right: 0 !important;
+    width: 100% !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    flex-direction: column !important;
+    display: flex !important;
+    gap: 0 !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    list-style: none !important;
+    background: rgba(12, 18, 20, 0.97) !important;
+    backdrop-filter: blur(18px) !important;
+    -webkit-backdrop-filter: blur(18px) !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(63,255,127,0.14) !important;
+    border-radius: 0 0 18px 18px !important;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.55), 0 0 0 1px rgba(255,255,255,0.04) !important;
+    z-index: 99 !important;
+    opacity: 0 !important;
+    transform: translateY(-6px) !important;
+    transition:
+      max-height 0.38s cubic-bezier(0.4,0,0.2,1),
+      opacity 0.28s ease,
+      transform 0.28s ease !important;
+    order: 0 !important;
+    min-height: 0 !important;
+    pointer-events: none !important;
+  }
+
+  .navbar.nav-open #primaryNav.nav-links {
+    max-height: 75vh !important;
+    opacity: 1 !important;
+    transform: translateY(0) !important;
+    pointer-events: auto !important;
+  }
+
+  /* Each link row */
+  .navbar #primaryNav.nav-links li {
+    border-bottom: 1px solid rgba(255,255,255,0.05) !important;
+    width: 100% !important;
+    list-style: none !important;
+  }
+
+  .navbar #primaryNav.nav-links li:last-child {
+    border-bottom: none !important;
+  }
+
+  .navbar #primaryNav.nav-links a {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    width: 100% !important;
+    padding: 0.95rem 1.3rem !important;
+    font-size: 1rem !important;
+    font-weight: 500 !important;
+    color: #b8cdd5 !important;
+    letter-spacing: 0.02em !important;
+    border-radius: 0 !important;
+    border: none !important;
+    border-left: 3px solid transparent !important;
+    background: transparent !important;
+    text-decoration: none !important;
+    transition: background 0.18s, color 0.18s, border-color 0.18s !important;
+  }
+
+  .navbar #primaryNav.nav-links a::after {
+    content: '›' !important;
+    font-size: 1.2rem !important;
+    opacity: 0.35 !important;
+    transition: opacity 0.18s, transform 0.18s !important;
+  }
+
+  .navbar #primaryNav.nav-links a:hover,
+  .navbar #primaryNav.nav-links a.active {
+    background: rgba(63,255,127,0.08) !important;
+    color: #3fff7f !important;
+    border-left-color: #3fff7f !important;
+  }
+
+  .navbar #primaryNav.nav-links a:hover::after,
+  .navbar #primaryNav.nav-links a.active::after {
+    opacity: 1 !important;
+    transform: translateX(3px) !important;
+  }
+
+  /* Light mode drawer */
+  body.light .navbar #primaryNav.nav-links {
+    background: rgba(248,252,254,0.97) !important;
+    border-bottom-color: rgba(39,174,96,0.22) !important;
+  }
+
+  body.light .navbar #primaryNav.nav-links a {
+    color: #3a4f56 !important;
+  }
+
+  body.light .navbar #primaryNav.nav-links a:hover,
+  body.light .navbar #primaryNav.nav-links a.active {
+    background: rgba(39,174,96,0.1) !important;
+    color: #196644 !important;
+    border-left-color: #27ae60 !important;
+  }
+
+  /* ── Hero section compact ── */
+  .hero-section {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 1.4rem 1rem 2rem 1rem !important;
+  }
+
+  .hero-content {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* ── Profile circle ── */
+  .hero-image {
+    width: 100% !important;
+    height: auto !important;
+    display: flex !important;
+    justify-content: center !important;
+    margin-top: 1.5rem !important;
+    padding: 44px 0 !important;
+  }
+
+  .profile-circle {
+    width: 180px !important;
+    height: 180px !important;
+  }
+
+  .profile-circle::before { inset: 8px !important; }
+
+  .profile-circle img {
+    width: 148px !important;
+    height: 148px !important;
+  }
+
+  .skills-icons .icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+    padding: 4px !important;
+    margin-left: -18px !important;
+    margin-top: -18px !important;
+    --orbit-radius: 110px !important;
+  }
+
+  .skills-icons .icon svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-circle { width: 148px !important; height: 148px !important; }
+  .profile-circle img { width: 120px !important; height: 120px !important; }
+  .skills-icons .icon {
+    width: 30px !important; height: 30px !important;
+    border-radius: 8px !important;
+    margin-left: -15px !important; margin-top: -15px !important;
+    --orbit-radius: 92px !important;
+  }
+  .skills-icons .icon svg { width: 22px !important; height: 22px !important; }
+}
 
 /* Prevent horizontal overflow without blocking touch scroll */
 body {
