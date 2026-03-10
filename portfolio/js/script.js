@@ -27,22 +27,107 @@ window.addEventListener('pageshow', function() {
   } catch (e) {}
 });
 
-// Dark/Light mode toggle
-const themeToggle = document.getElementById('themeToggle');
-if (themeToggle) {
-  if(document.documentElement.classList.contains('light')) {
-    themeToggle.textContent = '☀️';
-  } else {
-    themeToggle.textContent = '🌙';
-  }
-  themeToggle.addEventListener('click', function() {
-    document.documentElement.classList.toggle('light');
-    if(document.documentElement.classList.contains('light')) {
-      themeToggle.textContent = '☀️';
+// Dark/Light mode toggle — Pull Chain Lamp (3D drag)
+const lampToggle = document.getElementById('lampToggle');
+if (lampToggle) {
+  var _chainWrap = document.getElementById('lampChainWrap');
+  var _PULL_THRESHOLD = 9;
+  var _MAX_DRAG = 22;
+  var _dragging = false;
+
+  function _applyTheme(isLight) {
+    if (isLight) {
+      document.documentElement.classList.add('light');
       localStorage.setItem('theme', 'light');
     } else {
-      themeToggle.textContent = '🌙';
+      document.documentElement.classList.remove('light');
       localStorage.setItem('theme', 'dark');
+    }
+  }
+
+  _applyTheme(document.documentElement.classList.contains('light'));
+
+  function _triggerPull() {
+    if (_chainWrap) {
+      _chainWrap.style.transition = '';
+      _chainWrap.style.transform = '';
+    }
+    lampToggle.classList.remove('pulling');
+    void lampToggle.offsetWidth;
+    lampToggle.classList.add('pulling');
+    setTimeout(function () { lampToggle.classList.remove('pulling'); }, 640);
+    _applyTheme(!document.documentElement.classList.contains('light'));
+  }
+
+  /* — Mouse drag — */
+  lampToggle.addEventListener('mousedown', function (e) {
+    e.preventDefault();
+    _dragging = false;
+    var startY = e.clientY;
+
+    function onMove(ev) {
+      var dy = Math.max(0, Math.min(ev.clientY - startY, _MAX_DRAG));
+      if (dy > 3) _dragging = true;
+      if (_chainWrap) {
+        _chainWrap.style.transition = 'none';
+        _chainWrap.style.transform = 'translateY(' + dy + 'px) scaleY(' + (1 - dy * 0.006) + ')';
+      }
+    }
+
+    function onUp(ev) {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      var dy = ev.clientY - startY;
+      if (_chainWrap) {
+        _chainWrap.style.transition = '';
+        _chainWrap.style.transform = '';
+      }
+      if (dy >= _PULL_THRESHOLD) {
+        _triggerPull();
+      }
+      setTimeout(function () { _dragging = false; }, 20);
+    }
+
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
+  });
+
+  /* Click fallback (no drag happened) */
+  lampToggle.addEventListener('click', function () {
+    if (!_dragging) _triggerPull();
+  });
+
+  /* — Touch drag — */
+  var _touchStartY = 0;
+  lampToggle.addEventListener('touchstart', function (e) {
+    _touchStartY = e.touches[0].clientY;
+    _dragging = false;
+  }, { passive: true });
+
+  lampToggle.addEventListener('touchmove', function (e) {
+    var dy = Math.max(0, Math.min(e.touches[0].clientY - _touchStartY, _MAX_DRAG));
+    if (dy > 3) _dragging = true;
+    if (_chainWrap) {
+      _chainWrap.style.transition = 'none';
+      _chainWrap.style.transform = 'translateY(' + dy + 'px) scaleY(' + (1 - dy * 0.006) + ')';
+    }
+  }, { passive: true });
+
+  lampToggle.addEventListener('touchend', function (e) {
+    var dy = e.changedTouches[0].clientY - _touchStartY;
+    if (_chainWrap) {
+      _chainWrap.style.transition = '';
+      _chainWrap.style.transform = '';
+    }
+    if (dy >= _PULL_THRESHOLD) _triggerPull();
+    setTimeout(function () { _dragging = false; }, 20);
+  });
+
+  /* Keyboard */
+  lampToggle.addEventListener('keydown', function (e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      _triggerPull();
     }
   });
 }
@@ -549,8 +634,6 @@ projectReadMoreButtons.forEach(function(button) {
 
     const isExpanded = button.getAttribute('aria-expanded') === 'true';
     button.setAttribute('aria-expanded', String(!isExpanded));
-    button.textContent = isExpanded ? 'Read More' : 'Read Less';
-
     panel.hidden = isExpanded;
   });
 });
@@ -575,3 +658,45 @@ projectOpenMoreButtons.forEach(function(button) {
     }
   });
 });
+
+// ── Skills v2: ring fill + counter animations ──
+(function () {
+  var _wrapper = document.querySelector('.skills-wrapper');
+  if (!_wrapper) return;
+  var _circumference = 175.93;
+
+  function _fillRings() {
+    document.querySelectorAll('.srg-fill').forEach(function (ring) {
+      var pct = parseFloat(ring.dataset.pct) / 100;
+      ring.style.stroke = ring.dataset.color;
+      ring.style.strokeDashoffset = _circumference * (1 - pct);
+    });
+  }
+
+  function _countUp() {
+    document.querySelectorAll('.skill-stat-num').forEach(function (el) {
+      var target = parseInt(el.dataset.target, 10);
+      var t0 = null;
+      requestAnimationFrame(function step(ts) {
+        if (!t0) t0 = ts;
+        var p = Math.min((ts - t0) / 1400, 1);
+        el.textContent = Math.round((1 - Math.pow(1 - p, 3)) * target);
+        if (p < 1) requestAnimationFrame(step);
+      });
+    });
+  }
+
+  if ('IntersectionObserver' in window) {
+    var _fired = false;
+    new IntersectionObserver(function (entries, obs) {
+      if (!entries[0].isIntersecting || _fired) return;
+      _fired = true;
+      setTimeout(_fillRings, 220);
+      setTimeout(_countUp, 360);
+      obs.disconnect();
+    }, { threshold: 0.1 }).observe(_wrapper);
+  } else {
+    _fillRings();
+    _countUp();
+  }
+})();
