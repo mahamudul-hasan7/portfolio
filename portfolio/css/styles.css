@@ -478,39 +478,6 @@ body.light {
   animation: shadeSwing3d 0.6s ease forwards;
 }
 
-/* ── Mobile: compact lamp ── */
-@media (max-width: 900px) {
-  .lamp-shade {
-    width: 36px;
-    height: 20px;
-  }
-
-  .lamp-cap {
-    width: 12px;
-    height: 4px;
-  }
-
-  .lamp-bulb {
-    width: 10px;
-    height: 10px;
-    bottom: -5px;
-  }
-
-  .lamp-chain i:nth-child(n+6) {
-    display: none;
-  }
-
-  .lamp-tassel-top {
-    width: 8px;
-    height: 3px;
-  }
-
-  .lamp-tassel-mid {
-    width: 11px;
-    height: 8px;
-  }
-}
-
 /* ── Light mode (lamp ON) ── */
 :root.light .lamp-cap,
 body.light .lamp-cap {
@@ -2169,10 +2136,9 @@ footer {
 }
 @media (max-width: 600px) {
   .navbar {
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    padding: 0.6rem 0.75rem;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem;
   }
   .section {
     padding: 2rem 1rem 1rem 1rem;
@@ -5851,22 +5817,51 @@ body.light .skill-stat-label  { color: #547565; }
 body.light .skills-focus-block h4 { color: #1a6844; }
 body.light .skills-focus-block ul  { color: #364c54; }
 
-/* ═══════════════════════════════════════════════════
-   LAMP MOBILE FIX — must stay at very end of file
-   Forces lamp visible on mobile, overrides conflicts
-═══════════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   MOBILE COMPACT — index page
+   Fixes: lamp overflow, hero profile side overflow,
+   orbit icons out of viewport, navbar column bug.
+   Must stay at file end to win specificity wars.
+═══════════════════════════════════════════════ */
+
+/* Prevent entire page from overflowing horizontally */
+body, html {
+  overflow-x: hidden;
+}
+
 @media (max-width: 900px) {
-  /* Force lamp-toggle to size naturally — no height constraint */
+
+  /* ── Navbar: always a single row, never column ── */
+  .navbar {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+    overflow: visible !important;
+    padding: 0.55rem 0.9rem !important;
+    min-height: 52px !important;
+  }
+
+  /* ── nav-right: shrink tightly, don't push lamp out ── */
+  .nav-right {
+    display: flex !important;
+    align-items: center !important;
+    gap: 0.45rem !important;
+    margin-left: auto !important;
+    flex-shrink: 0 !important;
+    overflow: visible !important;
+  }
+
+  /* ── Lamp: compact, contained inside navbar row ── */
   #lampToggle.lamp-toggle {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    width: 30px !important;
+    position: relative !important;
+    width: 26px !important;
     height: auto !important;
     min-height: 0 !important;
+    max-height: none !important;
     overflow: visible !important;
     flex-shrink: 0 !important;
-    position: relative !important;
+    display: block !important;
+    margin-left: 0.25rem !important;
   }
 
   #lampToggle .lamp-body {
@@ -5874,56 +5869,137 @@ body.light .skills-focus-block ul  { color: #364c54; }
     flex-direction: column !important;
     align-items: center !important;
     height: auto !important;
+    gap: 0 !important;
   }
 
   #lampToggle .lamp-cap {
-    width: 10px !important;
-    height: 4px !important;
-    flex-shrink: 0 !important;
-  }
-
-  #lampToggle .lamp-shade {
-    width: 30px !important;
-    height: 17px !important;
-    flex-shrink: 0 !important;
-  }
-
-  #lampToggle .lamp-bulb {
     width: 9px !important;
-    height: 9px !important;
-    bottom: -4px !important;
-  }
-
-  #lampToggle .lamp-chain-wrap {
-    margin-top: 3px !important;
-  }
-
-  /* Show only 3 chain links */
-  #lampToggle .lamp-chain i:nth-child(n+4) {
-    display: none !important;
-  }
-
-  #lampToggle .lamp-chain i {
-    /* Make links more visible against dark navbar */
-    border-color: rgba(200,218,230,0.85) !important;
-    border-width: 1.5px !important;
-  }
-
-  #lampToggle .lamp-tassel-top {
-    width: 7px !important;
     height: 3px !important;
   }
 
-  #lampToggle .lamp-tassel-mid {
-    width: 10px !important;
-    height: 8px !important;
+  #lampToggle .lamp-shade {
+    width: 26px !important;
+    height: 15px !important;
   }
 
-  /* Ensure nav-right layout is correct */
-  .nav-right {
+  #lampToggle .lamp-bulb {
+    width: 8px !important;
+    height: 8px !important;
+    bottom: -4px !important;
+  }
+
+  #lampToggle .lamp-glow {
+    width: 36px !important;
+    height: 24px !important;
+  }
+
+  #lampToggle .lamp-chain-wrap {
+    margin-top: 2px !important;
+  }
+
+  /* hide excess chain links — keep 4 */
+  #lampToggle .lamp-chain i:nth-child(n+5) {
+    display: none !important;
+  }
+
+  #lampToggle .lamp-chain i:nth-child(odd) {
+    width: 4px !important;
+    height: 6px !important;
+  }
+
+  #lampToggle .lamp-chain i:nth-child(even) {
+    width: 6px !important;
+    height: 4px !important;
+  }
+
+  #lampToggle .lamp-tassel-top {
+    width: 6px !important;
+    height: 2px !important;
+  }
+
+  #lampToggle .lamp-tassel-mid {
+    width: 9px !important;
+    height: 7px !important;
+  }
+
+  /* ── Hero section: stack, no side overflow ── */
+  .hero-section {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding: 1.4rem 1rem 2rem 1rem !important;
+    overflow: hidden !important;
+  }
+
+  .hero-content {
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+
+  /* ── Profile circle image area ── */
+  .hero-image {
+    width: 100% !important;
+    height: auto !important;
     display: flex !important;
+    justify-content: center !important;
     align-items: center !important;
-    flex-shrink: 0 !important;
+    margin-top: 1.5rem !important;
     overflow: visible !important;
+    padding: 40px 0 !important;     /* room for orbit icons */
+  }
+
+  .profile-circle {
+    width: 180px !important;
+    height: 180px !important;
+  }
+
+  .profile-circle::before {
+    inset: 8px !important;
+  }
+
+  .profile-circle img {
+    width: 148px !important;
+    height: 148px !important;
+  }
+
+  /* Orbit icons: smaller, tighter radius so they stay on screen */
+  .skills-icons .icon {
+    width: 36px !important;
+    height: 36px !important;
+    border-radius: 10px !important;
+    padding: 4px !important;
+    margin-left: -18px !important;
+    margin-top: -18px !important;
+    --orbit-radius: 110px !important;
+  }
+
+  .skills-icons .icon svg {
+    width: 28px !important;
+    height: 28px !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .profile-circle {
+    width: 148px !important;
+    height: 148px !important;
+  }
+
+  .profile-circle img {
+    width: 120px !important;
+    height: 120px !important;
+  }
+
+  .skills-icons .icon {
+    width: 30px !important;
+    height: 30px !important;
+    border-radius: 8px !important;
+    margin-left: -15px !important;
+    margin-top: -15px !important;
+    --orbit-radius: 92px !important;
+  }
+
+  .skills-icons .icon svg {
+    width: 22px !important;
+    height: 22px !important;
   }
 }
