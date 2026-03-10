@@ -11,11 +11,18 @@ if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
 }
 
-window.addEventListener('beforeunload', function() {
+function _saveScrollPos() {
   try {
     sessionStorage.setItem(RELOAD_SCROLL_KEY, String(window.scrollY || 0));
   } catch (e) {}
-});
+}
+
+// beforeunload: Chrome/Firefox/desktop
+window.addEventListener('beforeunload', _saveScrollPos);
+// pagehide: iOS Safari (beforeunload not reliable on iOS)
+window.addEventListener('pagehide', _saveScrollPos);
+// Also save every second so position is fresh even if events are skipped
+setInterval(_saveScrollPos, 1000);
 
 (function restoreScrollOnReload() {
   try {
@@ -28,13 +35,19 @@ window.addEventListener('beforeunload', function() {
     if (!Number.isFinite(savedY) || savedY <= 0) return;
 
     function doScroll() {
-      window.scrollTo({ top: savedY, behavior: 'instant' });
+      // Plain two-arg form has universal browser support
+      window.scrollTo(0, savedY);
     }
 
-    // Try immediately, then again after DOM + images are ready
+    // Multiple attempts to beat browser/async-layout resets
     doScroll();
     window.addEventListener('DOMContentLoaded', doScroll, { once: true });
-    window.addEventListener('load', doScroll, { once: true });
+    window.addEventListener('load', function() {
+      doScroll();
+      // Extra pass after all async work (orbit sync, image detection, etc.) settles
+      setTimeout(doScroll, 50);
+      setTimeout(doScroll, 200);
+    }, { once: true });
   } catch (e) {}
 })();
 
