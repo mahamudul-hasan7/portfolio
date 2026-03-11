@@ -96,7 +96,23 @@
     .gallery-filter-wrap {
       display: flex; align-items: center; gap: .3rem;
       margin-bottom: 2rem; flex-wrap: wrap;
+      justify-content: space-between;
     }
+    .gallery-filter-left { display: flex; align-items: center; gap: .3rem; flex-wrap: wrap; }
+    /* Layout toggle button */
+    .gallery-layout-toggle {
+      display: flex; align-items: center; justify-content: center;
+      width: 34px; height: 34px; border-radius: 9px;
+      background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.09);
+      color: #4a6870; cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s;
+      flex-shrink: 0;
+    }
+    .gallery-layout-toggle:hover { background: rgba(63,255,127,.08); color: #3fff7f; border-color: rgba(63,255,127,.2); }
+    .gallery-layout-toggle.active { color: #3fff7f; border-color: rgba(63,255,127,.22); background: rgba(63,255,127,.07); }
+    .gallery-layout-toggle svg { width:15px; height:15px; stroke:currentColor; stroke-width:1.8; fill:none; }
+    body.light .gallery-layout-toggle { color: #4a7060; border-color: rgba(0,0,0,.1); background: rgba(0,0,0,.03); }
+    body.light .gallery-layout-toggle:hover { color: #167a40; border-color: rgba(22,122,64,.2); background: rgba(22,122,64,.06); }
     .gf-btn {
       position: relative; padding: .5rem 1.25rem;
       background: transparent; border: none;
@@ -129,22 +145,17 @@
     .gallery-grid {
       columns: 3; column-gap: 14px;
     }
-    @keyframes gi-reveal {
-      from { opacity:0; transform:translateY(24px) scale(.98); }
-      to   { opacity:1; transform:translateY(0) scale(1); }
-    }
+    /* ── Scroll reveal ── */
     .gallery-item {
       position: relative; overflow: hidden;
       cursor: pointer; break-inside: avoid;
       margin-bottom: 14px;
       border-radius: 12px;
       background: #0d1a1c;
-      animation: gi-reveal .6s cubic-bezier(.23,1,.32,1) both;
+      opacity: 0; transform: translateY(28px) scale(.97);
+      transition: opacity .58s cubic-bezier(.23,1,.32,1), transform .58s cubic-bezier(.23,1,.32,1);
     }
-    .gi-1{animation-delay:.04s} .gi-2{animation-delay:.08s} .gi-3{animation-delay:.12s}
-    .gi-4{animation-delay:.16s} .gi-5{animation-delay:.20s} .gi-6{animation-delay:.24s}
-    .gi-7{animation-delay:.28s} .gi-8{animation-delay:.32s} .gi-9{animation-delay:.36s}
-    .gi-10{animation-delay:.40s} .gi-11{animation-delay:.44s}
+    .gallery-item.revealed { opacity: 1; transform: none; }
 
     .gallery-item img {
       width: 100%; height: auto; display: block;
@@ -397,6 +408,161 @@
       .gallery-lb-nav { display: none; }
       .gallery-lb-inner { padding: 58px 12px 16px; }
     }
+
+    /* ── Grid view (toggle) ── */
+    .gallery-grid.view-grid {
+      columns: unset;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+    .gallery-grid.view-grid .gallery-item { break-inside: unset; margin-bottom: 0; }
+    .gallery-grid.view-grid .gallery-item img { height: 220px; object-fit: cover; }
+    @media (max-width: 900px) {
+      .gallery-grid.view-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+      .gallery-grid.view-grid .gallery-item img { height: 170px; }
+    }
+    @media (max-width: 560px) {
+      .gallery-grid.view-grid { grid-template-columns: repeat(2, 1fr); gap: 7px; }
+      .gallery-grid.view-grid .gallery-item img { height: 130px; }
+    }
+
+    /* ── Color palette strip ── */
+    .gallery-item-palette {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      height: 3px; display: flex; overflow: hidden;
+      border-radius: 0 0 12px 12px;
+      opacity: 0; transition: opacity .28s .08s;
+      pointer-events: none;
+    }
+    .gallery-item:hover .gallery-item-palette { opacity: 1; }
+    .gallery-item-palette-swatch { flex: 1; display: block; }
+
+    /* ── Surprise Me button ── */
+    .gallery-surprise-btn {
+      display: inline-flex; align-items: center; gap: .45rem;
+      padding: .45rem 1.1rem;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 100px;
+      font-size: .75rem; font-weight: 700; letter-spacing: .06em;
+      color: #7a9ea8; cursor: pointer; font-family: inherit;
+      transition: background .2s, color .2s, border-color .2s, transform .2s;
+      margin-left: auto;
+    }
+    .gallery-surprise-btn svg { width:14px; height:14px; stroke:currentColor; stroke-width:2; fill:none; flex-shrink:0;
+      transition: transform .5s cubic-bezier(.34,1.56,.64,1); }
+    .gallery-surprise-btn:hover {
+      background: rgba(63,255,127,.07); color: #3fff7f;
+      border-color: rgba(63,255,127,.22); transform: scale(1.04);
+    }
+    .gallery-surprise-btn:hover svg { transform: rotate(180deg); }
+    .gallery-surprise-btn:active { transform: scale(.96); }
+    body.light .gallery-surprise-btn { color: #4a7060; border-color: rgba(0,0,0,.1); background: rgba(0,0,0,.03); }
+    body.light .gallery-surprise-btn:hover { color: #167a40; border-color: rgba(22,122,64,.2); background: rgba(22,122,64,.06); }
+
+    /* ── Keyboard hint toast ── */
+    @keyframes hintIn  { from { opacity:0; transform:translateX(-50%) translateY(16px); } to { opacity:1; transform:translateX(-50%) translateY(0); } }
+    @keyframes hintOut { from { opacity:1; transform:translateX(-50%) translateY(0); } to { opacity:0; transform:translateX(-50%) translateY(8px); } }
+    .gallery-lb-hint {
+      position: fixed; bottom: 90px; left: 50%; transform: translateX(-50%);
+      display: flex; align-items: center; gap: .55rem;
+      padding: .55rem 1.1rem;
+      background: rgba(10,18,20,.88);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.1); border-radius: 100px;
+      font-size: .72rem; color: #7a9ea8; white-space: nowrap;
+      pointer-events: none; z-index: 9999;
+      animation: hintIn .36s cubic-bezier(.23,1,.32,1) both;
+    }
+    .gallery-lb-hint.hiding { animation: hintOut .28s ease both; }
+    .gallery-lb-hint kbd {
+      display: inline-flex; align-items: center; justify-content: center;
+      min-width: 22px; height: 20px; padding: 0 5px;
+      background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15);
+      border-radius: 5px; font-size: .68rem; font-family: inherit;
+      color: #e8f0f2; font-weight: 700;
+    }
+    .gallery-lb-hint-sep { color: rgba(255,255,255,.18); margin: 0 .1rem; }
+
+    /* ── Zoom cursor ── */
+    .gallery-lb-inner.zoomed { cursor: move; }
+    .gallery-lb-inner img { transform-origin: center center; transition: transform .2s ease; }
+    .gallery-lb-inner img.zoom-active { transition: none; }
+
+    /* ── Shimmer skeleton ── */
+    @keyframes shimmer {
+      0%   { background-position: -600px 0; }
+      100% { background-position:  600px 0; }
+    }
+    .gallery-item.loading::before {
+      content: ''; position: absolute; inset: 0; z-index: 1; border-radius: 12px;
+      background: linear-gradient(90deg,
+        rgba(255,255,255,.0)   0%,
+        rgba(255,255,255,.06) 40%,
+        rgba(255,255,255,.12) 50%,
+        rgba(255,255,255,.06) 60%,
+        rgba(255,255,255,.0)  100%);
+      background-size: 600px 100%;
+      animation: shimmer 1.4s infinite linear;
+    }
+    .gallery-item img { opacity: 0; transition: opacity .4s ease; }
+    .gallery-item img.loaded { opacity: 1; }
+    body.light .gallery-item.loading::before {
+      background: linear-gradient(90deg,
+        rgba(0,0,0,.0)   0%, rgba(0,0,0,.05) 40%,
+        rgba(0,0,0,.1) 50%, rgba(0,0,0,.05) 60%, rgba(0,0,0,.0) 100%);
+      background-size: 600px 100%;
+    }
+
+    /* ── Featured badge ── */
+    .gallery-item-featured {
+      position: absolute; top: .6rem; left: .6rem;
+      display: inline-flex; align-items: center; gap: .28rem;
+      padding: .2rem .55rem;
+      background: linear-gradient(120deg, #f5c842 0%, #e8a020 100%);
+      border-radius: 100px;
+      font-size: .58rem; font-weight: 800; letter-spacing: .1em;
+      text-transform: uppercase; color: #1a0e00;
+      box-shadow: 0 2px 12px rgba(245,200,66,.35);
+      z-index: 4;
+      pointer-events: none;
+    }
+    .gallery-item-featured svg { width:9px; height:9px; fill:#1a0e00; stroke:none; }
+
+    /* ── Filter counter animate ── */
+    @keyframes countPop {
+      0%   { transform: scale(1.0); }
+      40%  { transform: scale(1.55); }
+      70%  { transform: scale(.88); }
+      100% { transform: scale(1.0); }
+    }
+    .gf-count.pop { animation: countPop .4s cubic-bezier(.23,1,.32,1) both; }
+
+    /* ── Lightbox EXIF panel ── */
+    .gallery-lb-exif {
+      position: fixed; bottom: 78px; right: 1.2rem;
+      display: flex; flex-direction: column; gap: .35rem;
+      z-index: 3; pointer-events: none;
+    }
+    .gallery-lb-exif-chip {
+      display: inline-flex; align-items: center; gap: .35rem;
+      padding: .28rem .65rem;
+      background: rgba(10,18,20,.82);
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255,255,255,.09);
+      border-radius: 100px;
+      font-size: .68rem; font-weight: 600; color: #9db8c0;
+      white-space: nowrap;
+      opacity: 0; transform: translateX(12px);
+      transition: opacity .3s, transform .3s cubic-bezier(.23,1,.32,1);
+    }
+    .gallery-lb-exif-chip.visible { opacity: 1; transform: none; }
+    .gallery-lb-exif-chip svg { width:11px; height:11px; stroke:currentColor; stroke-width:2; fill:none; flex-shrink:0; }
+    .gallery-lb-exif-chip.chip-camera { transition-delay: .05s; }
+    .gallery-lb-exif-chip.chip-year   { transition-delay: .10s; }
+    .gallery-lb-exif-chip.chip-loc    { transition-delay: .15s; }
+    @media (max-width: 560px) { .gallery-lb-exif { display: none; } }
   </style>
 </head>
 <body>
@@ -472,26 +638,37 @@
 
       <!-- Filters -->
       <div class="gallery-filter-wrap">
-        <button class="gf-btn active" data-filter="all">All <span class="gf-count">11</span></button>
-        <button class="gf-btn" data-filter="work">Work <span class="gf-count">5</span></button>
-        <button class="gf-btn" data-filter="life">Life <span class="gf-count">6</span></button>
+        <div class="gallery-filter-left">
+          <button class="gf-btn active" data-filter="all">All <span class="gf-count">11</span></button>
+          <button class="gf-btn" data-filter="work">Work <span class="gf-count">5</span></button>
+          <button class="gf-btn" data-filter="life">Life <span class="gf-count">6</span></button>
+        </div>
+        <button class="gallery-layout-toggle" id="galleryLayoutToggle" title="Switch layout" aria-label="Switch layout">
+          <svg id="iconMasonry" viewBox="0 0 18 18"><rect x="1" y="1" width="6" height="9" rx="1.2"/><rect x="9" y="1" width="8" height="5" rx="1.2"/><rect x="1" y="12" width="6" height="5" rx="1.2"/><rect x="9" y="8" width="8" height="9" rx="1.2"/></svg>
+          <svg id="iconGrid" viewBox="0 0 18 18" style="display:none"><rect x="1" y="1" width="7" height="7" rx="1.2"/><rect x="10" y="1" width="7" height="7" rx="1.2"/><rect x="1" y="10" width="7" height="7" rx="1.2"/><rect x="10" y="10" width="7" height="7" rx="1.2"/></svg>
+        </button>
+        <button class="gallery-surprise-btn" id="gallerySurpriseBtn" aria-label="Open a random photo">
+          <svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 100 20A10 10 0 0012 2z"/><path d="M9.09 9a3 3 0 015.83 1c0 2-3 3-3 3M12 17h.01"/></svg>
+          Surprise me
+        </button>
       </div>
 
       <!-- Bento Grid -->
       <div class="gallery-grid">
 
-        <div class="gallery-item gi-1" data-cat="work" data-img="assets/images/rakib.jpg" data-caption="Developer Portrait" data-sub="Work · 2026">
+        <div class="gallery-item gi-1" data-cat="work" data-img="assets/images/rakib.jpg" data-caption="Developer Portrait" data-sub="Work · 2026" data-camera="Sony α7 III" data-year="2026" data-loc="Dhaka, BD">
           <img src="assets/images/rakib.jpg" alt="Rakib - Developer portrait" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Developer Portrait</span>
             <span class="gallery-item-sub">Work · 2026</span>
           </div>
+          <span class="gallery-item-featured"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Featured</span>
           <span class="gallery-item-num">01</span>
           <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
           <a class="gallery-item-dl" href="assets/images/rakib.jpg" download="rakib.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-2" data-cat="life" data-img="assets/images/rakib2.jpg" data-caption="Campus Moment" data-sub="Life · UIU">
+        <div class="gallery-item gi-2" data-cat="life" data-img="assets/images/rakib2.jpg" data-caption="Campus Moment" data-sub="Life · UIU" data-camera="iPhone 14" data-year="2025" data-loc="UIU Campus">
           <img src="assets/images/rakib2.jpg" alt="Rakib - Campus moment" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Campus Moment</span>
@@ -502,18 +679,19 @@
           <a class="gallery-item-dl" href="assets/images/rakib2.jpg" download="rakib2.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-3" data-cat="work" data-img="assets/images/rakib3.jpg" data-caption="Coding Session" data-sub="Work · 2025">
+        <div class="gallery-item gi-3" data-cat="work" data-img="assets/images/rakib3.jpg" data-caption="Coding Session" data-sub="Work · 2025" data-camera="Fujifilm X-T5" data-year="2025" data-loc="Home Studio">
           <img src="assets/images/rakib3.jpg" alt="Rakib - Coding session" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Coding Session</span>
             <span class="gallery-item-sub">Work · 2025</span>
           </div>
+          <span class="gallery-item-featured"><svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>Featured</span>
           <span class="gallery-item-num">03</span>
           <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
           <a class="gallery-item-dl" href="assets/images/rakib3.jpg" download="rakib3.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-4" data-cat="life" data-img="assets/images/rakib4.jpg" data-caption="Personal" data-sub="Life · 2025">
+        <div class="gallery-item gi-4" data-cat="life" data-img="assets/images/rakib4.jpg" data-caption="Personal" data-sub="Life · 2025" data-camera="iPhone 14" data-year="2025" data-loc="Dhaka, BD">
           <img src="assets/images/rakib4.jpg" alt="Rakib - Personal" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Personal</span>
@@ -524,7 +702,7 @@
           <a class="gallery-item-dl" href="assets/images/rakib4.jpg" download="rakib4.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-5" data-cat="work" data-img="assets/images/rakib5.jpg" data-caption="Project Showcase" data-sub="Work · 2025">
+        <div class="gallery-item gi-5" data-cat="work" data-img="assets/images/rakib5.jpg" data-caption="Project Showcase" data-sub="Work · 2025" data-camera="Canon EOS R6" data-year="2025" data-loc="UIU Lab">
           <img src="assets/images/rakib5.jpg" alt="Rakib - Project showcase" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Project Showcase</span>
@@ -535,7 +713,7 @@
           <a class="gallery-item-dl" href="assets/images/rakib5.jpg" download="rakib5.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-6" data-cat="life" data-img="assets/images/rakib6.jpg" data-caption="Leisure Moment" data-sub="Life · 2025">
+        <div class="gallery-item gi-6" data-cat="life" data-img="assets/images/rakib6.jpg" data-caption="Leisure Moment" data-sub="Life · 2025" data-camera="iPhone 14" data-year="2025" data-loc="Dhaka, BD">
           <img src="assets/images/rakib6.jpg" alt="Rakib - Leisure moment" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Leisure Moment</span>
@@ -546,7 +724,7 @@
           <a class="gallery-item-dl" href="assets/images/rakib6.jpg" download="rakib6.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-7" data-cat="work" data-img="assets/images/rakib7.jpg" data-caption="Tech Event" data-sub="Work · 2024">
+        <div class="gallery-item gi-7" data-cat="work" data-img="assets/images/rakib7.jpg" data-caption="Tech Event" data-sub="Work · 2024" data-camera="Sony α7 III" data-year="2024" data-loc="Dhaka, BD">
           <img src="assets/images/rakib7.jpg" alt="Rakib - Tech event" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Tech Event</span>
@@ -557,7 +735,7 @@
           <a class="gallery-item-dl" href="assets/images/rakib7.jpg" download="rakib7.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-8" data-cat="life" data-img="assets/images/rakib8.jpg" data-caption="University Life" data-sub="Life · UIU">
+        <div class="gallery-item gi-8" data-cat="life" data-img="assets/images/rakib8.jpg" data-caption="University Life" data-sub="Life · UIU" data-camera="iPhone 13" data-year="2024" data-loc="UIU Campus">
           <img src="assets/images/rakib8.jpg" alt="Rakib - University life" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">University Life</span>
@@ -568,7 +746,7 @@
           <a class="gallery-item-dl" href="assets/images/rakib8.jpg" download="rakib8.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-9" data-cat="life" data-img="assets/images/rakib9.jpg" data-caption="Captured Moment" data-sub="Life · 2024">
+        <div class="gallery-item gi-9" data-cat="life" data-img="assets/images/rakib9.jpg" data-caption="Captured Moment" data-sub="Life · 2024" data-camera="iPhone 13" data-year="2024" data-loc="Dhaka, BD">
           <img src="assets/images/rakib9.jpg" alt="Rakib - Captured moment" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Captured Moment</span>
@@ -579,7 +757,7 @@
           <a class="gallery-item-dl" href="assets/images/rakib9.jpg" download="rakib9.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-10" data-cat="work" data-img="assets/images/rakib10.jpg" data-caption="Behind the Build" data-sub="Work · 2024">
+        <div class="gallery-item gi-10" data-cat="work" data-img="assets/images/rakib10.jpg" data-caption="Behind the Build" data-sub="Work · 2024" data-camera="Sony α7 III" data-year="2024" data-loc="Home Studio">
           <img src="assets/images/rakib10.jpg" alt="Rakib - Behind the build" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Behind the Build</span>
@@ -590,7 +768,7 @@
           <a class="gallery-item-dl" href="assets/images/rakib10.jpg" download="rakib10.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
 
-        <div class="gallery-item gi-11" data-cat="life" data-img="assets/images/rakib11.jpg" data-caption="Good Times" data-sub="Life · 2023">
+        <div class="gallery-item gi-11" data-cat="life" data-img="assets/images/rakib11.jpg" data-caption="Good Times" data-sub="Life · 2023" data-camera="iPhone 13" data-year="2023" data-loc="Dhaka, BD">
           <img src="assets/images/rakib11.jpg" alt="Rakib - Good times" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Good Times</span>
@@ -627,6 +805,20 @@
     </button>
     <div class="gallery-lb-inner">
       <img id="galleryLbImg" src="" alt="" />
+    </div>
+    <div class="gallery-lb-exif" id="galleryLbExif">
+      <div class="gallery-lb-exif-chip chip-camera" id="exifCamera">
+        <svg viewBox="0 0 24 24"><path d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"/><circle cx="12" cy="13" r="4"/></svg>
+        <span id="exifCameraText"></span>
+      </div>
+      <div class="gallery-lb-exif-chip chip-year" id="exifYear">
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+        <span id="exifYearText"></span>
+      </div>
+      <div class="gallery-lb-exif-chip chip-loc" id="exifLoc">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span id="exifLocText"></span>
+      </div>
     </div>
     <div class="gallery-lb-thumbs" id="galleryLbThumbs"></div>
   </div>
@@ -693,10 +885,44 @@
         });
         var st = document.getElementById('statTotal');
         if (st) st.textContent = visible;
+        // ── Animated filter count pop ──
+        document.querySelectorAll('.gf-count').forEach(function(c) {
+          c.classList.remove('pop');
+          void c.offsetWidth;
+          c.classList.add('pop');
+        });
       });
     });
 
     function visibleItems() { return items.filter(function(i){ return i.style.display !== 'none'; }); }
+
+    // ── Hint (declare early so openLb can call it) ──
+    var hintShown = false;
+    function showKeyHint() {
+      if (hintShown) return;
+      hintShown = true;
+      var hint = document.createElement('div');
+      hint.className = 'gallery-lb-hint';
+      hint.innerHTML = '<kbd>&#8592;</kbd><kbd>&#8594;</kbd><span class="gallery-lb-hint-sep">|</span>navigate &nbsp;<kbd>Esc</kbd>&nbsp;close&nbsp;<span class="gallery-lb-hint-sep">|</span><kbd>scroll</kbd>&nbsp;zoom';
+      document.body.appendChild(hint);
+      setTimeout(function() {
+        hint.classList.add('hiding');
+        setTimeout(function() { if (hint.parentNode) hint.parentNode.removeChild(hint); }, 300);
+      }, 2800);
+    }
+
+    // ── Zoom (declare early so closeLb can call resetZoom) ──
+    var zoomLevel = 1, panX = 0, panY = 0;
+    var lbInner = document.querySelector('.gallery-lb-inner');
+    function applyZoom() {
+      lbImg.style.transform = 'scale(' + zoomLevel + ') translate(' + (panX/zoomLevel) + 'px,' + (panY/zoomLevel) + 'px)';
+      lbInner.classList.toggle('zoomed', zoomLevel > 1);
+    }
+    function resetZoom() {
+      zoomLevel = 1; panX = 0; panY = 0;
+      lbImg.style.transform = '';
+      lbInner.classList.remove('zoomed');
+    }
 
     var isNav = false;
     var EXIT_MS = 160;
@@ -719,6 +945,26 @@
         thumbEls[allIdx].classList.add('active');
         thumbEls[allIdx].scrollIntoView({ inline:'center', behavior:'smooth', block:'nearest' });
       }
+      // ── EXIF panel ──
+      var exifCamera     = document.getElementById('exifCamera');
+      var exifYear       = document.getElementById('exifYear');
+      var exifLoc        = document.getElementById('exifLoc');
+      var exifCameraText = document.getElementById('exifCameraText');
+      var exifYearText   = document.getElementById('exifYearText');
+      var exifLocText    = document.getElementById('exifLocText');
+      [exifCamera, exifYear, exifLoc].forEach(function(c) { if (c) c.classList.remove('visible'); });
+      if (exifCameraText && item.dataset.camera) {
+        exifCameraText.textContent = item.dataset.camera;
+        if (exifCamera) setTimeout(function() { exifCamera.classList.add('visible'); }, 60);
+      }
+      if (exifYearText && item.dataset.year) {
+        exifYearText.textContent = item.dataset.year;
+        if (exifYear) setTimeout(function() { exifYear.classList.add('visible'); }, 110);
+      }
+      if (exifLocText && item.dataset.loc) {
+        exifLocText.textContent = item.dataset.loc;
+        if (exifLoc) setTimeout(function() { exifLoc.classList.add('visible'); }, 160);
+      }
     }
 
     function loadImg(src, cls, cb) {
@@ -738,6 +984,7 @@
         // Already open — exit current, then enter next
         if (isNav) return;
         isNav = true;
+        resetZoom();
         var exitCls  = dir === 'next' ? 'anim-exit-next' : 'anim-exit-prev';
         var enterCls = dir === 'next' ? 'anim-next'      : 'anim-prev';
         lbImg.className = exitCls;
@@ -756,10 +1003,12 @@
         lb.classList.add('open');
         document.body.style.overflow = 'hidden';
         loadImg(list[current].dataset.img, 'anim-in');
+        if (!hintShown) showKeyHint();
       }
     }
 
     function closeLb() {
+      resetZoom();
       lb.classList.add('closing');
       setTimeout(function() {
         lb.classList.remove('open', 'closing');
@@ -794,6 +1043,143 @@
       var dx = e.changedTouches[0].clientX - tx;
       if (Math.abs(dx) > 50) openLb(dx < 0 ? current+1 : current-1, dx < 0 ? 'next' : 'prev');
     }, { passive:true });
+
+    // ── Surprise Me ──
+    var surpriseBtn = document.getElementById('gallerySurpriseBtn');
+    if (surpriseBtn) {
+      surpriseBtn.addEventListener('click', function() {
+        var list = visibleItems();
+        if (!list.length) return;
+        var rnd = Math.floor(Math.random() * list.length);
+        openLb(rnd, 'in');
+      });
+    }
+
+    // ── Image Zoom (scroll + pinch) ──
+    var zoomMin = 1, zoomMax = 4;
+
+    // Wheel zoom
+    lbInner.addEventListener('wheel', function(e) {
+      e.preventDefault();
+      var delta = e.deltaY > 0 ? -0.18 : 0.18;
+      zoomLevel = Math.min(zoomMax, Math.max(zoomMin, zoomLevel + delta));
+      if (zoomLevel <= zoomMin) { panX = 0; panY = 0; }
+      lbImg.classList.add('zoom-active');
+      applyZoom();
+      clearTimeout(lbImg._zt);
+      lbImg._zt = setTimeout(function() { lbImg.classList.remove('zoom-active'); }, 150);
+    }, { passive: false });
+
+    // Pan when zoomed
+    var isDragging = false, dragSX = 0, dragSY = 0, panSX = 0, panSY = 0;
+    lbInner.addEventListener('mousedown', function(e) {
+      if (zoomLevel <= 1) return;
+      isDragging = true; dragSX = e.clientX; dragSY = e.clientY;
+      panSX = panX; panSY = panY;
+      lbImg.classList.add('zoom-active');
+    });
+    document.addEventListener('mousemove', function(e) {
+      if (!isDragging) return;
+      panX = panSX + (e.clientX - dragSX); panY = panSY + (e.clientY - dragSY);
+      applyZoom();
+    });
+    document.addEventListener('mouseup', function() {
+      isDragging = false; lbImg.classList.remove('zoom-active');
+    });
+
+    // Pinch zoom (touch)
+    var lastPinchDist = 0;
+    lbInner.addEventListener('touchstart', function(e) {
+      if (e.touches.length === 2) {
+        lastPinchDist = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
+      }
+    }, { passive: true });
+    lbInner.addEventListener('touchmove', function(e) {
+      if (e.touches.length !== 2) return;
+      e.preventDefault();
+      var dist = Math.hypot(e.touches[1].clientX - e.touches[0].clientX, e.touches[1].clientY - e.touches[0].clientY);
+      var scale = dist / lastPinchDist;
+      zoomLevel = Math.min(zoomMax, Math.max(zoomMin, zoomLevel * scale));
+      lastPinchDist = dist;
+      lbImg.classList.add('zoom-active');
+      applyZoom();
+    }, { passive: false });
+
+    // ── Layout Toggle ──
+    var grid = document.querySelector('.gallery-grid');
+    var layoutBtn   = document.getElementById('galleryLayoutToggle');
+    var iconMasonry = document.getElementById('iconMasonry');
+    var iconGrid    = document.getElementById('iconGrid');
+    var isGridView  = false;
+    if (layoutBtn) {
+      layoutBtn.addEventListener('click', function() {
+        isGridView = !isGridView;
+        grid.classList.toggle('view-grid', isGridView);
+        layoutBtn.classList.toggle('active', isGridView);
+        iconMasonry.style.display = isGridView ? 'none' : '';
+        iconGrid.style.display    = isGridView ? '' : 'none';
+      });
+    }
+
+    // ── Scroll Reveal (IntersectionObserver) ──
+    var revealObs = new IntersectionObserver(function(entries) {
+      entries.forEach(function(entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var delay = parseInt(el.dataset.revealDelay || 0, 10);
+        setTimeout(function() { el.classList.add('revealed'); }, delay);
+        revealObs.unobserve(el);
+      });
+    }, { threshold: 0.07, rootMargin: '0px 0px -16px 0px' });
+
+    items.forEach(function(item, i) {
+      item.dataset.revealDelay = (i % 3) * 55;
+      revealObs.observe(item);
+    });
+
+    // ── Shimmer skeleton ──
+    items.forEach(function(item) {
+      item.classList.add('loading');
+      var img = item.querySelector('img');
+      if (!img) return;
+      function onLoaded() {
+        item.classList.remove('loading');
+        img.classList.add('loaded');
+      }
+      if (img.complete && img.naturalWidth) { onLoaded(); }
+      else { img.addEventListener('load', onLoaded); }
+    });
+
+    // ── Color Palette Strip ──
+    function buildPalette(imgEl, itemEl) {
+      try {
+        var N = 5;
+        var canvas = document.createElement('canvas');
+        canvas.width = N; canvas.height = 1;
+        var ctx = canvas.getContext('2d');
+        var sy = Math.floor(imgEl.naturalHeight * 0.5);
+        var sh = Math.floor(imgEl.naturalHeight * 0.5);
+        ctx.drawImage(imgEl, 0, sy, imgEl.naturalWidth, sh, 0, 0, N, 1);
+        var strip = document.createElement('div');
+        strip.className = 'gallery-item-palette';
+        for (var j = 0; j < N; j++) {
+          var px = ctx.getImageData(j, 0, 1, 1).data;
+          var sw = document.createElement('span');
+          sw.className = 'gallery-item-palette-swatch';
+          sw.style.background = 'rgb(' + px[0] + ',' + px[1] + ',' + px[2] + ')';
+          strip.appendChild(sw);
+        }
+        itemEl.appendChild(strip);
+      } catch(e) {}
+    }
+
+    items.forEach(function(item) {
+      var img = item.querySelector('img');
+      if (!img) return;
+      if (img.complete && img.naturalWidth) { buildPalette(img, item); }
+      else { img.addEventListener('load', function() { buildPalette(img, item); }); }
+    });
+
   })();
   </script>
 </body>
