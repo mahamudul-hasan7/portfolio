@@ -106,12 +106,19 @@ if (lampToggle) {
       document.removeEventListener('mousemove', onMove);
       document.removeEventListener('mouseup', onUp);
       var dy = ev.clientY - startY;
-      if (_chainWrap) {
-        _chainWrap.style.transition = '';
-        _chainWrap.style.transform = '';
-      }
       if (dy >= _PULL_THRESHOLD) {
+        // _triggerPull will reset chain; let it own the animation
+        if (_chainWrap) {
+          _chainWrap.style.transition = 'none';
+          _chainWrap.style.transform = '';
+        }
         _triggerPull();
+      } else {
+        // Spring snap-back: smooth settle to rest position
+        if (_chainWrap) {
+          _chainWrap.style.transition = 'transform 0.46s cubic-bezier(0.34, 1.38, 0.64, 1)';
+          _chainWrap.style.transform  = 'translateY(0) scaleY(1)';
+        }
       }
       setTimeout(function () { _dragging = false; }, 20);
     }
@@ -347,7 +354,9 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
   }
 
-  const autoDetectedImages = await detectPatternImages();
+  const autoDetectedImages = configuredImages.length > 0
+    ? []
+    : await detectPatternImages();
   const profileImages = uniqueStrings(configuredImages.concat(autoDetectedImages));
   const finalProfileImages = profileImages.length > 0 ? profileImages : fallbackProfileImages;
 
@@ -527,10 +536,25 @@ document.addEventListener('DOMContentLoaded', async function() {
     });
   }
 
-  const fadeEls = document.querySelectorAll('.fade-in');
+  const fadeEls = document.querySelectorAll('.fade-in:not(.hero-content)');
   const revealEls = document.querySelectorAll('.reveal');
 
-  // Use observer instead of continuous scroll listeners for stable fast-scroll behavior.
+  // Stagger sibling .fade-in elements that share a parent
+  (function staggerSiblings() {
+    var parents = new Map();
+    fadeEls.forEach(function(el) {
+      var p = el.parentElement;
+      if (!p) return;
+      if (!parents.has(p)) parents.set(p, []);
+      parents.get(p).push(el);
+    });
+    parents.forEach(function(children) {
+      if (children.length < 2) return;
+      // Mark the parent for CSS stagger
+      children[0].parentElement.classList.add('sr-stagger');
+    });
+  })();
+
   if ('IntersectionObserver' in window) {
     const revealObserver = new IntersectionObserver(function(entries, observer) {
       entries.forEach(function(entry) {
@@ -538,6 +562,11 @@ document.addEventListener('DOMContentLoaded', async function() {
         const el = entry.target;
         if (el.classList.contains('fade-in')) {
           el.style.animationPlayState = 'running';
+          el.classList.add('sr-revealed');
+          // Also play any fade-in children
+          el.querySelectorAll('.fade-in').forEach(function(child) {
+            child.style.animationPlayState = 'running';
+          });
         }
         if (el.classList.contains('reveal')) {
           el.classList.add('revealed');
@@ -546,14 +575,13 @@ document.addEventListener('DOMContentLoaded', async function() {
       });
     }, {
       root: null,
-      rootMargin: '0px 0px -60px 0px',
-      threshold: 0.08
+      rootMargin: '0px 0px -72px 0px',
+      threshold: 0.06
     });
 
     fadeEls.forEach(function(el) { revealObserver.observe(el); });
     revealEls.forEach(function(el) { revealObserver.observe(el); });
   } else {
-    // Fallback for very old browsers.
     fadeEls.forEach(function(el) { el.style.animationPlayState = 'running'; });
     revealEls.forEach(function(el) { el.classList.add('revealed'); });
   }
@@ -802,4 +830,152 @@ projectOpenMoreButtons.forEach(function(button) {
       }
     }
   });
+})();
+
+/* ─────────────────────────────────────────
+   SCROLL PROGRESS BAR
+───────────────────────────────────────── */
+(function () {
+  var bar = document.getElementById('scrollProgressBar');
+  if (!bar) return;
+
+  function updateBar() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var docHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    var pct = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+    bar.style.width = pct + '%';
+  }
+
+  window.addEventListener('scroll', updateBar, { passive: true });
+  updateBar();
+})();
+
+/* ─────────────────────────────────────────
+   TYPEWRITER HERO TEXT
+───────────────────────────────────────── */
+(function () {
+  var el = document.getElementById('typewriterText');
+  if (!el) return;
+
+  var phrases = [
+    'CSE Student & Developer',
+    'Problem Solver',
+    'Builder',
+    'Open to Opportunities'
+  ];
+
+  var phraseIndex  = 0;
+  var charIndex    = 0;
+  var isDeleting   = false;
+  var typeDelay    = 72;   // ms per character when typing
+  var deleteDelay  = 38;   // ms per character when deleting
+  var pauseAfter   = 1800; // ms to pause when phrase is complete
+  var pauseBefore  = 420;  // ms before starting to delete
+
+  function tick() {
+    var current = phrases[phraseIndex];
+
+    if (!isDeleting) {
+      // Typing forward
+      charIndex++;
+      el.textContent = current.slice(0, charIndex);
+
+      if (charIndex === current.length) {
+        // Phrase complete — pause then start deleting
+        isDeleting = true;
+        setTimeout(tick, pauseAfter);
+        return;
+      }
+      setTimeout(tick, typeDelay);
+    } else {
+      // Deleting
+      charIndex--;
+      el.textContent = current.slice(0, charIndex);
+
+      if (charIndex === 0) {
+        // Done deleting — move to next phrase
+        isDeleting   = false;
+        phraseIndex  = (phraseIndex + 1) % phrases.length;
+        setTimeout(tick, pauseBefore);
+        return;
+      }
+      setTimeout(tick, deleteDelay);
+    }
+  }
+
+  // Start after a short initial delay
+  setTimeout(tick, 800);
+})();
+
+/* ─────────────────────────────────────────
+   LIVE DHAKA TIME
+───────────────────────────────────────── */
+(function () {
+  var el = document.getElementById('dhakaTime');
+  if (!el) return;
+
+  function updateTime() {
+    var now = new Date();
+    // Bangladesh Standard Time = UTC+6
+    var bstOffset = 6 * 60;
+    var localOffset = now.getTimezoneOffset(); // minutes behind UTC
+    var bstTime = new Date(now.getTime() + (bstOffset + localOffset) * 60000);
+
+    var hours = bstTime.getHours();
+    var mins  = bstTime.getMinutes();
+    var ampm  = hours >= 12 ? 'PM' : 'AM';
+    var h12   = hours % 12 || 12;
+    var m2    = mins < 10 ? '0' + mins : String(mins);
+
+    el.textContent = h12 + ':' + m2 + ' ' + ampm + ' · Dhaka';
+  }
+
+  updateTime();
+  setInterval(updateTime, 1000);
+})();
+
+/* ─────────────────────────────────────────
+   SKILL RING TOOLTIP
+───────────────────────────────────────── */
+(function () {
+  var tip = document.getElementById('skTooltip');
+  if (!tip) return;
+
+  document.querySelectorAll('.skill-ring-card').forEach(function (card) {
+    card.addEventListener('mouseenter', function () {
+      var nameEl = card.querySelector('.srg-name');
+      var pctEl  = card.querySelector('.srg-pct');
+      var years  = card.dataset.years || '';
+      if (!nameEl) return;
+
+      tip.innerHTML =
+        '<span class="stt-name">' + nameEl.textContent + '</span>' +
+        '<div class="stt-row">' +
+          '<span class="stt-pct">'   + (pctEl ? pctEl.textContent : '') + '</span>' +
+          '<span class="stt-sep">·</span>' +
+          '<span class="stt-years">' + years + '</span>' +
+        '</div>';
+
+      positionTip(card);
+      tip.classList.add('stt-visible');
+    });
+
+    card.addEventListener('mouseleave', function () {
+      tip.classList.remove('stt-visible');
+    });
+  });
+
+  function positionTip(card) {
+    var rect = card.getBoundingClientRect();
+    var tipH = tip.offsetHeight || 54;
+    var tipW = tip.offsetWidth  || 130;
+    var left = rect.left + rect.width  / 2 - tipW / 2;
+    var top  = rect.top  - tipH - 10;
+    // Flip below card if not enough room above
+    if (top < 8) top = rect.bottom + 10;
+    // Clamp horizontally inside viewport
+    left = Math.max(8, Math.min(left, window.innerWidth - tipW - 8));
+    tip.style.left = left + 'px';
+    tip.style.top  = top  + 'px';
+  }
 })();

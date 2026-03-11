@@ -46,138 +46,11 @@
   <style>
     /* Slightly reduce all text sizes for this page */
     html { font-size: 14px; }
-
-    /* ── DJ Visualizer ── */
-    .dj-overlay {
-      position: fixed;
-      inset: 0;
-      background: #060810;
-      z-index: 9999;
-      opacity: 0;
-      pointer-events: none;
-      transition: opacity 0.45s cubic-bezier(.4,0,.2,1);
-    }
-    .dj-overlay.open { opacity: 1; pointer-events: auto; }
-    .dj-canvas {
-      position: absolute;
-      inset: 0;
-      display: block;
-    }
-    .dj-vinyl-wrap {
-      position: absolute;
-      top: calc(50% - 4vh);
-      left: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 2;
-    }
-    .dj-vinyl {
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 50% 50%,
-        #2a2a2a 0%, #111 18%, #222 22%, #111 26%,
-        #1d1d1d 33%, #111 37%, #1a1a1a 43%, #111 47%,
-        #181818 53%, #111 59%, #0d0d0d 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      animation: djSpin 3s linear infinite;
-      animation-play-state: paused;
-      box-shadow: 0 0 0 2px rgba(255,255,255,0.05), 0 8px 48px rgba(0,0,0,0.85);
-      will-change: transform;
-    }
-    .dj-vinyl.spinning { animation-play-state: running; }
-    @keyframes djSpin { to { transform: rotate(360deg); } }
-    .dj-vinyl-label {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, #3fff7f 0%, #4dd0ff 100%);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-      font-weight: 900;
-      color: #0a1a12;
-      animation: djSpin 3s linear infinite reverse;
-      animation-play-state: paused;
-      box-shadow: 0 0 0 3px rgba(255,255,255,0.14), 0 0 24px rgba(63,255,127,0.5);
-      font-family: 'Montserrat', sans-serif;
-      letter-spacing: -1px;
-    }
-    .dj-vinyl.spinning .dj-vinyl-label { animation-play-state: running; }
-    .dj-close {
-      position: absolute;
-      top: 1.2rem;
-      right: 1.4rem;
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.07);
-      border: 1px solid rgba(255,255,255,0.18);
-      color: rgba(255,255,255,0.7);
-      font-size: 1rem;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-      transition: background 0.2s, color 0.2s, border-color 0.2s;
-    }
-    .dj-close:hover { background: rgba(63,255,127,0.15); border-color: #3fff7f; color: #3fff7f; }
-    .dj-info {
-      position: absolute;
-      bottom: 2.8rem;
-      left: 50%;
-      transform: translateX(-50%);
-      text-align: center;
-      z-index: 2;
-      white-space: nowrap;
-    }
-    .dj-info-label {
-      color: rgba(255,255,255,0.35);
-      font-size: 0.68rem;
-      text-transform: uppercase;
-      letter-spacing: 0.18em;
-      margin-bottom: 0.25rem;
-    }
-    .dj-info-track { color: rgba(255,255,255,0.82); font-size: 0.9rem; font-weight: 600; }
-    /* DJ Mode button */
-    .dj-btn {
-      position: fixed;
-      bottom: 1.3rem;
-      right: 6.5rem;
-      display: flex;
-      align-items: center;
-      gap: 0.35em;
-      background: rgba(8,12,16,0.88);
-      border: 1.5px solid rgba(63,255,127,0.28);
-      color: #3fff7f;
-      border-radius: 20px;
-      padding: 0.48em 0.9em;
-      font-size: 0.75rem;
-      font-weight: 700;
-      letter-spacing: 0.1em;
-      cursor: pointer;
-      z-index: 900;
-      opacity: 0;
-      pointer-events: none;
-      transform: translateY(6px);
-      transition: opacity 0.3s, transform 0.3s, border-color 0.2s, background 0.2s, box-shadow 0.2s;
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-    }
-    .dj-btn.visible { opacity: 1; pointer-events: auto; transform: translateY(0); }
-    .dj-btn:hover { background: rgba(63,255,127,0.1); border-color: #3fff7f; box-shadow: 0 0 18px rgba(63,255,127,0.25); }
-    .dj-btn svg { flex-shrink: 0; width: 13px; height: 13px; }
-    @media (max-width: 600px) {
-      .dj-vinyl { width: 140px; height: 140px; }
-      .dj-vinyl-label { width: 46px; height: 46px; font-size: 1.1rem; }
-      .dj-btn { right: 5.5rem; font-size: 0.7rem; }
-    }
   </style>
 </head>
 <body>
+  <div id="scrollProgressBar" class="scroll-progress-bar" aria-hidden="true"></div>
+  <div class="noise-overlay" aria-hidden="true"></div>
   <div class="bg-grid"></div>
   <div class="bg-aurora"></div>
   <div class="bg-orbs" aria-hidden="true"></div>
@@ -213,7 +86,7 @@
           </div>
           <div class="lamp-chain-wrap" id="lampChainWrap">
             <div class="lamp-chain">
-              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
+              <i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i>
             </div>
             <div class="lamp-tassel">
               <div class="lamp-tassel-top"></div>
@@ -236,7 +109,7 @@
       <h1 class="hero-title">Hi there! I'm <span class="highlight">Rakib</span>
         <span class="hero-underline"></span>
       </h1>
-      <h2>CSE Student & Developer dedicated to building things.</h2>
+      <h2><span id="typewriterText" class="typewriter-text"></span><span class="typewriter-cursor" aria-hidden="true">|</span></h2>
       <p>From coding projects to exploring web dev and problem-solving—I'm driven by a passion for creating clean, useful solutions through programming and continuous learning.
       </p>
       <div class="location-role">
@@ -627,19 +500,19 @@
         <div class="skill-cat-row">
           <div class="skill-cat-tag tag-frontend"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#3fff7f"/></svg> Frontend</div>
           <div class="skill-rings-list">
-            <div class="skill-ring-card" style="--sk-delay:0.05s">
+            <div class="skill-ring-card" data-years="3 yrs" style="--sk-delay:0.05s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="95" data-color="#e44d26"/></svg><div class="srg-center"><span style="color:#e46a48">HT</span></div></div>
               <div class="srg-meta"><span class="srg-name">HTML</span><span class="srg-pct" style="color:#e46a48">95%</span></div>
             </div>
-            <div class="skill-ring-card" style="--sk-delay:0.12s">
+            <div class="skill-ring-card" data-years="3 yrs" style="--sk-delay:0.12s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="90" data-color="#4d7ef5"/></svg><div class="srg-center"><span style="color:#7095f7">CS</span></div></div>
               <div class="srg-meta"><span class="srg-name">CSS</span><span class="srg-pct" style="color:#7095f7">90%</span></div>
             </div>
-            <div class="skill-ring-card" style="--sk-delay:0.19s">
+            <div class="skill-ring-card" data-years="2 yrs" style="--sk-delay:0.19s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="85" data-color="#e6ce00"/></svg><div class="srg-center"><span style="color:#e6ce00">JS</span></div></div>
               <div class="srg-meta"><span class="srg-name">JavaScript</span><span class="srg-pct" style="color:#e6ce00">85%</span></div>
             </div>
-            <div class="skill-ring-card" style="--sk-delay:0.26s">
+            <div class="skill-ring-card" data-years="1.5 yrs" style="--sk-delay:0.26s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="80" data-color="#61dafb"/></svg><div class="srg-center"><span style="color:#61dafb">RE</span></div></div>
               <div class="srg-meta"><span class="srg-name">React</span><span class="srg-pct" style="color:#61dafb">80%</span></div>
             </div>
@@ -649,19 +522,19 @@
         <div class="skill-cat-row">
           <div class="skill-cat-tag tag-backend"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#63b3ff"/></svg> Backend &amp; Core</div>
           <div class="skill-rings-list">
-            <div class="skill-ring-card" style="--sk-delay:0.05s">
+            <div class="skill-ring-card" data-years="1.5 yrs" style="--sk-delay:0.05s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="75" data-color="#4db860"/></svg><div class="srg-center"><span style="color:#4db860">ND</span></div></div>
               <div class="srg-meta"><span class="srg-name">Node.js</span><span class="srg-pct" style="color:#4db860">75%</span></div>
             </div>
-            <div class="skill-ring-card" style="--sk-delay:0.12s">
+            <div class="skill-ring-card" data-years="1 yr" style="--sk-delay:0.12s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="70" data-color="#57c464"/></svg><div class="srg-center"><span style="color:#69c975">MG</span></div></div>
               <div class="srg-meta"><span class="srg-name">MongoDB</span><span class="srg-pct" style="color:#69c975">70%</span></div>
             </div>
-            <div class="skill-ring-card" style="--sk-delay:0.19s">
+            <div class="skill-ring-card" data-years="3 yrs" style="--sk-delay:0.19s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="80" data-color="#4d9fd4"/></svg><div class="srg-center"><span style="color:#4d9fd4">C+</span></div></div>
               <div class="srg-meta"><span class="srg-name">C / C++</span><span class="srg-pct" style="color:#4d9fd4">80%</span></div>
             </div>
-            <div class="skill-ring-card" style="--sk-delay:0.26s">
+            <div class="skill-ring-card" data-years="2 yrs" style="--sk-delay:0.26s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="72" data-color="#69aad6"/></svg><div class="srg-center"><span style="color:#69aad6">PY</span></div></div>
               <div class="srg-meta"><span class="srg-name">Python</span><span class="srg-pct" style="color:#69aad6">72%</span></div>
             </div>
@@ -671,15 +544,15 @@
         <div class="skill-cat-row">
           <div class="skill-cat-tag tag-tools"><svg width="8" height="8" viewBox="0 0 8 8" aria-hidden="true"><circle cx="4" cy="4" r="4" fill="#ffb93f"/></svg> Tools</div>
           <div class="skill-rings-list">
-            <div class="skill-ring-card" style="--sk-delay:0.05s">
+            <div class="skill-ring-card" data-years="2.5 yrs" style="--sk-delay:0.05s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="85" data-color="#f05033"/></svg><div class="srg-center"><span style="color:#f05033">GT</span></div></div>
               <div class="srg-meta"><span class="srg-name">Git</span><span class="srg-pct" style="color:#f05033">85%</span></div>
             </div>
-            <div class="skill-ring-card" style="--sk-delay:0.12s">
+            <div class="skill-ring-card" data-years="1.5 yrs" style="--sk-delay:0.12s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="75" data-color="#a259ff"/></svg><div class="srg-center"><span style="color:#a259ff">FG</span></div></div>
               <div class="srg-meta"><span class="srg-name">Figma</span><span class="srg-pct" style="color:#a259ff">75%</span></div>
             </div>
-            <div class="skill-ring-card" style="--sk-delay:0.19s">
+            <div class="skill-ring-card" data-years="3 yrs" style="--sk-delay:0.19s">
               <div class="skill-ring-wrap"><svg class="srg-svg" viewBox="0 0 80 80" aria-hidden="true"><circle class="srg-track" cx="40" cy="40" r="28"/><circle class="srg-fill" cx="40" cy="40" r="28" data-pct="82" data-color="#007acc"/></svg><div class="srg-center"><span style="color:#4fb0e8">VS</span></div></div>
               <div class="srg-meta"><span class="srg-name">VS Code</span><span class="srg-pct" style="color:#4fb0e8">82%</span></div>
             </div>
@@ -799,7 +672,12 @@
       </div>
     </div>
   </footer>
-  <!-- Music Player -->
+  <!-- Time + Music cluster -->
+  <div class="player-cluster">
+    <div class="dhaka-time-widget" title="Current time in Dhaka, Bangladesh">
+      <span id="dhakaTime" class="dhaka-time" aria-live="polite"></span>
+      <span class="dhaka-label">Dhaka</span>
+    </div>
   <div class="music-player" id="musicPlayer" title="Background Music">
     <audio id="bgMusic"></audio>
     <button class="music-btn" id="musicBtn" aria-label="Play background music" aria-pressed="false">
@@ -815,191 +693,11 @@
     </button>
     <span class="music-label">Music</span>
   </div>
+  </div><!-- /.player-cluster -->
 
-  <!-- DJ Mode button -->
-  <button class="dj-btn" id="djBtn" aria-label="Open DJ visualizer" title="DJ Mode">
-    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 3a9 9 0 1 0 9 9A9 9 0 0 0 12 3zm0 16a7 7 0 1 1 7-7 7 7 0 0 1-7 7zm0-11a4 4 0 1 0 4 4 4 4 0 0 0-4-4zm0 6a2 2 0 1 1 2-2 2 2 0 0 1-2 2z"/></svg>
-    DJ
-  </button>
-
-  <!-- DJ Visualizer Overlay -->
-  <div id="djOverlay" class="dj-overlay" role="dialog" aria-modal="true" aria-label="DJ Visualizer">
-    <canvas id="djCanvas" class="dj-canvas"></canvas>
-    <div class="dj-vinyl-wrap">
-      <div class="dj-vinyl" id="djVinyl">
-        <div class="dj-vinyl-label">R</div>
-      </div>
-    </div>
-    <div class="dj-info">
-      <div class="dj-info-label">Now Playing</div>
-      <div class="dj-info-track" id="djTrackName">Background Music</div>
-    </div>
-    <button class="dj-close" id="djClose" aria-label="Close DJ view">✕</button>
-  </div>
+  <div id="skTooltip" class="sk-tooltip" aria-hidden="true"></div>
 
   <script src="js/profile-images.config.js"></script>
   <script src="js/script.js"></script>
-  <script>
-  // ── DJ Visualizer ──
-  (function () {
-    var audio      = document.getElementById('bgMusic');
-    var overlay    = document.getElementById('djOverlay');
-    var canvas     = document.getElementById('djCanvas');
-    var djBtn      = document.getElementById('djBtn');
-    var closeBtn   = document.getElementById('djClose');
-    var vinyl      = document.getElementById('djVinyl');
-    var musicBtnEl = document.getElementById('musicBtn');
-    if (!audio || !overlay || !canvas || !djBtn) return;
-
-    var audioCtx = null, analyser = null, dataArr = null, bufLen = 0;
-    var djRaf = null, isOpen = false;
-
-    function initAudio() {
-      if (audioCtx) { try { audioCtx.resume(); } catch(e){} return; }
-      try {
-        audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-        var src = audioCtx.createMediaElementSource(audio);
-        analyser = audioCtx.createAnalyser();
-        analyser.fftSize = 512;
-        analyser.smoothingTimeConstant = 0.8;
-        src.connect(analyser);
-        analyser.connect(audioCtx.destination);
-        bufLen  = analyser.frequencyBinCount;
-        dataArr = new Uint8Array(bufLen);
-      } catch(e) { audioCtx = null; }
-    }
-
-    function openDJ() {
-      initAudio();
-      isOpen = true;
-      overlay.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      if (musicBtnEl && musicBtnEl.classList.contains('playing')) vinyl.classList.add('spinning');
-      if (!djRaf) loop();
-    }
-
-    function closeDJ() {
-      isOpen = false;
-      overlay.classList.remove('open');
-      document.body.style.overflow = '';
-      vinyl.classList.remove('spinning');
-      if (djRaf) { cancelAnimationFrame(djRaf); djRaf = null; }
-    }
-
-    function loop() { djRaf = requestAnimationFrame(loop); draw(); }
-
-    function draw() {
-      var W = window.innerWidth, H = window.innerHeight;
-      if (canvas.width !== W)  canvas.width  = W;
-      if (canvas.height !== H) canvas.height = H;
-      var ctx = canvas.getContext('2d');
-
-      ctx.fillStyle = '#060810';
-      ctx.fillRect(0, 0, W, H);
-
-      if (analyser && dataArr) analyser.getByteFrequencyData(dataArr);
-      var has = !!(analyser && dataArr);
-
-      var cx = W / 2;
-      var cy = H * 0.42;
-      var innerR = Math.min(100, W * 0.13, H * 0.16);
-
-      // Bass glow ring
-      var bass = 0;
-      if (has) { for (var b = 0; b < 6; b++) bass += dataArr[b]; bass /= (6 * 255); }
-      if (bass > 0.01) {
-        var grd = ctx.createRadialGradient(cx, cy, innerR * 0.8, cx, cy, innerR + bass * 70 + 35);
-        grd.addColorStop(0, 'rgba(63,255,127,' + (bass * 0.5) + ')');
-        grd.addColorStop(0.5, 'rgba(77,208,255,' + (bass * 0.2) + ')');
-        grd.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.beginPath();
-        ctx.arc(cx, cy, innerR + bass * 70 + 35, 0, Math.PI * 2);
-        ctx.fillStyle = grd;
-        ctx.fill();
-      }
-
-      // Circular radial bars
-      var useBins = Math.min(bufLen || 128, Math.floor((bufLen || 128) * 0.65));
-      ctx.lineCap = 'round';
-      for (var i = 0; i < useBins; i++) {
-        var angle = (i / useBins) * Math.PI * 2 - Math.PI / 2;
-        var val = has ? (dataArr[i] / 255) : 0.04;
-        var barH = val * innerR * 1.6;
-        var hue  = 140 + (i / useBins) * 80;
-        var lw   = Math.max(1.5, (2 * Math.PI * (innerR + 6)) / useBins * 0.72);
-        var x1 = cx + Math.cos(angle) * (innerR + 5);
-        var y1 = cy + Math.sin(angle) * (innerR + 5);
-        var x2 = cx + Math.cos(angle) * (innerR + 5 + barH);
-        var y2 = cy + Math.sin(angle) * (innerR + 5 + barH);
-        ctx.strokeStyle = 'hsla(' + hue + ',100%,62%,' + (0.55 + val * 0.45) + ')';
-        ctx.lineWidth = lw;
-        ctx.shadowBlur = val > 0.5 ? 10 : 0;
-        ctx.shadowColor = 'hsl(' + hue + ',100%,60%)';
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();
-      }
-      ctx.shadowBlur = 0;
-
-      // Bottom equalizer bars
-      var barCount = 80;
-      var bw  = (W * 0.82) / (barCount * 1.35);
-      var gap = bw * 0.38;
-      var maxBarH = H * 0.22;
-      var baseY = H - 24;
-      var startX = (W - barCount * (bw + gap)) / 2;
-      for (var j = 0; j < barCount; j++) {
-        var binIdx = Math.floor((j / barCount) * (bufLen || 128) * 0.72);
-        var v = has ? (dataArr[binIdx] / 255) : (0.04 + Math.sin(j * 0.4) * 0.02);
-        var bh = Math.max(3, v * maxBarH);
-        var hj = 130 + (j / barCount) * 95;
-        var xb = startX + j * (bw + gap);
-        var gr = ctx.createLinearGradient(0, baseY - bh, 0, baseY);
-        gr.addColorStop(0, 'hsla(' + hj + ',100%,65%,0.92)');
-        gr.addColorStop(0.6, 'hsla(' + hj + ',100%,50%,0.55)');
-        gr.addColorStop(1, 'hsla(' + hj + ',80%,40%,0.18)');
-        ctx.fillStyle = gr;
-        ctx.beginPath();
-        ctx.rect(xb, baseY - bh, bw, bh);
-        ctx.fill();
-        if (v > 0.18) {
-          var rh = bh * 0.32;
-          var gr2 = ctx.createLinearGradient(0, baseY, 0, baseY + rh);
-          gr2.addColorStop(0, 'hsla(' + hj + ',100%,55%,0.16)');
-          gr2.addColorStop(1, 'rgba(0,0,0,0)');
-          ctx.fillStyle = gr2;
-          ctx.beginPath();
-          ctx.rect(xb, baseY, bw, rh);
-          ctx.fill();
-        }
-      }
-    }
-
-    // Watch music button class for playing state
-    if (musicBtnEl) {
-      new MutationObserver(function () {
-        var playing = musicBtnEl.classList.contains('playing');
-        djBtn.classList.toggle('visible', playing);
-        if (isOpen) vinyl.classList.toggle('spinning', playing);
-      }).observe(musicBtnEl, { attributes: true, attributeFilter: ['class'] });
-    }
-    audio.addEventListener('play',  function () {
-      djBtn.classList.add('visible');
-      if (isOpen) vinyl.classList.add('spinning');
-    });
-    audio.addEventListener('pause', function () {
-      djBtn.classList.remove('visible');
-      vinyl.classList.remove('spinning');
-    });
-
-    djBtn.addEventListener('click',   openDJ);
-    closeBtn.addEventListener('click', closeDJ);
-    document.addEventListener('keydown', function (e) { if (isOpen && e.key === 'Escape') closeDJ(); });
-    window.addEventListener('resize', function () {
-      if (isOpen) { canvas.width = window.innerWidth; canvas.height = window.innerHeight; }
-    });
-  })();
-  </script>
 </body>
 </html>

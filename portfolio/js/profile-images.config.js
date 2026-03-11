@@ -10,5 +10,4 @@ window.PORTFOLIO_PROFILE_IMAGES = [
   'rakib6.jpg',
   'rakib7.jpg',
   'rakib8.jpg',
-
 ];
