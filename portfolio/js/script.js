@@ -733,3 +733,73 @@ projectOpenMoreButtons.forEach(function(button) {
     _countUp();
   }
 })();
+
+// ── Music Player ──
+(function () {
+  var btn       = document.getElementById('musicBtn');
+  var audio     = document.getElementById('bgMusic');
+  var iconPlay  = btn && btn.querySelector('.music-icon-play');
+  var iconPause = btn && btn.querySelector('.music-icon-pause');
+  if (!btn || !audio) return;
+
+  // এখানে নতুন file যোগ করো — যেগুলো নেই সেগুলো auto skip হবে
+  var playlist = [
+    'assets/music/background.mp3'
+  ];
+  var available  = playlist.slice();
+  var playing    = false;
+  var currentSrc = '';
+
+  function setUI(state) {
+    playing = state;
+    btn.classList.toggle('playing', state);
+    btn.setAttribute('aria-pressed', String(state));
+    btn.setAttribute('aria-label', state ? 'Pause background music' : 'Play background music');
+    iconPlay.style.display  = state ? 'none' : '';
+    iconPause.style.display = state ? '' : 'none';
+  }
+
+  function pickRandom(exclude) {
+    var pool = available.filter(function (s) { return s !== exclude; });
+    if (!pool.length) pool = available.slice();
+    if (!pool.length) return null;
+    return pool[Math.floor(Math.random() * pool.length)];
+  }
+
+  function tryPlay(exclude) {
+    var src = pickRandom(exclude);
+    if (!src) { setUI(false); return; }
+    currentSrc = src;
+    audio.src  = src;
+    audio.load();
+    audio.play()
+      .then(function () { setUI(true); })
+      .catch(function () { setUI(false); });
+  }
+
+  // গান শেষ হলে নতুন random গান বাজবে
+  audio.addEventListener('ended', function () {
+    tryPlay(currentSrc);
+  });
+
+  // file না থাকলে সেটা playlist থেকে বাদ দিয়ে পরেরটা চেষ্টা করবে
+  audio.addEventListener('error', function () {
+    available = available.filter(function (s) { return s !== currentSrc; });
+    if (playing) tryPlay(currentSrc);
+  });
+
+  btn.addEventListener('click', function () {
+    if (playing) {
+      audio.pause();
+      setUI(false);
+    } else {
+      if (currentSrc) {
+        audio.play()
+          .then(function () { setUI(true); })
+          .catch(function () { tryPlay(currentSrc); });
+      } else {
+        tryPlay(null);
+      }
+    }
+  });
+})();

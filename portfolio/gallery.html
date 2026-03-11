@@ -12,7 +12,7 @@
     })();
   </script>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=1200" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Gallery | Rakib</title>
   <meta name="description" content="A visual gallery of Rakib's work, moments, and milestones." />
   <link rel="icon" type="image/png" href="favicon.png" sizes="32x32" />
@@ -21,34 +21,382 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    .subpage-wrap { max-width: 900px; margin: 0 auto; padding: 3rem 2rem 5rem; }
-    .subpage-title { font-size: clamp(1.8rem,5vw,2.6rem); font-weight: 800; color: #3fff7f; margin: 0 0 0.4rem; line-height: 1.15; }
-    .subpage-lead { color: #97aab0; font-size: 1rem; line-height: 1.6; margin: 0 0 1.75rem; }
-    body.light .subpage-title { color: #167a40; }
-    body.light .subpage-lead { color: #546e75; }
-    .gallery-filters { display:flex; gap:.5rem; flex-wrap:wrap; margin-bottom:1.75rem; }
-    .gf-btn { padding:.32rem .9rem; border-radius:999px; border:1px solid #293336; background:transparent; color:#8aacb4; font-size:.8rem; font-weight:600; cursor:pointer; font-family:inherit; transition:background .18s,border-color .18s,color .18s; }
-    .gf-btn:hover,.gf-btn.active { background:rgba(63,255,127,.1); border-color:rgba(63,255,127,.38); color:#3fff7f; }
-    .gallery-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:.9rem; }
-    .gallery-item { position:relative; border-radius:14px; overflow:hidden; cursor:pointer; aspect-ratio:1; background:#1a2224; border:1px solid #293336; transition:transform .22s,box-shadow .22s,border-color .22s; }
-    .gallery-item:hover { transform:scale(1.03); box-shadow:0 10px 28px rgba(0,0,0,.45); border-color:#3fff7f55; }
-    .gallery-item img { width:100%; height:100%; object-fit:cover; display:block; }
-    .gallery-item-overlay { position:absolute; inset:0; background:rgba(10,18,20,.55); display:flex; flex-direction:column; align-items:flex-start; justify-content:flex-end; padding:.85rem; opacity:0; transition:opacity .22s; }
-    .gallery-item:hover .gallery-item-overlay { opacity:1; }
-    .gallery-item-caption { color:#e8f0f2; font-size:.82rem; font-weight:600; line-height:1.3; }
-    .gallery-item-sub { color:#97aab0; font-size:.72rem; margin-top:.18rem; }
-    .gallery-item.tall { grid-row:span 2; aspect-ratio:unset; }
-    .gallery-lb { display:none; position:fixed; inset:0; z-index:999; background:rgba(5,10,12,.9); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); align-items:center; justify-content:center; }
-    .gallery-lb.open { display:flex; }
-    .gallery-lb img { max-width:min(90vw,700px); max-height:85vh; border-radius:16px; box-shadow:0 24px 64px rgba(0,0,0,.7); object-fit:contain; }
-    .gallery-lb-close { position:absolute; top:1.25rem; right:1.25rem; background:rgba(255,255,255,.08); border:1px solid rgba(255,255,255,.14); border-radius:10px; width:42px; height:42px; display:flex; align-items:center; justify-content:center; color:#e6e6e6; font-size:1.4rem; cursor:pointer; transition:background .18s; }
-    .gallery-lb-close:hover { background:rgba(255,255,255,.15); }
-    body.light .gallery-item { background:#edf4f0; border-color:rgba(0,0,0,.1); }
-    body.light .gallery-item:hover { border-color:rgba(22,130,75,.3); }
-    body.light .gf-btn { border-color:rgba(0,0,0,.15); color:#4e6068; }
-    body.light .gf-btn:hover,body.light .gf-btn.active { background:rgba(22,130,75,.1); border-color:rgba(22,130,75,.35); color:#196644; }
-    @media (max-width:700px) { .subpage-wrap{padding:2rem 1rem 4rem;} .gallery-grid{grid-template-columns:repeat(2,1fr);gap:.65rem;} .gallery-item.tall{grid-row:unset;aspect-ratio:1;} }
-    @media (max-width:400px) { .gallery-grid{grid-template-columns:1fr;} }
+    /* ══════════════════════════════════
+       GALLERY PAGE — Magazine Edition
+    ══════════════════════════════════ */
+
+    /* ── Hero ── */
+    .gallery-page { max-width: 1160px; margin: 0 auto; padding: 2rem 2rem 7rem; }
+    .gallery-hero {
+      padding: 1.2rem 0 1.5rem;
+      margin-bottom: 2.5rem;
+      border-bottom: 1px solid rgba(255,255,255,.06);
+      position: relative; overflow: hidden;
+    }
+    .gallery-hero-eyebrow {
+      display: flex; align-items: center; gap: .55rem; margin-bottom: 1.1rem;
+    }
+    .gallery-hero-dot {
+      width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+      background: #3fff7f;
+      box-shadow: 0 0 8px rgba(63,255,127,.7);
+      animation: heroDotPulse 2.2s ease-in-out infinite;
+    }
+    @keyframes heroDotPulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%       { opacity: .45; transform: scale(.65); }
+    }
+    .gallery-hero-tag {
+      font-size: .64rem; font-weight: 700; letter-spacing: .17em;
+      text-transform: uppercase; color: #3fff7f;
+    }
+    .gallery-hero h1 {
+      font-size: clamp(1.3rem, 2.4vw, 1.9rem); font-weight: 900;
+      line-height: 1.05; margin: 0 0 1rem; letter-spacing: -.03em;
+      color: #e8f0f2;
+    }
+    .gallery-hero h1 em {
+      font-style: normal;
+      background: linear-gradient(120deg, #3fff7f 0%, #00c9ff 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .gallery-hero-sub {
+      color: #4a6870; font-size: .88rem; margin: 0 0 1.8rem;
+      max-width: 460px; line-height: 1.65;
+    }
+    .gallery-hero-stats {
+      display: flex; align-items: center; gap: .45rem; flex-wrap: wrap;
+    }
+    .gallery-hero-chip {
+      display: inline-flex; align-items: center; gap: .38rem;
+      padding: .28rem .75rem;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.08);
+      border-radius: 100px;
+      font-size: .71rem; font-weight: 600; letter-spacing: .05em;
+      color: #7a9ea8;
+    }
+    .gallery-hero-chip svg { width:12px; height:12px; stroke:currentColor; stroke-width:2; fill:none; flex-shrink:0; }
+    .gallery-hero-chip.accent {
+      color: #3fff7f;
+      border-color: rgba(63,255,127,.22);
+      background: rgba(63,255,127,.07);
+    }
+    /* light mode hero */
+    body.light .gallery-hero { border-color: rgba(0,0,0,.08); }
+    body.light .gallery-hero h1 { color: #0e1f1a; }
+    body.light .gallery-hero-sub { color: #6b8890; }
+    body.light .gallery-hero-tag { color: #167a40; }
+    body.light .gallery-hero-dot { background: #167a40; box-shadow: 0 0 8px rgba(22,122,64,.5); }
+    body.light .gallery-hero-chip { color: #4a7060; border-color: rgba(0,0,0,.1); background: rgba(0,0,0,.03); }
+    body.light .gallery-hero-chip.accent { color: #167a40; border-color: rgba(22,122,64,.2); background: rgba(22,122,64,.06); }
+
+    /* ── Filters ── */
+    .gallery-filter-wrap {
+      display: flex; align-items: center; gap: .3rem;
+      margin-bottom: 2rem; flex-wrap: wrap;
+    }
+    .gf-btn {
+      position: relative; padding: .5rem 1.25rem;
+      background: transparent; border: none;
+      color: #4a6870; font-size: .8rem; font-weight: 700;
+      letter-spacing: .04em; cursor: pointer; font-family: inherit;
+      transition: color .2s;
+    }
+    .gf-btn::after {
+      content: ''; position: absolute; left: 50%; bottom: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg,#3fff7f,#00c9ff);
+      border-radius: 2px;
+      transform: translateX(-50%);
+      transition: width .25s cubic-bezier(.23,1,.32,1);
+    }
+    .gf-btn:hover { color: #a0c0c8; }
+    .gf-btn.active { color: #e8f0f2; }
+    .gf-btn.active::after { width: 70%; }
+    .gf-btn .gf-count {
+      display: inline-block; margin-left: .3rem;
+      font-size: .6rem; font-weight: 800;
+      color: #3a5560; vertical-align: super;
+    }
+    .gf-btn.active .gf-count { color: #3fff7f; }
+    body.light .gf-btn { color: #8aacb4; }
+    body.light .gf-btn:hover { color: #2e5058; }
+    body.light .gf-btn.active { color: #0d2b20; }
+
+    /* ── Masonry Grid ── */
+    .gallery-grid {
+      columns: 3; column-gap: 14px;
+    }
+    @keyframes gi-reveal {
+      from { opacity:0; transform:translateY(24px) scale(.98); }
+      to   { opacity:1; transform:translateY(0) scale(1); }
+    }
+    .gallery-item {
+      position: relative; overflow: hidden;
+      cursor: pointer; break-inside: avoid;
+      margin-bottom: 14px;
+      border-radius: 12px;
+      background: #0d1a1c;
+      animation: gi-reveal .6s cubic-bezier(.23,1,.32,1) both;
+    }
+    .gi-1{animation-delay:.04s} .gi-2{animation-delay:.08s} .gi-3{animation-delay:.12s}
+    .gi-4{animation-delay:.16s} .gi-5{animation-delay:.20s} .gi-6{animation-delay:.24s}
+    .gi-7{animation-delay:.28s} .gi-8{animation-delay:.32s} .gi-9{animation-delay:.36s}
+    .gi-10{animation-delay:.40s} .gi-11{animation-delay:.44s}
+
+    .gallery-item img {
+      width: 100%; height: auto; display: block;
+      transition: transform .7s cubic-bezier(.23,1,.32,1), filter .4s;
+      will-change: transform;
+    }
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: brightness(.85);
+    }
+
+    /* Overlay */
+    .gallery-item-overlay {
+      position: absolute; inset: 0; pointer-events: none;
+      background: linear-gradient(
+        180deg,
+        transparent 40%,
+        rgba(4,10,12,.7) 75%,
+        rgba(4,10,12,.92) 100%
+      );
+      opacity: 0; transition: opacity .3s;
+      display: flex; flex-direction: column;
+      justify-content: flex-end; padding: 1.1rem 1rem .95rem;
+    }
+    .gallery-item:hover .gallery-item-overlay { opacity: 1; }
+
+    .gallery-item-caption {
+      color: #e8f0f2; font-size: .83rem; font-weight: 700;
+      line-height: 1.25;
+      transform: translateY(6px);
+      transition: transform .3s cubic-bezier(.23,1,.32,1);
+    }
+    .gallery-item:hover .gallery-item-caption { transform: translateY(0); }
+
+    .gallery-item-sub {
+      font-size: .62rem; font-weight: 700; letter-spacing: .08em;
+      text-transform: uppercase; color: #3fff7f;
+      margin-top: .3rem; opacity: 0;
+      transform: translateY(6px);
+      transition: opacity .3s .04s, transform .3s .04s cubic-bezier(.23,1,.32,1);
+    }
+    .gallery-item:hover .gallery-item-sub { opacity: 1; transform: translateY(0); }
+
+    /* Top-right number badge */
+    .gallery-item-num {
+      position: absolute; top: .75rem; left: .75rem;
+      font-size: .58rem; font-weight: 800; letter-spacing: .1em;
+      color: rgba(255,255,255,.5); opacity: 0;
+      transition: opacity .22s;
+      font-variant-numeric: tabular-nums;
+    }
+    .gallery-item:hover .gallery-item-num { opacity: 1; }
+
+    /* Expand icon */
+    .gallery-item-expand {
+      position: absolute; top: .7rem; right: .7rem;
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(0,0,0,.3); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(.8);
+      transition: opacity .22s, transform .28s cubic-bezier(.23,1,.32,1);
+    }
+    .gallery-item:hover .gallery-item-expand {
+      opacity: 1; transform: scale(1);
+    }
+    .gallery-item-expand svg { width:13px; height:13px; stroke:#fff; }
+
+    /* Download button on card */
+    .gallery-item-dl {
+      position: absolute; bottom: .75rem; right: .75rem;
+      width: 32px; height: 32px; border-radius: 8px;
+      background: rgba(0,0,0,.35); backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,255,.15);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; transform: scale(.8) translateY(4px);
+      transition: opacity .22s, transform .28s cubic-bezier(.23,1,.32,1),
+                  background .18s, border-color .18s;
+      text-decoration: none; z-index: 3;
+    }
+    .gallery-item:hover .gallery-item-dl {
+      opacity: 1; transform: scale(1) translateY(0);
+    }
+    .gallery-item-dl:hover {
+      background: rgba(63,255,127,.25);
+      border-color: rgba(63,255,127,.4);
+    }
+    .gallery-item-dl svg { width:13px; height:13px; stroke:#fff; fill:none; stroke-width:2; }
+
+    body.light .gallery-item { background: #e8f0ee; }
+    body.light .gallery-item-sub { color: #167a40; }
+
+    /* ── Lightbox ── */
+    @keyframes lbIn       { from{opacity:0} to{opacity:1} }
+    @keyframes lbOut      { from{opacity:1} to{opacity:0} }
+    @keyframes imgIn      {
+      from { opacity:0; transform:scale(.88) translateY(28px); filter:blur(10px); }
+      65%  { filter:blur(0); }
+      to   { opacity:1; transform:scale(1) translateY(0);    filter:blur(0); }
+    }
+    @keyframes imgNext    {
+      from { opacity:0; transform:translateX(64px) scale(.95); filter:blur(5px); }
+      65%  { filter:blur(0); }
+      to   { opacity:1; transform:translateX(0)    scale(1);   filter:blur(0); }
+    }
+    @keyframes imgPrev    {
+      from { opacity:0; transform:translateX(-64px) scale(.95); filter:blur(5px); }
+      65%  { filter:blur(0); }
+      to   { opacity:1; transform:translateX(0)     scale(1);   filter:blur(0); }
+    }
+    @keyframes imgExitNext { to { opacity:0; transform:translateX(-44px) scale(.93); filter:blur(5px); } }
+    @keyframes imgExitPrev { to { opacity:0; transform:translateX( 44px) scale(.93); filter:blur(5px); } }
+
+    .gallery-lb {
+      display: none; position: fixed; inset: 0; z-index: 9999;
+      background: rgba(2,5,6,.96);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      align-items: center; justify-content: center;
+    }
+    .gallery-lb.open   { display: flex; animation: lbIn  .28s ease both; }
+    .gallery-lb.closing { animation: lbOut .22s ease both; }
+
+    /* Top bar */
+    .gallery-lb-topbar {
+      position: fixed; top: 0; left: 0; right: 0; height: 60px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 1.5rem; z-index: 1;
+    }
+    .gallery-lb-title {
+      display: flex; flex-direction: column;
+    }
+    .gallery-lb-caption {
+      color: #e8f0f2; font-size: .85rem; font-weight: 700;
+    }
+    .gallery-lb-sub {
+      font-size: .62rem; font-weight: 700; letter-spacing: .1em;
+      text-transform: uppercase; color: #3fff7f; margin-top: .1rem;
+    }
+    .gallery-lb-counter {
+      font-size: .72rem; font-weight: 800; color: #3a5560;
+      font-variant-numeric: tabular-nums; letter-spacing: .04em;
+    }
+    .gallery-lb-close {
+      position: fixed; top: .9rem; right: 1rem;
+      background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.1);
+      border-radius: 10px; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #9db8c0;
+      transition: background .18s, transform .22s; z-index: 2;
+    }
+    .gallery-lb-close:hover { background: rgba(255,255,255,.12); transform: rotate(90deg); }
+    .gallery-lb-close svg { width:16px; height:16px; stroke:currentColor; }
+
+    /* Side vignettes */
+    .gallery-lb-vignette {
+      position: fixed; top: 0; bottom: 0; width: 22%;
+      pointer-events: none; z-index: 1;
+    }
+    .gallery-lb-vignette-l {
+      left: 0;
+      background: linear-gradient(to right, rgba(2,5,6,.72) 0%, rgba(2,5,6,.18) 60%, transparent 100%);
+    }
+    .gallery-lb-vignette-r {
+      right: 0;
+      background: linear-gradient(to left,  rgba(2,5,6,.72) 0%, rgba(2,5,6,.18) 60%, transparent 100%);
+    }
+
+    /* Progress bar */
+    .gallery-lb-progress {
+      position: fixed; top: 0; left: 0;
+      height: 2px; background: linear-gradient(90deg,#3fff7f,#00c9ff);
+      transition: width .3s cubic-bezier(.23,1,.32,1);
+      border-radius: 0 2px 2px 0; z-index: 3;
+    }
+
+    /* Main image */
+    .gallery-lb-inner {
+      display: flex; align-items: center; justify-content: center;
+      width: 100%; height: 100%; padding: 70px 80px 90px;
+    }
+    .gallery-lb-inner img {
+      max-width: 100%; max-height: 100%;
+      object-fit: contain; display: block;
+      border-radius: 10px;
+      box-shadow: 0 40px 100px rgba(0,0,0,.9);
+    }
+    .gallery-lb-inner img.anim-in        { animation: imgIn       .46s cubic-bezier(.22,1,.36,1) both; }
+    .gallery-lb-inner img.anim-prev      { animation: imgPrev     .36s cubic-bezier(.22,1,.36,1) both; }
+    .gallery-lb-inner img.anim-next      { animation: imgNext     .36s cubic-bezier(.22,1,.36,1) both; }
+    .gallery-lb-inner img.anim-exit-next { animation: imgExitNext .16s ease            both; }
+    .gallery-lb-inner img.anim-exit-prev { animation: imgExitPrev .16s ease            both; }
+
+    /* Side nav */
+    .gallery-lb-nav {
+      position: fixed; top: 50%; transform: translateY(-50%);
+      background: rgba(8,14,16,.7);
+      backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,.1);
+      border-radius: 14px;
+      width: 48px; height: 80px;
+      display: flex; align-items: center; justify-content: center;
+      color: rgba(255,255,255,.35); cursor: pointer;
+      transition: background .2s, color .2s, border-color .2s,
+                  transform .32s cubic-bezier(.34,1.56,.64,1);
+      z-index: 2;
+    }
+    .gallery-lb-nav svg { width:22px; height:22px; stroke:currentColor; stroke-width:1.8; }
+    .gallery-lb-nav:hover {
+      background: rgba(255,255,255,.1);
+      color: #fff;
+      border-color: rgba(255,255,255,.22);
+    }
+    .gallery-lb-nav:active { transform: translateY(-50%) scale(.88); }
+    .gallery-lb-prev { left: 1.2rem; }
+    .gallery-lb-next { right: 1.2rem; }
+    .gallery-lb-prev:hover { transform: translateY(-50%) translateX(-5px); }
+    .gallery-lb-next:hover { transform: translateY(-50%) translateX( 5px); }
+
+    /* Thumbnail strip */
+    .gallery-lb-thumbs {
+      position: fixed; bottom: 0; left: 0; right: 0; height: 72px;
+      display: flex; align-items: center; justify-content: center;
+      gap: 6px; padding: 0 1rem; overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .gallery-lb-thumbs::-webkit-scrollbar { display:none; }
+    .gallery-lb-thumb {
+      width: 48px; height: 48px; border-radius: 7px; overflow: hidden;
+      flex-shrink: 0; cursor: pointer; opacity: .4;
+      border: 2px solid transparent;
+      transition: opacity .2s, border-color .2s, transform .2s;
+    }
+    .gallery-lb-thumb img { width:100%; height:100%; object-fit:cover; display:block; }
+    .gallery-lb-thumb:hover { opacity: .7; }
+    .gallery-lb-thumb.active { opacity: 1; border-color: #3fff7f; transform: scale(1.08); }
+
+    /* ── Responsive ── */
+    @media (max-width: 900px) {
+      .gallery-hero { padding: 1rem 1.5rem 1.2rem; }
+      .gallery-stat { padding: 0 1.5rem; }
+      .gallery-grid { columns: 2; column-gap: 10px; }
+      .gallery-item { margin-bottom: 10px; }
+      .gallery-lb-thumbs { display: none; }
+      .gallery-lb-inner { padding: 60px 64px 20px; }
+    }
+    @media (max-width: 560px) {
+      .gallery-page { padding: 2rem 1rem 5rem; }
+      .gallery-grid { columns: 2; column-gap: 7px; }
+      .gallery-item { margin-bottom: 7px; border-radius: 9px; }
+      .gallery-lb-nav { display: none; }
+      .gallery-lb-inner { padding: 58px 12px 16px; }
+    }
   </style>
 </head>
 <body>
@@ -96,79 +444,357 @@
   </nav>
   <div id="navBackdrop" class="nav-backdrop" aria-hidden="true"></div>
   <main>
-    <div class="subpage-wrap">
-      <h1 class="subpage-title">Gallery</h1>
-      <p class="subpage-lead">Moments, milestones, and visuals from my journey as a developer and student.</p>
-      <div class="gallery-filters">
-        <button class="gf-btn active" data-filter="all">All</button>
-        <button class="gf-btn" data-filter="work">Work</button>
-        <button class="gf-btn" data-filter="life">Life</button>
+    <div class="gallery-page">
+
+      <!-- Hero -->
+      <div class="gallery-hero">
+        <div class="gallery-hero-eyebrow">
+          <span class="gallery-hero-dot"></span>
+          <span class="gallery-hero-tag">Visual Gallery</span>
+        </div>
+        <h1>Moments &amp; <em>Milestones</em></h1>
+        <p class="gallery-hero-sub">A curated collection of my work, campus life &amp; personal journey.</p>
+        <div class="gallery-hero-stats">
+          <span class="gallery-hero-chip accent">
+            <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+            11 Photos
+          </span>
+          <span class="gallery-hero-chip">
+            <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+            Work &amp; Life
+          </span>
+          <span class="gallery-hero-chip">
+            <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+            2023 – 2026
+          </span>
+        </div>
       </div>
+
+      <!-- Filters -->
+      <div class="gallery-filter-wrap">
+        <button class="gf-btn active" data-filter="all">All <span class="gf-count">11</span></button>
+        <button class="gf-btn" data-filter="work">Work <span class="gf-count">5</span></button>
+        <button class="gf-btn" data-filter="life">Life <span class="gf-count">6</span></button>
+      </div>
+
+      <!-- Bento Grid -->
       <div class="gallery-grid">
-        <div class="gallery-item tall" data-cat="work" data-img="rakib.jpg">
-          <img src="rakib.jpg" alt="Rakib - Developer portrait" loading="lazy" />
+
+        <div class="gallery-item gi-1" data-cat="work" data-img="assets/images/rakib.jpg" data-caption="Developer Portrait" data-sub="Work · 2026">
+          <img src="assets/images/rakib.jpg" alt="Rakib - Developer portrait" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Developer Portrait</span>
             <span class="gallery-item-sub">Work · 2026</span>
           </div>
+          <span class="gallery-item-num">01</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib.jpg" download="rakib.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
-        <div class="gallery-item" data-cat="life" data-img="rakib2.jpg">
-          <img src="rakib2.jpg" alt="Rakib - Campus moment" loading="lazy" />
+
+        <div class="gallery-item gi-2" data-cat="life" data-img="assets/images/rakib2.jpg" data-caption="Campus Moment" data-sub="Life · UIU">
+          <img src="assets/images/rakib2.jpg" alt="Rakib - Campus moment" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Campus Moment</span>
             <span class="gallery-item-sub">Life · UIU</span>
           </div>
+          <span class="gallery-item-num">02</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib2.jpg" download="rakib2.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
-        <div class="gallery-item" data-cat="work" data-img="rakib3.jpg">
-          <img src="rakib3.jpg" alt="Rakib - Coding session" loading="lazy" />
+
+        <div class="gallery-item gi-3" data-cat="work" data-img="assets/images/rakib3.jpg" data-caption="Coding Session" data-sub="Work · 2025">
+          <img src="assets/images/rakib3.jpg" alt="Rakib - Coding session" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Coding Session</span>
             <span class="gallery-item-sub">Work · 2025</span>
           </div>
+          <span class="gallery-item-num">03</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib3.jpg" download="rakib3.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
-        <div class="gallery-item" data-cat="life" data-img="rakib4.jpg">
-          <img src="rakib4.jpg" alt="Rakib - Personal" loading="lazy" />
+
+        <div class="gallery-item gi-4" data-cat="life" data-img="assets/images/rakib4.jpg" data-caption="Personal" data-sub="Life · 2025">
+          <img src="assets/images/rakib4.jpg" alt="Rakib - Personal" loading="lazy" />
           <div class="gallery-item-overlay">
             <span class="gallery-item-caption">Personal</span>
             <span class="gallery-item-sub">Life · 2025</span>
           </div>
+          <span class="gallery-item-num">04</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib4.jpg" download="rakib4.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+        </div>
+
+        <div class="gallery-item gi-5" data-cat="work" data-img="assets/images/rakib5.jpg" data-caption="Project Showcase" data-sub="Work · 2025">
+          <img src="assets/images/rakib5.jpg" alt="Rakib - Project showcase" loading="lazy" />
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-caption">Project Showcase</span>
+            <span class="gallery-item-sub">Work · 2025</span>
+          </div>
+          <span class="gallery-item-num">05</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib5.jpg" download="rakib5.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+        </div>
+
+        <div class="gallery-item gi-6" data-cat="life" data-img="assets/images/rakib6.jpg" data-caption="Leisure Moment" data-sub="Life · 2025">
+          <img src="assets/images/rakib6.jpg" alt="Rakib - Leisure moment" loading="lazy" />
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-caption">Leisure Moment</span>
+            <span class="gallery-item-sub">Life · 2025</span>
+          </div>
+          <span class="gallery-item-num">06</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib6.jpg" download="rakib6.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+        </div>
+
+        <div class="gallery-item gi-7" data-cat="work" data-img="assets/images/rakib7.jpg" data-caption="Tech Event" data-sub="Work · 2024">
+          <img src="assets/images/rakib7.jpg" alt="Rakib - Tech event" loading="lazy" />
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-caption">Tech Event</span>
+            <span class="gallery-item-sub">Work · 2024</span>
+          </div>
+          <span class="gallery-item-num">07</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib7.jpg" download="rakib7.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+        </div>
+
+        <div class="gallery-item gi-8" data-cat="life" data-img="assets/images/rakib8.jpg" data-caption="University Life" data-sub="Life · UIU">
+          <img src="assets/images/rakib8.jpg" alt="Rakib - University life" loading="lazy" />
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-caption">University Life</span>
+            <span class="gallery-item-sub">Life · UIU</span>
+          </div>
+          <span class="gallery-item-num">08</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib8.jpg" download="rakib8.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+        </div>
+
+        <div class="gallery-item gi-9" data-cat="life" data-img="assets/images/rakib9.jpg" data-caption="Captured Moment" data-sub="Life · 2024">
+          <img src="assets/images/rakib9.jpg" alt="Rakib - Captured moment" loading="lazy" />
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-caption">Captured Moment</span>
+            <span class="gallery-item-sub">Life · 2024</span>
+          </div>
+          <span class="gallery-item-num">09</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib9.jpg" download="rakib9.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+        </div>
+
+        <div class="gallery-item gi-10" data-cat="work" data-img="assets/images/rakib10.jpg" data-caption="Behind the Build" data-sub="Work · 2024">
+          <img src="assets/images/rakib10.jpg" alt="Rakib - Behind the build" loading="lazy" />
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-caption">Behind the Build</span>
+            <span class="gallery-item-sub">Work · 2024</span>
+          </div>
+          <span class="gallery-item-num">10</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib10.jpg" download="rakib10.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
+        </div>
+
+        <div class="gallery-item gi-11" data-cat="life" data-img="assets/images/rakib11.jpg" data-caption="Good Times" data-sub="Life · 2023">
+          <img src="assets/images/rakib11.jpg" alt="Rakib - Good times" loading="lazy" />
+          <div class="gallery-item-overlay">
+            <span class="gallery-item-caption">Good Times</span>
+            <span class="gallery-item-sub">Life · 2023</span>
+          </div>
+          <span class="gallery-item-num">11</span>
+          <div class="gallery-item-expand"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 3h6v6M9 21H3v-6M21 3l-7 7M3 21l7-7"/></svg></div>
+          <a class="gallery-item-dl" href="assets/images/rakib11.jpg" download="rakib11.jpg" aria-label="Download image" title="Download"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg></a>
         </div>
       </div>
+
     </div>
   </main>
+  <!-- Lightbox -->
   <div class="gallery-lb" id="galleryLb" role="dialog" aria-modal="true" aria-label="Image lightbox">
-    <button class="gallery-lb-close" id="galleryLbClose" aria-label="Close lightbox">×</button>
-    <img id="galleryLbImg" src="" alt="" />
+    <div class="gallery-lb-progress" id="galleryLbProgress"></div>
+    <div class="gallery-lb-topbar">
+      <div class="gallery-lb-title">
+        <span class="gallery-lb-caption" id="galleryLbCaption"></span>
+        <span class="gallery-lb-sub" id="galleryLbSub"></span>
+      </div>
+      <span class="gallery-lb-counter" id="galleryLbCounter"></span>
+    </div>
+    <button class="gallery-lb-close" id="galleryLbClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <div class="gallery-lb-vignette gallery-lb-vignette-l"></div>
+    <div class="gallery-lb-vignette gallery-lb-vignette-r"></div>
+    <button class="gallery-lb-nav gallery-lb-prev" id="galleryLbPrev" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M15 18l-6-6 6-6"/></svg>
+    </button>
+    <button class="gallery-lb-nav gallery-lb-next" id="galleryLbNext" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><path d="M9 18l6-6-6-6"/></svg>
+    </button>
+    <div class="gallery-lb-inner">
+      <img id="galleryLbImg" src="" alt="" />
+    </div>
+    <div class="gallery-lb-thumbs" id="galleryLbThumbs"></div>
   </div>
+  <footer>
+    <div class="footer-divider"></div>
+    <div class="footer-content">
+      <div class="footer-left">&copy; 2026 Rakib. All rights reserved.</div>
+      <div class="footer-links">
+        <a href="index.html">Home</a>
+        <a href="projects.html">Projects</a>
+        <a href="blogs.html">Blogs</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-socials">
+        <a href="https://www.facebook.com/rakibmahamudh" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook profile"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#1877f2"/><path d="M18.7 10.2h2.3V7.3h-2.7c-3.1 0-4.8 1.9-4.8 4.7v2.1H11v2.9h2.5v7.6h3.1V17h2.8l.5-2.9h-3.3v-1.8c0-1.1.4-2.1 2.1-2.1z" fill="#fff"/></svg></a>
+        <a href="https://github.com/mahamudul-hasan7" target="_blank" rel="noopener" title="GitHub" aria-label="GitHub profile"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#232b2d"/><path d="M16 6a10 10 0 00-3.2 19.5c.5.1.7-.2.7-.5v-2c-3 .7-3.7-1.3-3.7-1.3-.5-1.2-1.2-1.5-1.2-1.5-1-.7.1-.7.1-.7 1.1.1 1.7 1.1 1.7 1.1 1 .1.7 1.5 2.7 1.1.1-.7.4-1.1.7-1.3-2.4-.3-5-1.2-5-5.2 0-1.1.4-2 1-2.7-.1-.3-.4-1.3.1-2.7 0 0 .9-.3 2.8 1a9.7 9.7 0 015.1 0c1.9-1.3 2.8-1 2.8-1 .5 1.4.2 2.4.1 2.7.6.7 1 1.6 1 2.7 0 4-2.6 4.9-5 5.2.4.3.7.9.7 1.8v2.7c0 .3.2.6.7.5A10 10 0 0016 6z" fill="#fff"/></svg></a>
+        <a href="https://www.linkedin.com/in/mahamudulxhasan/" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn profile"><svg width="22" height="22" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#0077b5"/><path d="M10.5 13.5v8h3v-8h-3zm1.5-1.5a1.5 1.5 0 100-3 1.5 1.5 0 000 3zm4.5 1.5v8h3v-4c0-1.1.9-2 2-2s2 .9 2 2v4h3v-4.5c0-2.5-2-4.5-4.5-4.5s-4.5 2-4.5 4.5z" fill="#fff"/></svg></a>
+      </div>
+    </div>
+  </footer>
   <script src="js/script.js"></script>
   <script>
+  (function () {
+    var items   = Array.from(document.querySelectorAll('.gallery-item'));
+    var lb      = document.getElementById('galleryLb');
+    var lbImg   = document.getElementById('galleryLbImg');
+    var lbCap   = document.getElementById('galleryLbCaption');
+    var lbSub   = document.getElementById('galleryLbSub');
+    var lbCtr   = document.getElementById('galleryLbCounter');
+    var lbClose = document.getElementById('galleryLbClose');
+    var lbPrev  = document.getElementById('galleryLbPrev');
+    var lbNext  = document.getElementById('galleryLbNext');
+    var lbBar   = document.getElementById('galleryLbProgress');
+    var lbThumbs= document.getElementById('galleryLbThumbs');
+    var current = 0;
+
+    // Build thumbnails once
+    items.forEach(function(item, i) {
+      var t = document.createElement('div');
+      t.className = 'gallery-lb-thumb';
+      t.dataset.index = i;
+      var img = document.createElement('img');
+      img.src = item.dataset.img;
+      img.alt = '';
+      img.loading = 'lazy';
+      t.appendChild(img);
+      t.addEventListener('click', function() { openLb(i, 'in'); });
+      lbThumbs.appendChild(t);
+    });
+
+    // ── Filter ──
     var filterBtns = document.querySelectorAll('.gf-btn');
-    var galleryItems = document.querySelectorAll('.gallery-item');
     filterBtns.forEach(function(btn) {
       btn.addEventListener('click', function() {
         filterBtns.forEach(function(b) { b.classList.remove('active'); });
         btn.classList.add('active');
         var filter = btn.dataset.filter;
-        galleryItems.forEach(function(item) {
-          item.style.display = (filter === 'all' || item.dataset.cat === filter) ? '' : 'none';
+        var visible = 0;
+        items.forEach(function(item) {
+          var show = filter === 'all' || item.dataset.cat === filter;
+          item.style.display = show ? '' : 'none';
+          if (show) visible++;
         });
+        var st = document.getElementById('statTotal');
+        if (st) st.textContent = visible;
       });
     });
-    var lb = document.getElementById('galleryLb');
-    var lbImg = document.getElementById('galleryLbImg');
-    var lbClose = document.getElementById('galleryLbClose');
-    galleryItems.forEach(function(item) {
-      item.addEventListener('click', function() {
-        lbImg.src = item.dataset.img;
-        lbImg.alt = item.querySelector('img').alt;
+
+    function visibleItems() { return items.filter(function(i){ return i.style.display !== 'none'; }); }
+
+    var isNav = false;
+    var EXIT_MS = 160;
+
+    function setImg(cls) {
+      lbImg.className = '';
+      void lbImg.offsetWidth;
+      lbImg.className = cls;
+    }
+
+    function applyMeta(item, list) {
+      lbCap.textContent = item.dataset.caption || '';
+      lbSub.textContent = item.dataset.sub || '';
+      lbCtr.textContent = (current + 1) + ' — ' + list.length;
+      lbBar.style.width = ((current + 1) / list.length * 100) + '%';
+      var thumbEls = lbThumbs.querySelectorAll('.gallery-lb-thumb');
+      thumbEls.forEach(function(t) { t.classList.remove('active'); });
+      var allIdx = items.indexOf(item);
+      if (thumbEls[allIdx]) {
+        thumbEls[allIdx].classList.add('active');
+        thumbEls[allIdx].scrollIntoView({ inline:'center', behavior:'smooth', block:'nearest' });
+      }
+    }
+
+    function loadImg(src, cls, cb) {
+      lbImg.className = '';
+      lbImg.onload = null;
+      lbImg.src = src;
+      if (lbImg.complete && lbImg.naturalWidth) { setImg(cls); if (cb) cb(); }
+      else lbImg.onload = function() { setImg(cls); if (cb) cb(); };
+    }
+
+    function openLb(index, dir) {
+      var list = visibleItems();
+      if (!list.length) return;
+      var newIdx = ((index % list.length) + list.length) % list.length;
+
+      if (lb.classList.contains('open') && dir !== 'in') {
+        // Already open — exit current, then enter next
+        if (isNav) return;
+        isNav = true;
+        var exitCls  = dir === 'next' ? 'anim-exit-next' : 'anim-exit-prev';
+        var enterCls = dir === 'next' ? 'anim-next'      : 'anim-prev';
+        lbImg.className = exitCls;
+        setTimeout(function() {
+          current = newIdx;
+          applyMeta(list[current], list);
+          loadImg(list[current].dataset.img, enterCls, function() { isNav = false; });
+        }, EXIT_MS);
+      } else {
+        // Open fresh
+        current = newIdx;
+        applyMeta(list[current], list);
+        lbImg.className = '';
+        lbImg.src = '';
+        lb.classList.remove('closing');
         lb.classList.add('open');
         document.body.style.overflow = 'hidden';
+        loadImg(list[current].dataset.img, 'anim-in');
+      }
+    }
+
+    function closeLb() {
+      lb.classList.add('closing');
+      setTimeout(function() {
+        lb.classList.remove('open', 'closing');
+        document.body.style.overflow = '';
+        lbImg.src = ''; lbImg.className = '';
+      }, 220);
+    }
+
+    items.forEach(function(item) {
+      item.addEventListener('click', function(e) {
+        if (e.target.closest('.gallery-item-dl')) return;
+        var list = visibleItems();
+        openLb(list.indexOf(item), 'in');
       });
     });
-    function closeLb() { lb.classList.remove('open'); document.body.style.overflow = ''; lbImg.src = ''; }
+
     lbClose.addEventListener('click', closeLb);
-    lb.addEventListener('click', function(e) { if (e.target === lb) closeLb(); });
-    document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeLb(); });
+    lbPrev.addEventListener('click', function() { openLb(current - 1, 'prev'); });
+    lbNext.addEventListener('click', function() { openLb(current + 1, 'next'); });
+    lb.addEventListener('click', function(e) {
+      if (e.target === lb || e.target === lbImg.parentElement) closeLb();
+    });
+    document.addEventListener('keydown', function(e) {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape')      closeLb();
+      if (e.key === 'ArrowLeft')   openLb(current - 1, 'prev');
+      if (e.key === 'ArrowRight')  openLb(current + 1, 'next');
+    });
+    var tx = 0;
+    lb.addEventListener('touchstart', function(e) { tx = e.touches[0].clientX; }, { passive:true });
+    lb.addEventListener('touchend',   function(e) {
+      var dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 50) openLb(dx < 0 ? current+1 : current-1, dx < 0 ? 'next' : 'prev');
+    }, { passive:true });
+  })();
   </script>
 </body>
 </html>
