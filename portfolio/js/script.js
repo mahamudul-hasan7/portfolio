@@ -13,47 +13,32 @@ if ('scrollRestoration' in history) {
 
 function _saveScrollPos() {
   try {
-    sessionStorage.setItem(RELOAD_SCROLL_KEY, String(window.scrollY || 0));
-  } catch (e) {}
+    const scrollY = window.scrollY || window.pageYOffset || 0;
+    sessionStorage.setItem(RELOAD_SCROLL_KEY, String(scrollY));
+    window._reloadScrollTarget = scrollY;
+  } catch (e) {
+    window._reloadScrollTarget = 0;
+  }
 }
 
-// beforeunload: Chrome/Firefox/desktop
-window.addEventListener('beforeunload', _saveScrollPos);
-// pagehide: iOS Safari (beforeunload not reliable on iOS)
-window.addEventListener('pagehide', _saveScrollPos);
-// Also save every second so position is fresh even if events are skipped
-setInterval(_saveScrollPos, 1000);
-
-(function restoreScrollOnReload() {
+function _restoreScrollPos() {
   try {
-    const navEntries = performance.getEntriesByType('navigation');
-    const navType = navEntries && navEntries.length ? navEntries[0].type : '';
-    const isReload = navType === 'reload' || (performance.navigation && performance.navigation.type === 1);
-    if (!isReload) return;
-
-    const savedY = parseInt(sessionStorage.getItem(RELOAD_SCROLL_KEY) || '0', 10);
-    if (!Number.isFinite(savedY) || savedY <= 0) return;
-
-    function doScroll() {
-      // Plain two-arg form has universal browser support
-      window.scrollTo(0, savedY);
+    const stored = Number(sessionStorage.getItem(RELOAD_SCROLL_KEY) || '0');
+    window._reloadScrollTarget = Number.isFinite(stored) ? stored : 0;
+    if (window._reloadScrollTarget > 0) {
+      requestAnimationFrame(function() {
+        requestAnimationFrame(function() {
+          window.scrollTo(0, window._reloadScrollTarget);
+        });
+      });
     }
+  } catch (e) {
+    window._reloadScrollTarget = 0;
+  }
+}
 
-    // Store target so other code (revealHeroMedia, etc.) can re-apply after layout shifts
-    window._reloadScrollTarget = savedY;
-
-    // Multiple attempts to beat browser/async-layout resets
-    doScroll();
-    window.addEventListener('DOMContentLoaded', doScroll, { once: true });
-    window.addEventListener('load', function() {
-      doScroll();
-      // Extra passes after async work (image detection, orbit sync, etc.) settles
-      setTimeout(doScroll, 50);
-      setTimeout(doScroll, 300);
-      setTimeout(doScroll, 800);
-    }, { once: true });
-  } catch (e) {}
-})();
+window.addEventListener('beforeunload', _saveScrollPos, { passive: true });
+window.addEventListener('pageshow', _restoreScrollPos);
 
 // Dark/Light mode toggle — Pull Chain Lamp (3D drag)
 const lampToggle = document.getElementById('lampToggle');
@@ -618,7 +603,18 @@ if (contactForm && contactSuccess) {
     const name = (document.getElementById('contactName') && document.getElementById('contactName').value || '').trim();
     const email = (document.getElementById('contactEmail') && document.getElementById('contactEmail').value || '').trim();
     const message = (document.getElementById('contactMessage') && document.getElementById('contactMessage').value || '').trim();
+    const hp = (document.getElementById('contactHp') && document.getElementById('contactHp').value || '').trim();
+    const formName = contactForm.getAttribute('name') || 'contact';
     const submitBtn = contactForm.querySelector('button[type="submit"]');
+
+    // Honeypot check: if filled, silently treat as spam (don't send)
+    if (hp) {
+      contactSuccess.textContent = 'Message sent successfully.';
+      contactSuccess.classList.add('visible');
+      setTimeout(function() { contactSuccess.classList.remove('visible'); }, 2200);
+      if (submitBtn) { submitBtn.disabled = false; }
+      return;
+    }
 
     if (!name || !email || !message) {
       contactSuccess.textContent = 'Please fill in all fields before sending.';
@@ -635,28 +631,30 @@ if (contactForm && contactSuccess) {
       submitBtn.textContent = 'Sending...';
     }
 
-    const payload = {
-      name: name,
-      email: email,
-      message: message,
-      _subject: 'Portfolio Contact',
-      _captcha: 'false'
-    };
-
     const oldSuccessText = contactSuccess.textContent;
 
     try {
-      const response = await fetch('https://formsubmit.co/ajax/mahamud.7info@gmail.com', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json'
-        },
-        body: JSON.stringify(payload)
+      const formData = new FormData(contactForm);
+      formData.set('form-name', formName);
+      formData.set('name', name);
+      formData.set('email', email);
+      formData.set('message', message);
+      formData.set('bot-field', hp);
+
+      const encodedBody = new URLSearchParams();
+      formData.forEach(function(value, key) {
+        encodedBody.append(key, String(value));
       });
 
-      const data = await response.json().catch(function() { return {}; });
-      if (!response.ok || (data && data.success === false)) {
+      const response = await fetch(contactForm.getAttribute('action') || window.location.pathname, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: encodedBody.toString()
+      });
+
+      if (!response.ok) {
         throw new Error('Request failed');
       }
 
@@ -948,13 +946,33 @@ projectOpenMoreButtons.forEach(function(button) {
       var years  = card.dataset.years || '';
       if (!nameEl) return;
 
-      tip.innerHTML =
-        '<span class="stt-name">' + nameEl.textContent + '</span>' +
-        '<div class="stt-row">' +
-          '<span class="stt-pct">'   + (pctEl ? pctEl.textContent : '') + '</span>' +
-          '<span class="stt-sep">·</span>' +
-          '<span class="stt-years">' + years + '</span>' +
-        '</div>';
+      // Build tooltip content using safe DOM/text nodes to avoid XSS
+      tip.textContent = '';
+      var nameSpan = document.createElement('span');
+      nameSpan.className = 'stt-name';
+      nameSpan.textContent = nameEl.textContent || '';
+
+      var rowDiv = document.createElement('div');
+      rowDiv.className = 'stt-row';
+
+      var pctSpan = document.createElement('span');
+      pctSpan.className = 'stt-pct';
+      pctSpan.textContent = pctEl ? pctEl.textContent : '';
+
+      var sepSpan = document.createElement('span');
+      sepSpan.className = 'stt-sep';
+      sepSpan.textContent = '·';
+
+      var yearsSpan = document.createElement('span');
+      yearsSpan.className = 'stt-years';
+      yearsSpan.textContent = years;
+
+      rowDiv.appendChild(pctSpan);
+      rowDiv.appendChild(sepSpan);
+      rowDiv.appendChild(yearsSpan);
+
+      tip.appendChild(nameSpan);
+      tip.appendChild(rowDiv);
 
       positionTip(card);
       tip.classList.add('stt-visible');

@@ -28,6 +28,21 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Projects** — Cards with Live / Code links
 - **Contact** — Form with success state
 
+## Admin Panel
+
+- Open `/admin` to manage portfolio content and contact messages.
+- Protect it with these environment variables:
+
+```bash
+ADMIN_USERNAME=admin
+ADMIN_PASSWORD=change-this-password
+ADMIN_SESSION_SECRET=generate-a-long-random-secret
+```
+
+- The admin panel updates the shared store in `data/portfolio-store.json`.
+- Contact form submissions are saved through `/api/contact` and can be moderated in the inbox panel.
+- For production, change the default credentials immediately and keep the session secret long and random.
+
 ## Next Steps (from DESIGN-BLUEPRINT.md)
 
 1. **Phase 3:** Add GSAP ScrollTrigger for parallax and section effects

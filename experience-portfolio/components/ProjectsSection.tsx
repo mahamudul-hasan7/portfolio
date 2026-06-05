@@ -3,24 +3,22 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef } from 'react'
 
-const projects = [
-  {
-    title: 'Portfolio Experience',
-    desc: 'This site — cinematic hero, smooth scroll, premium stack.',
-    stack: 'Next.js · Tailwind · Framer Motion',
-    live: '#',
-    code: 'https://github.com/yourusername/experience-portfolio',
-  },
-  {
-    title: 'Project Two',
-    desc: 'Add your next project: hover distortion & case study page ready.',
-    stack: 'React · Node · MongoDB',
-    live: '#',
-    code: '#',
-  },
-]
+type ProjectItem = {
+  id: string
+  title: string
+  desc: string
+  stack: string
+  live: string
+  code: string
+}
 
-export default function ProjectsSection() {
+type ProjectsProps = {
+  title: string
+  intro: string
+  items: ProjectItem[]
+}
+
+export default function ProjectsSection({ title, intro, items }: ProjectsProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
 
@@ -33,7 +31,7 @@ export default function ProjectsSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          Selected Work
+          {title}
         </motion.h2>
         <motion.p
           className="font-body text-[#a1a1aa] text-lg mb-14"
@@ -41,13 +39,13 @@ export default function ProjectsSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          Premium showcase — add hover distortion & dedicated case study pages in Phase 3.
+          {intro}
         </motion.p>
 
         <div className="space-y-8">
-          {projects.map((p, i) => (
+          {items.map((p, i) => (
             <motion.article
-              key={p.title}
+              key={p.id}
               className="group relative rounded-2xl bg-card border border-white/10 p-8 md:p-10 hover:border-accent/30 transition-all duration-500 overflow-hidden"
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}

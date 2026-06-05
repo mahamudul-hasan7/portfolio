@@ -3,17 +3,22 @@
 import { motion, useInView } from 'framer-motion'
 import { useRef, useState } from 'react'
 
-const categories = ['Frontend', 'Backend', 'Tools'] as const
-const skills: Record<string, string[]> = {
-  Frontend: ['React', 'Next.js', 'TypeScript', 'Tailwind', 'Framer Motion'],
-  Backend: ['Node.js', 'Python', 'REST APIs'],
-  Tools: ['Git', 'VS Code', 'Figma'],
+type SkillsGroup = {
+  name: string
+  skills: string[]
 }
 
-export default function SkillsSection() {
+type SkillsProps = {
+  title: string
+  intro: string
+  defaultGroup: string
+  groups: SkillsGroup[]
+}
+
+export default function SkillsSection({ title, intro, defaultGroup, groups }: SkillsProps) {
   const ref = useRef(null)
   const isInView = useInView(ref, { once: true, margin: '-80px' })
-  const [filter, setFilter] = useState<string>('Frontend')
+  const [filter, setFilter] = useState<string>(defaultGroup)
 
   return (
     <section id="work" className="relative py-24 md:py-32 px-6" ref={ref}>
@@ -24,7 +29,7 @@ export default function SkillsSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          Skills
+          {title}
         </motion.h2>
         <motion.p
           className="font-body text-[#a1a1aa] text-lg mb-10"
@@ -32,7 +37,7 @@ export default function SkillsSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.1 }}
         >
-          Filter by area — hover for focus.
+          {intro}
         </motion.p>
 
         <motion.div
@@ -41,17 +46,17 @@ export default function SkillsSection() {
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.5, delay: 0.2 }}
         >
-          {categories.map((cat) => (
+          {groups.map((cat) => (
             <button
-              key={cat}
-              onClick={() => setFilter(cat)}
+              key={cat.name}
+              onClick={() => setFilter(cat.name)}
               className={`px-5 py-2.5 rounded-full font-medium text-sm transition-all duration-300 ${
-                filter === cat
+                filter === cat.name
                   ? 'bg-accent text-deep'
                   : 'bg-card border border-white/10 text-[#a1a1aa] hover:border-accent/30 hover:text-[#f5f5f7]'
               }`}
             >
-              {cat}
+              {cat.name}
             </button>
           ))}
         </motion.div>
@@ -62,7 +67,7 @@ export default function SkillsSection() {
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.3 }}
         >
-          {skills[filter]?.map((skill, i) => (
+          {groups.find((group) => group.name === filter)?.skills.map((skill, i) => (
             <motion.span
               key={skill}
               className="px-5 py-3 rounded-xl bg-card border border-white/10 text-[#f5f5f7] font-medium text-sm hover:border-accent/40 hover:bg-accent/10 transition-colors duration-300"

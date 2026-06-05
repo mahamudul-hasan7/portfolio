@@ -59,11 +59,12 @@
   <main>
     <section id="contact" class="section contact-section contact-template-v2">
       <div class="contact-shell fade-in">
-        <aside class="contact-rail" aria-label="Quick actions">
+          <aside class="contact-rail" aria-label="Quick actions">
           <a href="index.html" class="contact-rail-btn" title="Home" aria-label="Go to home">
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><path d="M3 9.2L10 3l7 6.2V17a1 1 0 01-1 1h-4v-5H8v5H4a1 1 0 01-1-1V9.2z" fill="currentColor"/></svg>
           </a>
-          <a href="https://mail.google.com/mail/?view=cm&fs=1&to=mahamud.7info@gmail.com" target="_blank" rel="noopener" class="contact-rail-btn contact-rail-btn-active" title="Email" aria-label="Open Gmail compose">
+          <!-- replaced direct mailto/compose link to avoid exposing email address in client code -->
+          <a href="#contact" class="contact-rail-btn contact-rail-btn-active" title="Contact" aria-label="Jump to contact form">
             <svg width="16" height="16" viewBox="0 0 20 20" fill="none"><rect x="2.2" y="4" width="15.6" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3.2 5.4L10 11l6.8-5.6" stroke="currentColor" stroke-width="1.6"/></svg>
           </a>
           <a href="#contactMessage" class="contact-rail-btn" title="Info" aria-label="Jump to message field">
@@ -85,15 +86,20 @@
               <h1 class="contact-template-title">Let's <span>talk</span></h1>
               <p class="contact-template-lead">To request a quote or want to meet up for coffee, contact me directly or fill out the form and I will get back to you soon.</p>
 
-              <form id="contactForm" class="contact-form contact-form-v2">
+              <form id="contactForm" class="contact-form contact-form-v2" name="contact" method="POST" data-netlify="true" data-netlify-honeypot="bot-field" action="contact.html">
+                <input type="hidden" name="form-name" value="contact">
+                <input type="hidden" name="bot-field" value="">
                 <label class="contact-label" for="contactName">Your Name</label>
                 <input id="contactName" type="text" name="name" placeholder="Your full name" required />
 
                 <label class="contact-label" for="contactEmail">Your Email</label>
-                <input id="contactEmail" type="email" name="email" placeholder="mahamud.7info@gmail.com" required />
+                <input id="contactEmail" type="email" name="email" placeholder="Your email address" required />
 
                 <label class="contact-label" for="contactMessage">Your Message</label>
                 <textarea id="contactMessage" name="message" placeholder="Type your message here..." rows="5" required></textarea>
+
+                <!-- Honeypot to trap bots: keep hidden from real users -->
+                <input id="contactHp" name="_hp" type="text" aria-hidden="true" tabindex="-1" style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;border:0;padding:0;margin:0;">
 
                 <button type="submit" class="contact-submit-btn">Send Message</button>
               </form>

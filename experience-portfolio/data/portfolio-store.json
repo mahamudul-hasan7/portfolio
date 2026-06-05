@@ -1,0 +1,70 @@
+{
+  "content": {
+    "hero": {
+      "eyebrow": "Hi, I'm",
+      "name": "Rakib",
+      "title": "I build immersive digital experiences.",
+      "primaryCta": {
+        "label": "Explore Work",
+        "href": "#work"
+      },
+      "secondaryCta": {
+        "label": "Enter Experience",
+        "href": "#story"
+      }
+    },
+    "story": {
+      "paragraphs": [
+        "I'm a Creative Engineer and CSE student at United International University. I don't just write code — I craft experiences that feel alive: smooth scrolls, thoughtful motion, and interfaces that respond to you.",
+        "This site is built with Next.js, Framer Motion, and a focus on performance. Scroll-triggered reveals and a cinematic hero set the tone — more layers (GSAP, Three.js) can be added step by step."
+      ]
+    },
+    "skills": {
+      "title": "Skills",
+      "intro": "Filter by area — hover for focus.",
+      "defaultGroup": "Frontend",
+      "groups": [
+        {
+          "name": "Frontend",
+          "skills": ["React", "Next.js", "TypeScript", "Tailwind", "Framer Motion"]
+        },
+        {
+          "name": "Backend",
+          "skills": ["Node.js", "Python", "REST APIs"]
+        },
+        {
+          "name": "Tools",
+          "skills": ["Git", "VS Code", "Figma"]
+        }
+      ]
+    },
+    "projects": {
+      "title": "Selected Work",
+      "intro": "Premium showcase — add hover distortion & dedicated case study pages in Phase 3.",
+      "items": [
+        {
+          "id": "b97b1b8b-7cb3-4d04-94e8-3e12d6c1f5aa",
+          "title": "Portfolio Experience",
+          "desc": "This site — cinematic hero, smooth scroll, premium stack.",
+          "stack": "Next.js · Tailwind · Framer Motion",
+          "live": "#",
+          "code": "https://github.com/yourusername/experience-portfolio"
+        },
+        {
+          "id": "6be1cc46-5a5c-42a7-9ea2-f46b3e537fa3",
+          "title": "Project Two",
+          "desc": "Add your next project: hover distortion & case study page ready.",
+          "stack": "React · Node · MongoDB",
+          "live": "#",
+          "code": "#"
+        }
+      ]
+    },
+    "contact": {
+      "title": "Get in Touch",
+      "intro": "Have a project in mind? Say hello.",
+      "successMessage": "Thanks! I'll get back to you soon."
+    }
+  },
+  "messages": []
+}

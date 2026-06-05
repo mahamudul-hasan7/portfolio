@@ -2,7 +2,19 @@
 
 import { motion } from 'framer-motion'
 
-export default function Hero() {
+type HeroContent = {
+  eyebrow: string
+  name: string
+  title: string
+  primaryCta: { label: string; href: string }
+  secondaryCta: { label: string; href: string }
+}
+
+type HeroProps = {
+  content: HeroContent
+}
+
+export default function Hero({ content }: HeroProps) {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Background: gradient + subtle grid (WebGL placeholder) */}
@@ -24,7 +36,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3, duration: 0.6 }}
         >
-          Hi, I&apos;m
+          {content.eyebrow}
         </motion.p>
         <motion.h1
           className="font-display font-bold text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-[#f5f5f7]"
@@ -32,7 +44,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
         >
-          Rakib
+          {content.name}
         </motion.h1>
         <motion.p
           className="font-display font-semibold text-xl sm:text-2xl md:text-3xl text-[#a1a1aa] mt-4 max-w-2xl mx-auto"
@@ -40,7 +52,7 @@ export default function Hero() {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.6 }}
         >
-          I build immersive digital experiences.
+          {content.title}
         </motion.p>
         <motion.div
           className="flex flex-wrap items-center justify-center gap-4 mt-12"
@@ -49,16 +61,16 @@ export default function Hero() {
           transition={{ delay: 1.1, duration: 0.6 }}
         >
           <a
-            href="#work"
+            href={content.primaryCta.href}
             className="group px-8 py-4 rounded-full bg-accent text-deep font-semibold text-sm tracking-wide hover:bg-accent/90 transition-all duration-300 hover:scale-105 hover:shadow-[0_0_40px_rgba(0,255,136,0.3)]"
           >
-            Explore Work
+            {content.primaryCta.label}
           </a>
           <a
-            href="#story"
+            href={content.secondaryCta.href}
             className="group px-8 py-4 rounded-full border border-white/20 text-[#f5f5f7] font-medium text-sm tracking-wide hover:border-accent/50 hover:text-accent transition-all duration-300"
           >
-            Enter Experience
+            {content.secondaryCta.label}
           </a>
         </motion.div>
       </div>
