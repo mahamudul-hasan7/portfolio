@@ -715,6 +715,44 @@ projectOpenMoreButtons.forEach(function(button) {
       readMoreButton.setAttribute('aria-expanded', 'true');
       readMoreButton.textContent = 'Read Less';
     }
+
+    // Back to top button behavior
+    (function() {
+      var btn = document.getElementById('backToTop');
+      if (!btn) return;
+
+      var showAt = 300; // show button after 300px scroll
+      var ticking = false;
+
+      function update() {
+        var sc = window.scrollY || document.documentElement.scrollTop;
+        if (sc > showAt) {
+          btn.classList.add('visible');
+        } else {
+          btn.classList.remove('visible');
+        }
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', function() {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(update);
+      }, { passive: true });
+
+      btn.addEventListener('click', function() {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        btn.blur();
+      });
+
+      // keyboard accessibility: press Enter or Space
+      btn.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          btn.click();
+        }
+      });
+    })();
   });
 });
 
