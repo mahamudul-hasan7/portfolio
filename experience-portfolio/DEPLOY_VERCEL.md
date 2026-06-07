@@ -22,6 +22,5 @@ Vercel deployment guide
   - Vercel will run `npm install` and `npm run build` in the `experience-portfolio` folder.
   - After deploy, enable HTTPS and point your DNS to Vercel per their instructions.
 
-5) Post‑deploy notes
-  - Admin UI will be available at: `https://mahamud.xyz/admin`
-  - If you want additional protection for `/admin`, enable Cloudflare Access or Netlify/hosting password protection.
+5) Post-deploy notes
+  - This project no longer includes an admin panel. Manage content by editing `experience-portfolio/data/portfolio-store.json` locally and redeploying, or integrate an external CMS/storage for remote edits.

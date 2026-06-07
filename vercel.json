@@ -3,9 +3,7 @@
   "builds": [
     { "src": "experience-portfolio/package.json", "use": "@vercel/next" }
   ],
-  "routes": [
-    { "src": "/admin/(.*)", "dest": "/admin/$1" }
-  ],
+  
   "headers": [
     {
       "source": "/(.*)",
