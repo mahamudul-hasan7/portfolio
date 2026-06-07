@@ -776,6 +776,15 @@ projectOpenMoreButtons.forEach(function(button) {
   var playing    = false;
   var currentSrc = '';
 
+  // Ensure the audio is explicitly preloaded by the script so the browser begins fetching it
+  try {
+    audio.preload = 'auto';
+    // Calling load() prompts browsers to start fetching the resource (won't autoplay audio)
+    audio.load();
+  } catch (e) {
+    // ignore
+  }
+
   function setUI(state) {
     playing = state;
     btn.classList.toggle('playing', state);
