@@ -28,10 +28,9 @@ Open [http://localhost:3000](http://localhost:3000).
 - **Projects** — Cards with Live / Code links
 - **Contact** — Form with success state
 
-## Content management
+## Archive note
 
-- This project no longer includes an admin panel. To update site content, edit `experience-portfolio/data/portfolio-store.json` and redeploy.
-- Contact form submissions are saved to the store file when running a server that supports writeable filesystem; for durable remote edits use an external DB or CMS.
+This Next.js app has been archived. The live site is served from the static `portfolio/` folder at repository root. To restore the app, check the Git history or open the `experience-portfolio` folder.
 
 ## Next Steps (from DESIGN-BLUEPRINT.md)
 

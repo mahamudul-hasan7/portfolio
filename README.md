@@ -18,3 +18,5 @@
 - **Entry:** `experience-portfolio/` → `npm run dev`
 - **Stack:** Next.js 14, Tailwind, Framer Motion
 - See `experience-portfolio/DESIGN-BLUEPRINT.md` for design & roadmap.
+ 
+ Note: This repository now uses the static `portfolio/` folder as the production site. The `experience-portfolio` Next.js app has been archived and is not deployed.
