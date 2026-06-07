@@ -13,9 +13,6 @@ Vercel deployment guide
   - Framework preset: `Next.js` (Vercel should detect automatically).
 
 3) Environment variables (set in Vercel project Settings → Environment Variables)
-  - `ADMIN_USERNAME` = your admin username
-  - `ADMIN_PASSWORD` = strong password
-  - `ADMIN_SESSION_SECRET` = long random secret
   - `NODE_ENV` = production
 
 4) Build & deploy
