@@ -255,8 +255,9 @@ document.addEventListener('DOMContentLoaded', async function() {
   }
 
   async function detectPatternImages() {
+    // limit probes to a few files to avoid many 404s and heavy network I/O
     const candidates = ['rakib.jpg'];
-    for (let i = 2; i <= 30; i += 1) {
+    for (let i = 2; i <= 6; i += 1) {
       candidates.push('rakib' + i + '.jpg');
     }
 
@@ -721,7 +722,7 @@ projectOpenMoreButtons.forEach(function(button) {
       var btn = document.getElementById('backToTop');
       if (!btn) return;
 
-      var showAt = 300; // show button after 300px scroll
+      var showAt = 0; // show button immediately
       var ticking = false;
 
       function update() {
@@ -814,11 +815,10 @@ projectOpenMoreButtons.forEach(function(button) {
   var playing    = false;
   var currentSrc = '';
 
-  // Ensure the audio is explicitly preloaded by the script so the browser begins fetching it
+  // Use metadata preload only to avoid downloading the full audio immediately
   try {
-    audio.preload = 'auto';
-    // Calling load() prompts browsers to start fetching the resource (won't autoplay audio)
-    audio.load();
+    audio.preload = 'metadata';
+    // Do not call load() to prevent immediate full download on low-bandwidth devices
   } catch (e) {
     // ignore
   }
