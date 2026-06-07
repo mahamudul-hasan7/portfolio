@@ -1,0 +1,24 @@
+name: Deploy static portfolio to Vercel
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  vercel-deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Install Vercel CLI
+        run: npm install -g vercel
+      - name: Deploy to Vercel (portfolio folder)
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          # deploy the static portfolio folder; requires VERCEL_TOKEN secret
+          vercel --prod --confirm --token "$VERCEL_TOKEN" --cwd ./portfolio
