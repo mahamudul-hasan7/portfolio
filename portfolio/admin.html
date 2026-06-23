@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Portfolio Admin | Rakib</title>
+  <link rel="icon" type="image/png" href="favicon.png" sizes="32x32" />
+  <link rel="stylesheet" href="admin/admin.css" />
+</head>
+<body>
+  <main class="admin-shell">
+    <section id="loginView" class="login-card">
+      <div>
+        <p class="eyebrow">Private dashboard</p>
+        <h1>Portfolio Admin</h1>
+        <p class="muted">Login is verified on the server. No password is stored in the browser code.</p>
+      </div>
+      <form id="loginForm" class="login-form">
+        <label for="adminPassword">Admin password</label>
+        <input id="adminPassword" type="password" autocomplete="current-password" required minlength="12" />
+        <button type="submit">Login</button>
+        <p id="loginMessage" class="message" role="status"></p>
+      </form>
+    </section>
+
+    <section id="dashboardView" class="dashboard" hidden>
+      <aside class="sidebar">
+        <a class="brand" href="index.html">RAKIB</a>
+        <button class="nav-tab active" data-tab="profile">Profile</button>
+        <button class="nav-tab" data-tab="about">About</button>
+        <button class="nav-tab" data-tab="resume">CV</button>
+        <button class="nav-tab" data-tab="projects">Projects</button>
+        <button class="nav-tab" data-tab="blogs">Blogs</button>
+        <button class="nav-tab" data-tab="skills">Skills</button>
+        <button class="nav-tab" data-tab="journey">Journey</button>
+        <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
+      </aside>
+
+      <section class="workspace">
+        <header class="topbar">
+          <div>
+            <p class="eyebrow">Content control</p>
+            <h1 id="panelTitle">Profile</h1>
+          </div>
+          <div class="topbar-actions">
+            <a href="index.html" target="_blank" rel="noopener">View site</a>
+            <button id="reloadBtn" type="button">Reload</button>
+            <button id="saveBtn" type="button">Save changes</button>
+          </div>
+        </header>
+
+        <p id="statusMessage" class="status-message" role="status"></p>
+
+        <form id="contentForm" class="content-form">
+          <section class="panel active" data-panel="profile">
+            <div class="field-grid">
+              <label>Name<input data-path="profile.name" type="text" /></label>
+              <label>Badge<input data-path="profile.badge" type="text" /></label>
+              <label>Headline<input data-path="profile.headline" type="text" /></label>
+              <label>Location<input data-path="profile.location" type="text" /></label>
+              <label>Institution<input data-path="profile.institution" type="text" /></label>
+              <label class="full">Hero summary<textarea data-path="profile.summary" rows="4"></textarea></label>
+              <label class="full">Typewriter phrases<textarea data-path="profile.typewriter" data-array="lines" rows="4"></textarea></label>
+            </div>
+          </section>
+
+          <section class="panel" data-panel="about">
+            <div class="field-grid">
+              <label>Label<input data-path="about.label" type="text" /></label>
+              <label>Title<input data-path="about.title" type="text" /></label>
+              <label class="full">Primary text<textarea data-path="about.primary" rows="5"></textarea></label>
+              <label class="full">Secondary text<textarea data-path="about.secondary" rows="5"></textarea></label>
+              <label class="full">Quote<input data-path="about.quote" type="text" /></label>
+            </div>
+          </section>
+
+          <section class="panel" data-panel="resume">
+            <div class="field-grid">
+              <label>Subtitle<input data-path="resume.subtitle" type="text" /></label>
+              <label>Location<input data-path="resume.location" type="text" /></label>
+            </div>
+            <div id="resumeList" class="repeat-list" data-list="resume.education"></div>
+            <button type="button" class="secondary add-row" data-list="resume.education">Add education</button>
+          </section>
+
+          <section class="panel" data-panel="projects">
+            <div id="projectsList" class="repeat-list" data-list="projects"></div>
+            <button type="button" class="secondary add-row" data-list="projects">Add project</button>
+          </section>
+
+          <section class="panel" data-panel="blogs">
+            <div id="blogsList" class="repeat-list" data-list="blogs"></div>
+            <button type="button" class="secondary add-row" data-list="blogs">Add blog</button>
+          </section>
+
+          <section class="panel" data-panel="skills">
+            <div id="skillsList" class="repeat-list compact" data-list="skills"></div>
+            <button type="button" class="secondary add-row" data-list="skills">Add skill</button>
+          </section>
+
+          <section class="panel" data-panel="journey">
+            <div id="journeyList" class="repeat-list" data-list="journey"></div>
+            <button type="button" class="secondary add-row" data-list="journey">Add journey item</button>
+          </section>
+        </form>
+      </section>
+    </section>
+  </main>
+  <script src="admin/admin.js"></script>
+</body>
+</html>

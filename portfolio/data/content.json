@@ -1,0 +1,123 @@
+{
+  "profile": {
+    "name": "Rakib",
+    "badge": "CSE Student · Open to opportunities",
+    "headline": "Hi there! I'm Rakib",
+    "typewriter": [
+      "CSE Student & Developer",
+      "Problem Solver",
+      "Builder",
+      "Open to Opportunities"
+    ],
+    "summary": "From coding projects to exploring web dev and problem-solving, I'm driven by a passion for creating clean, useful solutions through programming and continuous learning.",
+    "location": "Bangladesh",
+    "institution": "United International University"
+  },
+  "about": {
+    "label": "About Me",
+    "title": "I Build Reliable Digital Experiences",
+    "primary": "I am Rakib, a CSE student and builder who enjoys solving practical problems with clean, maintainable code. My work combines thoughtful UI, performance-aware development, and clear structure so products feel simple to use and easy to improve over time.",
+    "secondary": "Outside classes, I spend time on project-based learning, system thinking, and refining development habits. I care about writing code that is not only functional but also readable, scalable, and team-friendly.",
+    "quote": "I believe strong software is built where clarity, curiosity, and consistency meet."
+  },
+  "resume": {
+    "subtitle": "Computer Science & Engineering Student",
+    "location": "Bangladesh",
+    "education": [
+      {
+        "title": "B.Sc. in Computer Science & Engineering",
+        "school": "United International University",
+        "period": "2023 - 2028",
+        "details": "Relevant coursework: Data Structures, Algorithms, OOP, DBMS, Web Technologies, Computer Networks, Software Engineering."
+      },
+      {
+        "title": "Higher Secondary Education",
+        "school": "Science background",
+        "period": "Completed before university",
+        "details": ""
+      }
+    ]
+  },
+  "projects": [
+    {
+      "title": "Portfolio Website v2",
+      "status": "Live",
+      "meta": "Frontend Engineering · 2026",
+      "description": "A personal brand platform designed for clarity and conversion, with modern layout flow, stronger copy hierarchy, and theme-aware visual identity.",
+      "tech": "HTML, CSS, JavaScript",
+      "liveUrl": "index.html",
+      "codeUrl": "https://github.com/mahamudul-hasan7"
+    },
+    {
+      "title": "Blog Platform",
+      "status": "In Progress",
+      "meta": "Full-Stack Product · Ongoing",
+      "description": "A full-stack publishing platform for writing, filtering, and reading content with smooth UX and scalable post management flow.",
+      "tech": "React, Node.js, MongoDB",
+      "liveUrl": "",
+      "codeUrl": "https://github.com/mahamudul-hasan7"
+    },
+    {
+      "title": "University Dashboard UI",
+      "status": "Concept",
+      "meta": "UX + Product Thinking · 2025",
+      "description": "A student-first dashboard concept for course planning, assignment tracking, and progress analytics with minimal cognitive load.",
+      "tech": "Figma, HTML, CSS",
+      "liveUrl": "",
+      "codeUrl": "https://github.com/mahamudul-hasan7"
+    }
+  ],
+  "blogs": [
+    {
+      "title": "How to Build a Portfolio That Feels Professional",
+      "date": "Mar 2026",
+      "readTime": "6 min read",
+      "description": "A practical guide to structure, storytelling, and visual decisions that make a developer portfolio stand out.",
+      "tags": "HTML, CSS, JavaScript"
+    },
+    {
+      "title": "JavaScript Animation Tricks for Smoother UI",
+      "date": "Feb 2026",
+      "readTime": "5 min read",
+      "description": "Learn animation patterns that improve feedback and flow without making interfaces feel heavy or distracting.",
+      "tags": "JavaScript, CSS, UX"
+    },
+    {
+      "title": "A Practical Learning Path for CSE Students",
+      "date": "Jan 2026",
+      "readTime": "7 min read",
+      "description": "A no-fluff roadmap to balance university courses with real project work and consistent skill growth.",
+      "tags": "Career, DSA, Projects"
+    }
+  ],
+  "skills": [
+    { "name": "HTML", "level": 95, "group": "Frontend" },
+    { "name": "CSS", "level": 90, "group": "Frontend" },
+    { "name": "JavaScript", "level": 85, "group": "Frontend" },
+    { "name": "React", "level": 80, "group": "Frontend" },
+    { "name": "Node.js", "level": 75, "group": "Backend & Core" },
+    { "name": "MongoDB", "level": 70, "group": "Backend & Core" },
+    { "name": "C / C++", "level": 80, "group": "Backend & Core" },
+    { "name": "Python", "level": 72, "group": "Backend & Core" },
+    { "name": "Git", "level": 85, "group": "Tools" },
+    { "name": "Figma", "level": 75, "group": "Tools" },
+    { "name": "VS Code", "level": 82, "group": "Tools" }
+  ],
+  "journey": [
+    {
+      "year": "2023",
+      "title": "Started CSE at UIU",
+      "description": "Began B.Sc. in Computer Science & Engineering at United International University."
+    },
+    {
+      "year": "2023 - 2025",
+      "title": "Building foundations",
+      "description": "Data Structures, Algorithms, OOP, Web Technologies, and side projects."
+    },
+    {
+      "year": "2025 - Present",
+      "title": "Projects & growth",
+      "description": "Portfolio, web projects, and exploring internships and research opportunities."
+    }
+  ]
+}

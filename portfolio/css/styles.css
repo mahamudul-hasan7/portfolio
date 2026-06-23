@@ -1221,6 +1221,8 @@ body.light .lamp-tassel-mid::before {
   font-size: 0.9rem;
   font-weight: 600;
   text-decoration: none;
+  font-family: inherit;
+  cursor: pointer;
   transition: background 0.2s, color 0.2s;
 }
 .project-link-live {

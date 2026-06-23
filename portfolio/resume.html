@@ -25,7 +25,7 @@
     .resume-item h3 { font-size: 1.05rem; color: #fff; margin: 0 0 0.2em 0; }
     .resume-item .meta { color: #3fff7f; font-size: 0.9rem; }
     .resume-item .meta span { margin-right: 0.5em; }
-    .resume-download { display: inline-block; margin-top: 1rem; padding: 0.5em 1.2em; background: #3fff7f; color: #101415; border-radius: 8px; font-weight: 600; font-size: 0.95rem; }
+    .resume-download { display: inline-block; margin-top: 1rem; padding: 0.5em 1.2em; background: #3fff7f; color: #101415; border-radius: 8px; font-weight: 600; font-size: 0.95rem; border: 0; cursor: pointer; font-family: inherit; }
     .resume-download:hover { opacity: 0.9; text-decoration: none; }
     .resume-nav { margin-bottom: 1.5rem; }
     .resume-nav a { color: #bdbdbd; margin-right: 1rem; }
@@ -37,17 +37,17 @@
   <div class="resume-page">
     <nav class="resume-nav">
       <a href="index.html">← Back to Portfolio</a>
-      <a href="resume.pdf" download class="resume-download">Download PDF</a>
+      <button type="button" class="resume-download" onclick="window.print()">Print Resume</button>
     </nav>
 
     <header class="resume-header">
       <h1>Rakib</h1>
       <p class="subtitle">Computer Science & Engineering Student</p>
       <p class="contact">
-        <span>📧 your@email.com</span>
-        <span>📍 Bangladesh</span>
-        <span><a href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener">LinkedIn</a></span>
-        <span><a href="https://github.com/yourusername" target="_blank" rel="noopener">GitHub</a></span>
+        <span>Bangladesh</span>
+        <span><a href="contact.html">Contact</a></span>
+        <span><a href="https://www.linkedin.com/in/mahamudulxhasan/" target="_blank" rel="noopener">LinkedIn</a></span>
+        <span><a href="https://github.com/mahamudul-hasan7" target="_blank" rel="noopener">GitHub</a></span>
       </p>
     </header>
 
@@ -55,12 +55,12 @@
       <h2>Education</h2>
       <div class="resume-item">
         <h3>B.Sc. in Computer Science & Engineering</h3>
-        <p class="meta"><span>United International University</span><span>2023 – 2028</span></p>
+        <p class="meta"><span>United International University</span><span>2023 - 2028</span></p>
         <p>Relevant coursework: Data Structures, Algorithms, OOP, DBMS, Web Technologies, Computer Networks, Software Engineering.</p>
       </div>
       <div class="resume-item">
-        <h3>Higher Secondary / A-Levels</h3>
-        <p class="meta"><span>Your College Name</span><span>Year</span></p>
+        <h3>Higher Secondary Education</h3>
+        <p class="meta"><span>Science background</span><span>Completed before university</span></p>
       </div>
     </section>
 
@@ -91,13 +91,13 @@
     <section class="resume-section">
       <h2>Certifications & Achievements</h2>
       <ul>
-        <li>Add your Coursera / Udemy / NPTEL course name – Issuer · Year</li>
-        <li>Hackathon or contest – Position · Year</li>
-        <li>Other certification – Issuer · Year</li>
+        <li>Built and documented personal portfolio, blog, gallery, and contact workflows.</li>
+        <li>Practicing algorithmic problem solving and core computer science fundamentals.</li>
+        <li>Continuously learning full-stack development through project-based work.</li>
       </ul>
     </section>
 
-    <p style="margin-top: 2rem; font-size: 0.9rem; color: #888;">Replace placeholders (email, college, certifications, GitHub/LinkedIn URLs) with your details. Add <code>resume.pdf</code> in the portfolio folder and the "Download PDF" button will work.</p>
   </div>
+  <script src="js/content-loader.js"></script>
 </body>
 </html>

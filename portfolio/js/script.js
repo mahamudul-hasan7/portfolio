@@ -40,6 +40,24 @@ function _restoreScrollPos() {
 window.addEventListener('beforeunload', _saveScrollPos, { passive: true });
 window.addEventListener('pageshow', _restoreScrollPos);
 
+function applyPortfolioTheme(isLight) {
+  if (isLight) {
+    document.documentElement.classList.add('light');
+    document.body.classList.add('light');
+    localStorage.setItem('theme', 'light');
+  } else {
+    document.documentElement.classList.remove('light');
+    document.body.classList.remove('light');
+    localStorage.setItem('theme', 'dark');
+  }
+}
+
+function getCurrentThemeIsLight() {
+  return document.documentElement.classList.contains('light') || document.body.classList.contains('light');
+}
+
+applyPortfolioTheme(getCurrentThemeIsLight());
+
 // Dark/Light mode toggle — Pull Chain Lamp (3D drag)
 const lampToggle = document.getElementById('lampToggle');
 if (lampToggle) {
@@ -48,17 +66,7 @@ if (lampToggle) {
   var _MAX_DRAG = 22;
   var _dragging = false;
 
-  function _applyTheme(isLight) {
-    if (isLight) {
-      document.documentElement.classList.add('light');
-      localStorage.setItem('theme', 'light');
-    } else {
-      document.documentElement.classList.remove('light');
-      localStorage.setItem('theme', 'dark');
-    }
-  }
-
-  _applyTheme(document.documentElement.classList.contains('light'));
+  applyPortfolioTheme(getCurrentThemeIsLight());
 
   function _triggerPull() {
     if (_chainWrap) {
@@ -69,7 +77,7 @@ if (lampToggle) {
     void lampToggle.offsetWidth;
     lampToggle.classList.add('pulling');
     setTimeout(function () { lampToggle.classList.remove('pulling'); }, 640);
-    _applyTheme(!document.documentElement.classList.contains('light'));
+    applyPortfolioTheme(!getCurrentThemeIsLight());
   }
 
   /* — Mouse drag — */
@@ -150,6 +158,21 @@ if (lampToggle) {
       _triggerPull();
     }
   });
+}
+
+const themeToggle = document.getElementById('themeToggle');
+if (themeToggle) {
+  function updateThemeToggleLabel() {
+    themeToggle.textContent = getCurrentThemeIsLight() ? '☀' : '☾';
+    themeToggle.setAttribute('aria-pressed', String(getCurrentThemeIsLight()));
+  }
+
+  themeToggle.addEventListener('click', function() {
+    applyPortfolioTheme(!getCurrentThemeIsLight());
+    updateThemeToggleLabel();
+  });
+
+  updateThemeToggleLabel();
 }
 // Navbar active state on scroll
 document.addEventListener('DOMContentLoaded', function() {
@@ -716,48 +739,45 @@ projectOpenMoreButtons.forEach(function(button) {
       readMoreButton.setAttribute('aria-expanded', 'true');
       readMoreButton.textContent = 'Read Less';
     }
-
-    // Back to top button behavior
-    (function() {
-      var btn = document.getElementById('backToTop');
-      if (!btn) return;
-
-      var showAt = 0; // show button immediately
-      var ticking = false;
-
-      function update() {
-        var sc = window.scrollY || document.documentElement.scrollTop;
-        if (sc > showAt) {
-          btn.classList.add('visible');
-        } else {
-          btn.classList.remove('visible');
-        }
-        ticking = false;
-      }
-
-      window.addEventListener('scroll', function() {
-        if (ticking) return;
-        ticking = true;
-        requestAnimationFrame(update);
-      }, { passive: true });
-
-      btn.addEventListener('click', function() {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        btn.blur();
-      });
-
-      // keyboard accessibility: press Enter or Space
-      btn.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          btn.click();
-        }
-      });
-    })();
   });
 });
 
-// ── Skills v2: ring fill + counter animations ──
+// Back to top button behavior
+(function() {
+  var btn = document.getElementById('backToTop');
+  if (!btn) return;
+
+  var showAt = 120;
+  var ticking = false;
+
+  function update() {
+    var sc = window.scrollY || document.documentElement.scrollTop;
+    btn.classList.toggle('visible', sc > showAt);
+    ticking = false;
+  }
+
+  window.addEventListener('scroll', function() {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(update);
+  }, { passive: true });
+
+  btn.addEventListener('click', function() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    btn.blur();
+  });
+
+  btn.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      btn.click();
+    }
+  });
+
+  update();
+})();
+
+// Skills v2: ring fill + counter animations
 (function () {
   var _wrapper = document.querySelector('.skills-wrapper');
   if (!_wrapper) return;
@@ -902,7 +922,9 @@ projectOpenMoreButtons.forEach(function(button) {
   var el = document.getElementById('typewriterText');
   if (!el) return;
 
-  var phrases = [
+  var phrases = Array.isArray(window.PORTFOLIO_TYPEWRITER_PHRASES) && window.PORTFOLIO_TYPEWRITER_PHRASES.length
+    ? window.PORTFOLIO_TYPEWRITER_PHRASES
+    : [
     'CSE Student & Developer',
     'Problem Solver',
     'Builder',
