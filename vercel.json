@@ -6,6 +6,17 @@
     { "src": "api/**/*.js", "use": "@vercel/node" },
     { "src": "portfolio/**", "use": "@vercel/static" }
   ],
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/$1.js" },
+    { "src": "/", "dest": "/portfolio/index.html" },
+    { "src": "/admin", "dest": "/portfolio/admin.html" },
+    { "src": "/projects", "dest": "/portfolio/projects.html" },
+    { "src": "/blogs", "dest": "/portfolio/blogs.html" },
+    { "src": "/gallery", "dest": "/portfolio/gallery.html" },
+    { "src": "/resume", "dest": "/portfolio/resume.html" },
+    { "src": "/contact", "dest": "/portfolio/contact.html" },
+    { "src": "/(.*)", "dest": "/portfolio/$1" }
+  ],
   "headers": [
     {
       "source": "/(.*)",
