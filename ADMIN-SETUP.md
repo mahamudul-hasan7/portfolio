@@ -59,3 +59,15 @@ When you save from the admin panel, the API updates `portfolio/data/content.json
 - The browser only receives an HttpOnly session cookie after a successful login.
 - The GitHub token is only used inside Vercel serverless functions.
 - Anyone can view `admin.html`, but they cannot read or save content without a valid session.
+
+## Change Password From Admin
+
+After logging in, open the **Password** tab. Enter the current password and the new password. The panel will generate new values for:
+
+```text
+ADMIN_PASSWORD_SALT
+ADMIN_PASSWORD_HASH
+ADMIN_SESSION_SECRET
+```
+
+Copy those values into Vercel Environment Variables and redeploy. This keeps the password out of the repository and browser code.

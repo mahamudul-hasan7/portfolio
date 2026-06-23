@@ -231,6 +231,47 @@ document.getElementById('logoutBtn').addEventListener('click', async () => {
   showLogin();
 });
 
+document.getElementById('changePasswordBtn').addEventListener('click', async () => {
+  const currentPassword = document.getElementById('currentPassword').value;
+  const newPassword = document.getElementById('newPassword').value;
+  const confirmPassword = document.getElementById('confirmPassword').value;
+  const output = document.getElementById('passwordOutput');
+
+  output.hidden = true;
+  output.textContent = '';
+
+  if (newPassword !== confirmPassword) {
+    setStatus('New password and confirmation do not match.', true);
+    return;
+  }
+
+  try {
+    setStatus('Generating password update...');
+    const data = await api('/api/admin-change-password', {
+      method: 'POST',
+      body: JSON.stringify({ currentPassword, newPassword })
+    });
+    output.textContent = [
+      'Copy these into Vercel Environment Variables:',
+      '',
+      `ADMIN_PASSWORD_SALT=${data.env.ADMIN_PASSWORD_SALT}`,
+      '',
+      `ADMIN_PASSWORD_HASH=${data.env.ADMIN_PASSWORD_HASH}`,
+      '',
+      `ADMIN_SESSION_SECRET=${data.env.ADMIN_SESSION_SECRET}`,
+      '',
+      data.note
+    ].join('\n');
+    output.hidden = false;
+    setStatus('Password update values generated. Update Vercel and redeploy.');
+    document.getElementById('currentPassword').value = '';
+    document.getElementById('newPassword').value = '';
+    document.getElementById('confirmPassword').value = '';
+  } catch (error) {
+    setStatus(error.message, true);
+  }
+});
+
 bindSimpleFields();
 
 api('/api/admin-me')

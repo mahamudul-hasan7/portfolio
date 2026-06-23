@@ -34,6 +34,7 @@
         <button class="nav-tab" data-tab="blogs">Blogs</button>
         <button class="nav-tab" data-tab="skills">Skills</button>
         <button class="nav-tab" data-tab="journey">Journey</button>
+        <button class="nav-tab" data-tab="password">Password</button>
         <button id="logoutBtn" class="logout-btn" type="button">Logout</button>
       </aside>
 
@@ -102,6 +103,23 @@
           <section class="panel" data-panel="journey">
             <div id="journeyList" class="repeat-list" data-list="journey"></div>
             <button type="button" class="secondary add-row" data-list="journey">Add journey item</button>
+          </section>
+
+          <section class="panel" data-panel="password">
+            <div class="password-box">
+              <div>
+                <p class="eyebrow">Security</p>
+                <h2>Change admin password</h2>
+                <p class="muted">This verifies your current password and generates new secure Vercel environment values. The new password becomes active after you update Vercel and redeploy.</p>
+              </div>
+              <div class="field-grid">
+                <label>Current password<input id="currentPassword" type="password" autocomplete="current-password" /></label>
+                <label>New password<input id="newPassword" type="password" autocomplete="new-password" minlength="12" /></label>
+                <label>Confirm new password<input id="confirmPassword" type="password" autocomplete="new-password" minlength="12" /></label>
+              </div>
+              <button type="button" id="changePasswordBtn">Generate password update</button>
+              <pre id="passwordOutput" class="env-output" hidden></pre>
+            </div>
           </section>
         </form>
       </section>
