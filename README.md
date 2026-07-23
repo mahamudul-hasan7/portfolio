@@ -1,22 +1,51 @@
-# Rakib Web – Portfolio Projects
+# Mahamudul Hasan — Portfolio
 
-## Folders
+A personal portfolio website showcasing my projects, skills, experience, and journey as a developer.
 
-| Folder | Description |
-|--------|-------------|
-| **portfolio/** | Main HTML/CSS portfolio (Aranya-style). Single-page + resume, blogs, contact, gallery. |
-| **experience-portfolio/** | Next.js premium version (Framer Motion, cinematic hero). Run with `npm install && npm run dev`. |
+## 🌐 Live Portfolio
 
-## Portfolio (HTML)
+Visit my live portfolio from the website link provided in this repository.
 
-- **Entry:** `portfolio/index.html`
-- **Structure:** `css/`, `js/`, `assets/images/`
-- See `portfolio/PROJECT-STRUCTURE.md` for details.
+## 👨‍💻 About This Project
 
-## Experience Portfolio (Next.js)
+This repository contains my personal portfolio website.
 
-- **Entry:** `experience-portfolio/` → `npm run dev`
-- **Stack:** Next.js 14, Tailwind, Framer Motion
-- See `experience-portfolio/DESIGN-BLUEPRINT.md` for design & roadmap.
- 
- Note: This repository now uses the static `portfolio/` folder as the production site. The `experience-portfolio` Next.js app has been archived and is not deployed.
+The main production version is built with:
+
+- HTML
+- CSS
+- JavaScript
+
+It focuses on a clean user interface, responsive design, interactive elements, and presenting my work in a simple and professional way.
+
+## ✨ Features
+
+- Responsive portfolio design
+- About me section
+- Projects showcase
+- Skills and technologies
+- Resume section
+- Blog section
+- Gallery
+- Contact section
+- Interactive UI elements
+
+## 🛠️ Tech Stack
+
+### Production
+
+HTML · CSS · JavaScript
+
+### Previously Explored
+
+Next.js · Tailwind CSS · Framer Motion
+
+## 📁 Project Structure
+
+```text
+portfolio/
+├── index.html
+├── css/
+├── js/
+└── assets/
+    └── images/
