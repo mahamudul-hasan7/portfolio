@@ -9,7 +9,20 @@ on:
 jobs:
   check:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
-      - name: Verify static site
-        run: test -f portfolio/index.html || (echo "portfolio/index.html missing" && exit 1)
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Validate project and API security
+        run: npm test
+      - name: Check Node syntax
+        run: |
+          node --check scripts/serve.mjs
+          node --check scripts/test-contact-api.mjs
+          node --check scripts/validate-project.mjs
+          node --check api/contact.js
+          node --check portfolio/js/script.js
