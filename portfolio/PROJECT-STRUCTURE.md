@@ -13,7 +13,11 @@ portfolio/
 │   └── styles.css      # All styles
 │
 ├── js/
-│   └── script.js       # Theme, scroll, animations, contact form
+│   ├── script.js       # Theme, scroll, animations, contact form
+│   └── content-loader.js # Loads static portfolio content safely
+│
+├── data/
+│   └── content.json    # Profile, projects, blogs, skills, journey
 │
 ├── assets/
 │   └── images/         # rakib.jpg, rakib2.jpg, favicon.png, etc.
@@ -25,7 +29,8 @@ portfolio/
 
 | What to change        | File           |
 |-----------------------|----------------|
-| Hero, sections, text  | `index.html`   |
+| Profile and section content | `data/content.json` |
+| Page structure        | `index.html` and other HTML files |
 | Colors, layout        | `css/styles.css` |
 | Animations, theme    | `js/script.js` |
 | Resume content       | `resume.html`  |

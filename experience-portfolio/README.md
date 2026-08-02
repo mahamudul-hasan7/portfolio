@@ -1,6 +1,6 @@
 # 🌌 Experience Portfolio — Awwwards-Style
 
-Immersive developer experience for **Rakib**. Dark cinematic theme, smooth animations, storytelling scroll.
+Immersive developer experience for **Mahamudul Hasan**. Dark cinematic theme, smooth animations, storytelling scroll.
 
 ## Stack
 

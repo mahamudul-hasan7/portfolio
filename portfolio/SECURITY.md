@@ -1,38 +1,40 @@
-Security recommendations for deploying the portfolio
+# Security Checklist
 
-High-level guidance
+Current hardening in this portfolio:
 
-- Do not expose email addresses in client-side code. Route contact form submissions through a server-side endpoint (serverless function, backend API) that sends mail using an SMTP provider or transactional email service. This prevents harvesting and abuse.
-- Add server-set security headers via your hosting/CDN (Netlify, Cloudflare Pages, Vercel, Apache, Nginx):
-  - Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
-  - X-Frame-Options: DENY
-  - X-Content-Type-Options: nosniff
-  - Referrer-Policy: no-referrer-when-downgrade (or strict-origin-when-cross-origin)
-  - Permissions-Policy: camera=(), microphone=(), geolocation=()
-  - Content-Security-Policy: enforce a CSP (see example below)
+- The admin dashboard and every admin API endpoint are removed from the deployment.
+- Portfolio content is loaded from the static `portfolio/data/content.json` file.
+- HTTPS/HSTS, clickjacking, MIME-sniffing, referrer, permissions, and Content Security Policy headers are configured in `vercel.json`.
+- API responses are non-cacheable, non-indexable, same-origin resources with a restrictive API-specific CSP.
+- The contact endpoint accepts only same-origin JSON requests with a 16 KB body limit.
+- Contact submissions use input length limits, email validation, a honeypot, a minimum-fill-time check, and local plus optional persistent rate limiting.
+- Dynamic content rendering uses `textContent` and DOM methods instead of untrusted HTML insertion.
+- Supabase Row Level Security is enabled with no public table policies; only the server-side service-role key can store messages.
 
-Example Content-Security-Policy (modify to match your hosting and external CDNs):
+Production environment variables:
 
-Content-Security-Policy: default-src 'self'; img-src 'self' data: https:; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; object-src 'none';
+```text
+SITE_ORIGIN=https://mahamud.xyz
+CONTACT_WEBHOOK_URL=private_delivery_webhook
 
-Notes:
-- Prefer avoiding 'unsafe-inline' by moving inline scripts/styles to external files and using nonces or hashes. For a simple static site you may initially allow 'unsafe-inline' but plan to remove it.
-- Limit connect-src to only the endpoints you need (your serverless endpoint, analytics, etc.).
+# Optional: store contact messages and enable persistent rate limiting
+SUPABASE_URL=https://your-project.supabase.co
+SUPABASE_SERVICE_ROLE_KEY=server_only_secret
+IP_HASH_SECRET=random_32_byte_or_longer_secret
+```
 
-Form handling checklist
+At least one contact delivery method must be configured: `CONTACT_WEBHOOK_URL` or Supabase storage.
 
-- Use server-side validation and escaping for all fields (name, email, message).
-- Implement a honeypot field (done) and server-side rate limiting / CAPTCHA if spam persists.
-- Return minimal error information to the client to avoid leaking internal details.
+Production rules:
 
-Other recommendations
+- Never expose `SUPABASE_SERVICE_ROLE_KEY`, `CONTACT_WEBHOOK_URL`, or `IP_HASH_SECRET` in frontend files or variables prefixed with `NEXT_PUBLIC_`/`VITE_`.
+- Keep the Supabase service-role key server-side and keep public RLS policies disabled for contact and rate-limit tables.
+- Rotate the webhook, service-role key, and IP hash secret if leakage is suspected.
+- Do not restore admin routes without a new authentication and authorization review.
+- Avoid publishing phone numbers, home addresses, student IDs, dates of birth, or family details in portfolio content.
 
-- Enable HTTPS and HSTS at the host.
-- Ensure third-party assets (fonts, analytics) are loaded only from trusted origins.
-- Replace direct third-party form endpoints with your own proxy or a native host form feature when possible.
-- Audit any dynamic HTML insertion and use textContent or DOM methods (we fixed tooltip innerHTML).
-- Review external links for rel="noopener noreferrer" when using target="_blank".
+Remaining optional upgrades:
 
-If you want, I can:
-- Add example Netlify `_headers` rules or Cloudflare Pages header config. (I added `/_headers` in this repo.)
-- If you're deploying the static site on Netlify, the contact form can use Netlify Forms and does not need a third-party email endpoint.
+- Move inline scripts/styles into external files and remove `'unsafe-inline'` from the static-page CSP.
+- Add Cloudflare Turnstile or another privacy-respecting challenge if contact spam increases.
+- Periodically review and delete old contact messages from Supabase according to a retention policy.

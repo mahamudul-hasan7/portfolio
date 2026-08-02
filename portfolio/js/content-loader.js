@@ -4,11 +4,6 @@
     if (el && value !== undefined && value !== null) el.textContent = value;
   }
 
-  function html(selector, value, root) {
-    var el = (root || document).querySelector(selector);
-    if (el && value !== undefined && value !== null) el.innerHTML = value;
-  }
-
   function setTags(host, tags) {
     if (!host) return;
     host.textContent = '';
@@ -25,7 +20,26 @@
   function applyProfile(content) {
     if (!content.profile) return;
     text('.hero-content .badge', content.profile.badge);
-    html('.hero-title', String(content.profile.headline || '').replace(content.profile.name || 'Rakib', '<span class="highlight">' + (content.profile.name || 'Rakib') + '</span>') + '<span class="hero-underline"></span>');
+    var title = document.querySelector('.hero-title');
+    if (title) {
+      var name = content.profile.name || 'Mahamudul Hasan';
+      var headline = String(content.profile.headline || '');
+      var nameIndex = headline.indexOf(name);
+      title.textContent = '';
+      if (nameIndex >= 0) {
+        title.appendChild(document.createTextNode(headline.slice(0, nameIndex)));
+        var highlight = document.createElement('span');
+        highlight.className = 'highlight';
+        highlight.textContent = name;
+        title.appendChild(highlight);
+        title.appendChild(document.createTextNode(headline.slice(nameIndex + name.length)));
+      } else {
+        title.textContent = headline;
+      }
+      var underline = document.createElement('span');
+      underline.className = 'hero-underline';
+      title.appendChild(underline);
+    }
     text('.hero-content > p', content.profile.summary);
     text('.location-icon', content.profile.location);
     var roleItems = document.querySelectorAll('.location-role span');
@@ -128,7 +142,16 @@
       var edu = education[index];
       if (!edu) return;
       text('h3', edu.title, item);
-      html('.meta', '<span>' + (edu.school || '') + '</span><span>' + (edu.period || '') + '</span>', item);
+      var meta = item.querySelector('.meta');
+      if (meta) {
+        meta.textContent = '';
+        var school = document.createElement('span');
+        school.textContent = edu.school || '';
+        var period = document.createElement('span');
+        period.textContent = edu.period || '';
+        meta.appendChild(school);
+        meta.appendChild(period);
+      }
       var detail = item.querySelector('p:not(.meta)');
       if (detail) detail.textContent = edu.details || '';
     });

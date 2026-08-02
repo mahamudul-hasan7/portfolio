@@ -1,24 +1,24 @@
 {
   "profile": {
-    "name": "Rakib",
-    "badge": "CSE Student · Open to opportunities",
-    "headline": "Hi there! I'm Rakib",
+    "name": "Mahamudul Hasan",
+    "badge": "CSE Student · Software Engineering & Game Development",
+    "headline": "Hi there! I'm Mahamudul Hasan",
     "typewriter": [
-      "CSE Student & Developer",
-      "Problem Solver",
-      "Builder",
-      "Open to Opportunities"
+      "CSE Student at UIU",
+      "Software Engineering Learner",
+      "Game Development Enthusiast",
+      "Project Builder"
     ],
-    "summary": "From coding projects to exploring web dev and problem-solving, I'm driven by a passion for creating clean, useful solutions through programming and continuous learning.",
+    "summary": "I am studying Computer Science and Engineering at United International University, with interests in software engineering, web-based systems, and game development. I enjoy building practical projects with clear structure, useful interfaces, and maintainable code.",
     "location": "Bangladesh",
     "institution": "United International University"
   },
   "about": {
     "label": "About Me",
-    "title": "I Build Reliable Digital Experiences",
-    "primary": "I am Rakib, a CSE student and builder who enjoys solving practical problems with clean, maintainable code. My work combines thoughtful UI, performance-aware development, and clear structure so products feel simple to use and easy to improve over time.",
-    "secondary": "Outside classes, I spend time on project-based learning, system thinking, and refining development habits. I care about writing code that is not only functional but also readable, scalable, and team-friendly.",
-    "quote": "I believe strong software is built where clarity, curiosity, and consistency meet."
+    "title": "I Build Practical Digital Experiences",
+    "primary": "I am Mahamudul Hasan, a CSE student at United International University. My academic path started with a science background and now focuses on software engineering fundamentals, programming, databases, and project-based development.",
+    "secondary": "My public projects include a smart city complaint management system, a digital library platform, and this personal portfolio. I am especially interested in growing as a software engineer and exploring game development through stronger programming and system design skills.",
+    "quote": "I believe good software starts with clear thinking, consistent practice, and useful real-world projects."
   },
   "resume": {
     "subtitle": "Computer Science & Engineering Student",
@@ -27,44 +27,50 @@
       {
         "title": "B.Sc. in Computer Science & Engineering",
         "school": "United International University",
-        "period": "2023 - 2028",
-        "details": "Relevant coursework: Data Structures, Algorithms, OOP, DBMS, Web Technologies, Computer Networks, Software Engineering."
+        "period": "Fall 2023 - Expected 2028",
+        "details": "Currently studying. Focus areas include programming, software engineering, databases, web technologies, and core computer science fundamentals."
       },
       {
-        "title": "Higher Secondary Education",
-        "school": "Science background",
-        "period": "Completed before university",
-        "details": ""
+        "title": "Higher Secondary Certificate (Science)",
+        "school": "Karatoa Multimedia School and College, Bogura",
+        "period": "2022",
+        "details": "GPA: 5.00 out of 5.00. Board: Rajshahi."
+      },
+      {
+        "title": "Secondary School Certificate (Science)",
+        "school": "Gobindaganj Government High School, Gaibandha",
+        "period": "2020",
+        "details": "GPA: 4.61 out of 5.00. Board: Dinajpur."
       }
     ]
   },
   "projects": [
     {
-      "title": "Portfolio Website v2",
+      "title": "Smart City Complaint Management System",
       "status": "Live",
-      "meta": "Frontend Engineering · 2026",
-      "description": "A personal brand platform designed for clarity and conversion, with modern layout flow, stronger copy hierarchy, and theme-aware visual identity.",
-      "tech": "HTML, CSS, JavaScript",
+      "meta": "Web Application · PHP + SQL",
+      "description": "A complaint management system with frontend and backend modules, database SQL files, ERD/schema assets, and a public repository for tracking civic issue workflows.",
+      "tech": "PHP, SQL, HTML, CSS, JavaScript",
+      "liveUrl": "",
+      "codeUrl": "https://github.com/mahamudul-hasan7/smart_city"
+    },
+    {
+      "title": "Digital Library Platform",
+      "status": "Live",
+      "meta": "Web Platform · JavaScript + PHP",
+      "description": "A digital library project with backend, collections, explore, login, profile, reader, register, wishlist, authentication, API client, and database-related files.",
+      "tech": "JavaScript, PHP, CSS, HTML, SQL",
+      "liveUrl": "",
+      "codeUrl": "https://github.com/mahamudul-hasan7/library"
+    },
+    {
+      "title": "Personal Portfolio Website",
+      "status": "Live",
+      "meta": "Frontend Portfolio · HTML/CSS/JavaScript",
+      "description": "A production static portfolio with resume, project, blog, gallery, contact, and content-driven sections, plus an archived Next.js experiment.",
+      "tech": "HTML, CSS, JavaScript, Vercel",
       "liveUrl": "/",
-      "codeUrl": "https://github.com/mahamudul-hasan7"
-    },
-    {
-      "title": "Blog Platform",
-      "status": "In Progress",
-      "meta": "Full-Stack Product · Ongoing",
-      "description": "A full-stack publishing platform for writing, filtering, and reading content with smooth UX and scalable post management flow.",
-      "tech": "React, Node.js, MongoDB",
-      "liveUrl": "",
-      "codeUrl": "https://github.com/mahamudul-hasan7"
-    },
-    {
-      "title": "University Dashboard UI",
-      "status": "Concept",
-      "meta": "UX + Product Thinking · 2025",
-      "description": "A student-first dashboard concept for course planning, assignment tracking, and progress analytics with minimal cognitive load.",
-      "tech": "Figma, HTML, CSS",
-      "liveUrl": "",
-      "codeUrl": "https://github.com/mahamudul-hasan7"
+      "codeUrl": "https://github.com/mahamudul-hasan7/portfolio"
     }
   ],
   "blogs": [
@@ -87,37 +93,42 @@
       "date": "Jan 2026",
       "readTime": "7 min read",
       "description": "A no-fluff roadmap to balance university courses with real project work and consistent skill growth.",
-      "tags": "Career, DSA, Projects"
+      "tags": "Career, CSE, Projects"
     }
   ],
   "skills": [
-    { "name": "HTML", "level": 95, "group": "Frontend" },
-    { "name": "CSS", "level": 90, "group": "Frontend" },
-    { "name": "JavaScript", "level": 85, "group": "Frontend" },
-    { "name": "React", "level": 80, "group": "Frontend" },
-    { "name": "Node.js", "level": 75, "group": "Backend & Core" },
-    { "name": "MongoDB", "level": 70, "group": "Backend & Core" },
-    { "name": "C / C++", "level": 80, "group": "Backend & Core" },
-    { "name": "Python", "level": 72, "group": "Backend & Core" },
-    { "name": "Git", "level": 85, "group": "Tools" },
-    { "name": "Figma", "level": 75, "group": "Tools" },
-    { "name": "VS Code", "level": 82, "group": "Tools" }
+    { "name": "C", "level": 78, "group": "Programming" },
+    { "name": "C++", "level": 76, "group": "Programming" },
+    { "name": "Java", "level": 65, "group": "Programming" },
+    { "name": "Python", "level": 70, "group": "Programming" },
+    { "name": "PHP", "level": 72, "group": "Web" },
+    { "name": "HTML", "level": 88, "group": "Web" },
+    { "name": "JavaScript", "level": 78, "group": "Web" },
+    { "name": "SQL", "level": 70, "group": "Database" },
+    { "name": "GitHub", "level": 75, "group": "Tools" },
+    { "name": "Web Projects", "level": 80, "group": "Practice" },
+    { "name": "Problem Solving", "level": 72, "group": "Practice" }
   ],
   "journey": [
     {
-      "year": "2023",
+      "year": "2020",
+      "title": "Completed SSC in Science",
+      "description": "Completed SSC from Gobindaganj Government High School under the Dinajpur Education Board."
+    },
+    {
+      "year": "2022",
+      "title": "Completed HSC in Science",
+      "description": "Completed HSC from Karatoa Multimedia School and College under the Rajshahi Education Board with GPA 5.00."
+    },
+    {
+      "year": "Fall 2023",
       "title": "Started CSE at UIU",
-      "description": "Began B.Sc. in Computer Science & Engineering at United International University."
+      "description": "Began B.Sc. in Computer Science and Engineering at United International University."
     },
     {
-      "year": "2023 - 2025",
-      "title": "Building foundations",
-      "description": "Data Structures, Algorithms, OOP, Web Technologies, and side projects."
-    },
-    {
-      "year": "2025 - Present",
-      "title": "Projects & growth",
-      "description": "Portfolio, web projects, and exploring internships and research opportunities."
+      "year": "2024 - Present",
+      "title": "Building Software Projects",
+      "description": "Working on web-based projects including smart city complaint management, digital library systems, and portfolio development."
     }
   ]
 }

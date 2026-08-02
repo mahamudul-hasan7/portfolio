@@ -1,4 +1,4 @@
-# Mahamudul Hasan — Portfolio
+# Mahamudul Hasan Web – Portfolio Projects
 
 A personal portfolio website showcasing my projects, skills, experience, and journey as a developer.
 
@@ -7,6 +7,12 @@ A personal portfolio website showcasing my projects, skills, experience, and jou
 Visit my live portfolio from the website link provided in this repository.
 
 ## 👨‍💻 About This Project
+
+- **Entry:** `portfolio/index.html`
+- **Structure:** `css/`, `js/`, `assets/images/`
+- See `portfolio/PROJECT-STRUCTURE.md` for details.
+- **Content:** edit `portfolio/data/content.json`; no admin dashboard or admin API is deployed.
+- **Contact form:** posts to `/api/contact` on Vercel. Configure `CONTACT_WEBHOOK_URL` or the optional Supabase contact storage variables documented in `portfolio/SECURITY.md`.
 
 This repository contains my personal portfolio website.
 

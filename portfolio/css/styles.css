@@ -4645,7 +4645,7 @@ body.light #aboutme .aboutme-badge {
 }
 
 .contact-page .contact-template-overlay::before {
-  content: "RAKIB MAHAMUD";
+  content: "MAHAMUDUL HASAN";
   position: absolute;
   left: 50%;
   top: 50%;
@@ -7407,4 +7407,21 @@ body.light .typewriter-cursor {
 @keyframes cursorBlink {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0; }
+}
+
+/* Keep the full portfolio name clear of the mobile navbar controls. */
+@media (max-width: 400px) {
+  .navbar .logo-flex {
+    gap: 0.35em;
+  }
+
+  .navbar .logo-svg svg {
+    width: 24px;
+    height: 18px;
+  }
+
+  .navbar .logo-text {
+    font-size: 0.82rem;
+    letter-spacing: 0.04em;
+  }
 }

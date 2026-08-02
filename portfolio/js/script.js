@@ -1,5 +1,5 @@
 // ============================================
-// RAKIB PORTFOLIO - Main JavaScript
+// MAHAMUDUL HASAN PORTFOLIO - Main JavaScript
 // Organized: js/script.js
 // ============================================
 
@@ -621,14 +621,18 @@ anchorLinks.forEach(function(link) {
 const contactForm = document.getElementById('contactForm');
 const contactSuccess = document.getElementById('contactSuccess');
 if (contactForm && contactSuccess) {
+  var contactStartedAt = Date.now();
+  var contactStartedInput = document.getElementById('contactStartedAt');
+  if (contactStartedInput) contactStartedInput.value = String(contactStartedAt);
   contactForm.addEventListener('submit', async function(e) {
     e.preventDefault();
 
     const name = (document.getElementById('contactName') && document.getElementById('contactName').value || '').trim();
     const email = (document.getElementById('contactEmail') && document.getElementById('contactEmail').value || '').trim();
+    const phone = (document.getElementById('contactPhone') && document.getElementById('contactPhone').value || '').trim();
+    const subject = (document.getElementById('contactSubject') && document.getElementById('contactSubject').value || '').trim();
     const message = (document.getElementById('contactMessage') && document.getElementById('contactMessage').value || '').trim();
     const hp = (document.getElementById('contactHp') && document.getElementById('contactHp').value || '').trim();
-    const formName = contactForm.getAttribute('name') || 'contact';
     const submitBtn = contactForm.querySelector('button[type="submit"]');
 
     // Honeypot check: if filled, silently treat as spam (don't send)
@@ -658,33 +662,24 @@ if (contactForm && contactSuccess) {
     const oldSuccessText = contactSuccess.textContent;
 
     try {
-      const formData = new FormData(contactForm);
-      formData.set('form-name', formName);
-      formData.set('name', name);
-      formData.set('email', email);
-      formData.set('message', message);
-      formData.set('bot-field', hp);
-
-      const encodedBody = new URLSearchParams();
-      formData.forEach(function(value, key) {
-        encodedBody.append(key, String(value));
-      });
-
-      const response = await fetch(contactForm.getAttribute('action') || window.location.pathname, {
+      const response = await fetch(contactForm.getAttribute('action') || '/api/contact', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded'
+          'Content-Type': 'application/json'
         },
-        body: encodedBody.toString()
+        body: JSON.stringify({ name: name, email: email, phone: phone, subject: subject, message: message, hp: hp, startedAt: contactStartedAt })
       });
 
       if (!response.ok) {
-        throw new Error('Request failed');
+        const data = await response.json().catch(function() { return {}; });
+        throw new Error(data.error || 'Request failed');
       }
 
       contactSuccess.textContent = 'Message sent successfully.';
       contactSuccess.classList.add('visible');
       contactForm.reset();
+      contactStartedAt = Date.now();
+      if (contactStartedInput) contactStartedInput.value = String(contactStartedAt);
       setTimeout(function() {
         contactSuccess.classList.remove('visible');
         contactSuccess.textContent = oldSuccessText;
