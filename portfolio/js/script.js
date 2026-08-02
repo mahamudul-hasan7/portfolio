@@ -251,10 +251,10 @@ document.addEventListener('DOMContentLoaded', function() {
 // Profile image slider with fade animation
 document.addEventListener('DOMContentLoaded', async function() {
   const defaultProfileImages = [
-    'rakib.jpg',
-    'rakib2.jpg',
-    'rakib3.jpg',
-    'rakib4.jpg'
+    'assets/images/profile/profile-01.jpg',
+    'assets/images/profile/profile-02.jpg',
+    'assets/images/profile/profile-03.jpg',
+    'assets/images/profile/profile-04.jpg'
   ];
 
   function uniqueStrings(list) {
@@ -279,9 +279,9 @@ document.addEventListener('DOMContentLoaded', async function() {
 
   async function detectPatternImages() {
     // limit probes to a few files to avoid many 404s and heavy network I/O
-    const candidates = ['rakib.jpg'];
-    for (let i = 2; i <= 6; i += 1) {
-      candidates.push('rakib' + i + '.jpg');
+    const candidates = [];
+    for (let i = 1; i <= 8; i += 1) {
+      candidates.push('assets/images/profile/profile-' + String(i).padStart(2, '0') + '.jpg');
     }
 
     // Probe all candidates in parallel — much faster than sequential await
