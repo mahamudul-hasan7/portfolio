@@ -1,100 +1,64 @@
-# Mahamudul Hasan Web – Portfolio Projects
+# Mahamudul Hasan Portfolio
 
-A personal portfolio website showcasing my projects, skills, experience, and journey as a developer.
+Production portfolio for Mahamudul Hasan, built with semantic HTML, CSS, and vanilla JavaScript. The site includes projects, blogs, a gallery, a web CV with PDF download, and a secured Vercel contact API.
 
-## 🌐 Live Portfolio
-
-Visit my live portfolio from the website link provided in this repository.
-
-## 👨‍💻 About This Project
-
-- **Entry:** `portfolio/index.html`
-- **Structure:** `css/`, `js/`, `assets/images/`
-- See `portfolio/PROJECT-STRUCTURE.md` for details.
-- **Content:** edit `portfolio/data/content.json`; no admin dashboard or admin API is deployed.
-- **Contact form:** posts to `/api/contact` on Vercel. Configure `CONTACT_WEBHOOK_URL` or the optional Supabase contact storage variables documented in `portfolio/SECURITY.md`.
-
-This repository contains my personal portfolio website.
-
-The main production version is built with:
-
-- HTML
-- CSS
-- JavaScript
-
-It focuses on a clean user interface, responsive design, interactive elements, and presenting my work in a simple and professional way.
-
-## ✨ Features
-
-- Responsive portfolio design
-- About me section
-- Projects showcase
-- Skills and technologies
-- Resume section
-- Blog section
-- Gallery
-- Contact section
-- Interactive UI elements
-
-## 🛠️ Tech Stack
-
-### Production
-
-HTML · CSS · JavaScript
-
-### Previously Explored
-
-Next.js · Tailwind CSS · Framer Motion
-
-## 📁 Project Structure
+## Project layout
 
 ```text
-portfolio/
-├── index.html
-├── css/
-├── js/
-└── assets/
-    └── images/
+.
+|-- .github/workflows/       # CI and Vercel deployment
+|-- api/                     # Vercel serverless contact endpoint
+|-- database/                # Optional Supabase schema
+|-- docs/                    # Deployment and security documentation
+|-- portfolio/               # Production static website
+|   |-- assets/
+|   |   |-- documents/       # Public CV PDF
+|   |   |-- icons/           # Favicon
+|   |   |-- images/
+|   |   |   |-- contact/     # Contact-page visual
+|   |   |   |-- gallery/     # Gallery-only photos
+|   |   |   `-- profile/     # Profile slider and shared photos
+|   |   `-- music/           # Background audio
+|   |-- css/                 # Shared styles
+|   |-- data/                # Structured portfolio content
+|   |-- js/                  # UI and content-loading scripts
+|   `-- *.html               # Site pages
+|-- resources/cv/            # Editable CV source; not deployed
+|-- scripts/                 # Local preview and validation tools
+|-- package.json
+`-- vercel.json
 ```
 
-The `portfolio/` directory contains the current production website.
+## Local development
 
-The `experience-portfolio/` directory contains an experimental Next.js version that is currently archived and not used for production.
-
-## 🚀 Running Locally
-
-Clone the repository:
+Requirements: Node.js 20 or newer.
 
 ```bash
-git clone https://github.com/mahamudul-hasan7/portfolio.git
+npm run serve
 ```
 
-Open the project directory:
+Open `http://127.0.0.1:4173`. The static preview does not run the contact API; use `vercel dev` when testing serverless contact delivery.
+
+## Validation
 
 ```bash
-cd portfolio/portfolio
+npm test
 ```
 
-Then open:
+The test suite checks required files, JSON and JavaScript syntax, local HTML references, the CV PDF signature, removal of legacy deployment artifacts, and core contact API security responses.
 
-```text
-index.html
-```
+## Content updates
 
-in your browser.
+- Profile, projects, blogs, skills, and timeline: `portfolio/data/content.json`
+- Page markup: `portfolio/*.html`
+- Shared styles: `portfolio/css/styles.css`
+- Public CV: `portfolio/assets/documents/Md_Mahamudul_Hasan_Professional_CV.pdf`
+- Editable CV source: `resources/cv/Md_Mahamudul_Hasan_Professional_CV.docx`
 
-## 🎯 Project Goal
+## Deployment
 
-The goal of this portfolio is to create a central place where I can showcase my development journey, projects, skills, experiments, and future work.
+The production target is Vercel. Deploy from the repository root so `vercel.json`, the static portfolio, and the serverless API are included together. See `docs/DEPLOYMENT.md` and `docs/SECURITY.md`.
 
-I plan to continue improving the portfolio as I learn and build more projects.
+## Author
 
-## 👤 Author
-
-**Mahamudul Hasan**
-
-CSE Student · Aspiring Software Developer · Web Developer · Exploring Cybersecurity & Game Development
-
----
-
-⭐ Thanks for checking out my portfolio.
+Mahamudul Hasan - CSE undergraduate and software engineering learner.
