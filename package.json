@@ -1,0 +1,15 @@
+{
+  "name": "mahamudul-hasan-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Professional portfolio website and secured contact API for Mahamudul Hasan.",
+  "scripts": {
+    "check": "node scripts/validate-project.mjs",
+    "serve": "node scripts/serve.mjs",
+    "test": "npm run check && npm run test:api",
+    "test:api": "node scripts/test-contact-api.mjs"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
