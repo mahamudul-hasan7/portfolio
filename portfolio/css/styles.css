@@ -7722,6 +7722,15 @@ body.light .typewriter-cursor {
     border-radius: 11px !important;
   }
 
+  /* Center the full link group when it fits; keep natural scrolling when it does not. */
+  .navbar #primaryNav.nav-links li:first-child {
+    margin-inline-start: auto !important;
+  }
+
+  .navbar #primaryNav.nav-links li:last-child {
+    margin-inline-end: auto !important;
+  }
+
   .navbar #primaryNav.nav-links a:hover,
   .navbar #primaryNav.nav-links a.active {
     color: #e2f7ff !important;
