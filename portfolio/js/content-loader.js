@@ -131,14 +131,14 @@
 
   function applyResume(content) {
     if (!document.querySelector('.resume-page') || !content.resume) return;
-    text('.resume-header h1', content.profile && content.profile.name);
+    text('.resume-header h1', content.resume.name || (content.profile && content.profile.name));
     text('.resume-header .subtitle', content.resume.subtitle);
-    var contact = document.querySelector('.resume-header .contact');
+    var contact = document.querySelector('.resume-header .resume-contact');
     if (contact) {
       contact.querySelector('span:first-child').textContent = content.resume.location || '';
     }
     var education = content.resume.education || [];
-    document.querySelectorAll('.resume-section:first-of-type .resume-item').forEach(function (item, index) {
+    document.querySelectorAll('.education-section .resume-item').forEach(function (item, index) {
       var edu = education[index];
       if (!edu) return;
       text('h3', edu.title, item);

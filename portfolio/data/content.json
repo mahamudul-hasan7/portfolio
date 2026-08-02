@@ -21,26 +21,27 @@
     "quote": "I believe good software starts with clear thinking, consistent practice, and useful real-world projects."
   },
   "resume": {
-    "subtitle": "Computer Science & Engineering Student",
-    "location": "Bangladesh",
+    "name": "Md. Mahamudul Hasan",
+    "subtitle": "Computer Science & Engineering Undergraduate",
+    "location": "Vatara, Dhaka, Bangladesh",
     "education": [
       {
         "title": "B.Sc. in Computer Science & Engineering",
-        "school": "United International University",
+        "school": "United International University, Dhaka",
         "period": "Fall 2023 - Expected 2028",
-        "details": "Currently studying. Focus areas include programming, software engineering, databases, web technologies, and core computer science fundamentals."
+        "details": "Currently studying Computer Science and Engineering with a focus on programming, software engineering, databases, and web technologies."
       },
       {
         "title": "Higher Secondary Certificate (Science)",
         "school": "Karatoa Multimedia School and College, Bogura",
         "period": "2022",
-        "details": "GPA: 5.00 out of 5.00. Board: Rajshahi."
+        "details": "GPA 5.00/5.00. Rajshahi Board."
       },
       {
         "title": "Secondary School Certificate (Science)",
         "school": "Gobindaganj Government High School, Gaibandha",
         "period": "2020",
-        "details": "GPA: 4.61 out of 5.00. Board: Dinajpur."
+        "details": "GPA 4.61/5.00. Dinajpur Board."
       }
     ]
   },
@@ -51,7 +52,7 @@
       "meta": "Web Application · PHP + SQL",
       "description": "A complaint management system with frontend and backend modules, database SQL files, ERD/schema assets, and a public repository for tracking civic issue workflows.",
       "tech": "PHP, SQL, HTML, CSS, JavaScript",
-      "liveUrl": "",
+      "liveUrl": "https://smart-city-mahamud.vercel.app/",
       "codeUrl": "https://github.com/mahamudul-hasan7/smart_city"
     },
     {
@@ -60,8 +61,8 @@
       "meta": "Web Platform · JavaScript + PHP",
       "description": "A digital library project with backend, collections, explore, login, profile, reader, register, wishlist, authentication, API client, and database-related files.",
       "tech": "JavaScript, PHP, CSS, HTML, SQL",
-      "liveUrl": "",
-      "codeUrl": "https://github.com/mahamudul-hasan7/library"
+      "liveUrl": "https://library-mahamud.vercel.app/",
+      "codeUrl": "https://github.com/mahamudul-hasan7/BrainRoot-Library"
     },
     {
       "title": "Personal Portfolio Website",
