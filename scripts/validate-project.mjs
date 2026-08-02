@@ -71,6 +71,15 @@ const htmlFiles = fs.readdirSync(publicRoot)
   .filter(file => file.endsWith('.html'))
   .map(file => path.join(publicRoot, file));
 
+const cleanPageRoutes = new Map([
+  ['/', 'index.html'],
+  ['/projects', 'projects.html'],
+  ['/blogs', 'blogs.html'],
+  ['/gallery', 'gallery.html'],
+  ['/resume', 'resume.html'],
+  ['/contact', 'contact.html']
+]);
+
 for (const htmlFile of htmlFiles) {
   const html = fs.readFileSync(htmlFile, 'utf8');
   const referencePattern = /(?:href|src|data-img)="([^"]*)"/g;
@@ -78,9 +87,20 @@ for (const htmlFile of htmlFiles) {
     const rawReference = match[1].trim();
     if (!rawReference || /^(?:#|https?:|mailto:|tel:|data:)/i.test(rawReference)) continue;
 
+    if (/\.html(?:[?#]|$)/i.test(rawReference)) {
+      fail(`HTML extension breaks deployed clean URLs: ${path.basename(htmlFile)} -> ${rawReference}`);
+      continue;
+    }
+
     const cleanReference = rawReference.split('#')[0].split('?')[0];
     if (!cleanReference) continue;
-    const referencedPath = path.resolve(path.dirname(htmlFile), decodeURIComponent(cleanReference));
+    const decodedReference = decodeURIComponent(cleanReference);
+    const routeFile = cleanPageRoutes.get(decodedReference);
+    const referencedPath = routeFile
+      ? path.join(publicRoot, routeFile)
+      : decodedReference.startsWith('/')
+        ? path.resolve(publicRoot, decodedReference.replace(/^\/+/, ''))
+        : path.resolve(path.dirname(htmlFile), decodedReference);
 
     if (referencedPath !== publicRoot && !referencedPath.startsWith(`${publicRoot}${path.sep}`)) {
       fail(`Reference escapes public root: ${path.basename(htmlFile)} -> ${rawReference}`);
