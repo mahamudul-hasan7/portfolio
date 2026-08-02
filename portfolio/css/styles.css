@@ -7612,12 +7612,57 @@ body.light .typewriter-cursor {
 
 /* Phones retain the desktop left-content/right-portrait hero composition. */
 @media (max-width: 600px) {
+  html {
+    scroll-padding-top: 104px;
+  }
+
+  .navbar {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    grid-template-areas:
+      "brand actions"
+      "links links" !important;
+    height: auto !important;
+    min-height: 96px !important;
+    padding: 0.34rem clamp(0.55rem, 2.5vw, 0.82rem) 0.3rem !important;
+    gap: 0.24rem 0.55rem !important;
+    overflow: visible !important;
+  }
+
+  .navbar .logo-flex {
+    grid-area: brand;
+    align-self: center;
+    width: fit-content !important;
+  }
+
+  .navbar .logo-text {
+    font-size: clamp(0.72rem, 3.2vw, 0.88rem);
+    letter-spacing: 0.055em;
+  }
+
+  .nav-right {
+    grid-area: actions;
+    justify-self: end;
+  }
+
+  .navbar #primaryNav.nav-links,
+  .navbar.nav-open #primaryNav.nav-links {
+    grid-area: links;
+    width: 100% !important;
+    min-height: 40px !important;
+    margin: 0 !important;
+  }
+
+  section[id] {
+    scroll-margin-top: 104px;
+  }
+
   .hero-section {
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     align-items: center !important;
     justify-content: space-between !important;
-    min-height: calc(100svh - 58px) !important;
+    min-height: calc(100svh - 96px) !important;
     gap: clamp(0.3rem, 1.8vw, 0.7rem) !important;
     padding: 1rem clamp(0.5rem, 2.4vw, 0.85rem) 1.4rem !important;
     overflow: hidden !important;
@@ -7737,8 +7782,8 @@ body.light .typewriter-cursor {
   }
 
   .navbar .logo-text {
-    font-size: 0.56rem !important;
-    letter-spacing: 0.025em !important;
+    font-size: 0.7rem !important;
+    letter-spacing: 0.04em !important;
   }
 
   .navbar #primaryNav.nav-links a {
