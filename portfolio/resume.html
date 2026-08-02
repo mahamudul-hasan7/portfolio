@@ -3,113 +3,183 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Resume | Mahamudul Hasan</title>
+  <meta name="description" content="View the professional CV of Md. Mahamudul Hasan and download a copy when needed.">
+  <title>CV | Md. Mahamudul Hasan</title>
+  <link rel="icon" type="image/png" href="assets/icons/favicon.png" sizes="32x32">
   <link rel="stylesheet" href="css/styles.css">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    .resume-page { max-width: 780px; margin: 0 auto; padding: 2rem 1.5rem; color: var(--color-main, #e6e6e6); font-family: 'Montserrat', sans-serif; }
+    body { background: var(--bg-main, #101415); }
+    .resume-page { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; color: var(--color-main, #e6e6e6); font-family: 'Montserrat', sans-serif; }
     .resume-page a { color: #3fff7f; text-decoration: none; }
     .resume-page a:hover { text-decoration: underline; }
-    .resume-header { text-align: center; margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid #232b2d; }
-    .resume-header h1 { font-size: 1.85rem; margin: 0 0 0.25em 0; color: #fff; }
-    .resume-header .subtitle { color: #3fff7f; font-weight: 600; font-size: 1.05rem; }
-    .resume-header .contact { margin-top: 0.75rem; font-size: 0.95rem; color: #bdbdbd; }
-    .resume-header .contact span { margin: 0 0.5em; }
-    .resume-section { margin-bottom: 1.75rem; }
-    .resume-section h2 { font-size: 1.15rem; color: #3fff7f; margin: 0 0 0.75rem 0; padding-bottom: 0.35rem; border-bottom: 2px solid #3fff7f44; }
-    .resume-section ul { margin: 0; padding-left: 1.25rem; line-height: 1.6; color: #bdbdbd; font-size: 0.98rem; }
-    .resume-section p { margin: 0 0 0.5em 0; color: #bdbdbd; font-size: 0.98rem; line-height: 1.5; }
-    .resume-item { margin-bottom: 1rem; }
-    .resume-item h3 { font-size: 1.05rem; color: #fff; margin: 0 0 0.2em 0; }
-    .resume-item .meta { color: #3fff7f; font-size: 0.9rem; }
-    .resume-item .meta span { margin-right: 0.5em; }
-    .resume-download { display: inline-block; margin-top: 1rem; padding: 0.5em 1.2em; background: #3fff7f; color: #101415; border-radius: 8px; font-weight: 600; font-size: 0.95rem; border: 0; cursor: pointer; font-family: inherit; }
-    .resume-download:hover { opacity: 0.9; text-decoration: none; }
-    .resume-nav { margin-bottom: 1.5rem; }
-    .resume-nav a { color: #bdbdbd; margin-right: 1rem; }
-    .resume-nav a:hover { color: #3fff7f; }
-    body { background: var(--bg-main, #101415); }
+    .resume-nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 1.25rem; }
+    .back-link { color: #bdbdbd !important; font-weight: 600; }
+    .back-link:hover { color: #3fff7f !important; }
+    .resume-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 0.65rem; }
+    .resume-action { display: inline-flex; align-items: center; justify-content: center; min-height: 42px; padding: 0.65em 1.1em; border: 1px solid #3fff7f; border-radius: 9px; font: inherit; font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: transform 160ms ease, opacity 160ms ease, background 160ms ease; }
+    .resume-action:hover { transform: translateY(-1px); text-decoration: none !important; }
+    .resume-download { background: #3fff7f; color: #101415 !important; }
+    .resume-print { background: transparent; color: #3fff7f; }
+    .view-note { margin: 0 0 1.5rem; padding: 0.85rem 1rem; border: 1px solid #3fff7f33; border-radius: 10px; background: #3fff7f0a; color: #bdbdbd; font-size: 0.9rem; line-height: 1.55; }
+    .resume-card { padding: clamp(1.25rem, 4vw, 2.5rem); border: 1px solid #232b2d; border-radius: 16px; background: #111719; box-shadow: 0 18px 50px #00000030; }
+    .resume-header { text-align: center; margin-bottom: 1.75rem; padding-bottom: 1.5rem; border-bottom: 1px solid #2a3335; }
+    .resume-header h1 { margin: 0 0 0.3em; color: #fff; font-size: clamp(1.9rem, 5vw, 2.6rem); letter-spacing: -0.03em; }
+    .resume-header .subtitle { margin: 0; color: #3fff7f; font-size: 1.05rem; font-weight: 600; }
+    .resume-contact { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.45rem 1rem; margin: 0.9rem 0 0; color: #bdbdbd; font-size: 0.9rem; line-height: 1.5; }
+    .resume-section { margin-top: 1.75rem; }
+    .resume-section h2 { margin: 0 0 0.85rem; padding-bottom: 0.4rem; border-bottom: 2px solid #3fff7f44; color: #3fff7f; font-size: 1.1rem; letter-spacing: 0.04em; text-transform: uppercase; }
+    .resume-section p { margin: 0; color: #c7cdce; font-size: 0.95rem; line-height: 1.65; }
+    .resume-item { margin-bottom: 1.05rem; }
+    .resume-item:last-child { margin-bottom: 0; }
+    .resume-item h3 { margin: 0 0 0.25rem; color: #fff; font-size: 1rem; line-height: 1.45; }
+    .resume-item .meta { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 1rem; margin-bottom: 0.25rem; color: #3fff7f; font-size: 0.88rem; }
+    .skills-list, .project-points { margin: 0; padding-left: 1.2rem; color: #c7cdce; font-size: 0.94rem; line-height: 1.65; }
+    .skills-list li + li, .project-points li + li { margin-top: 0.3rem; }
+    .project-links { display: flex; flex-wrap: wrap; gap: 0.4rem 0.9rem; margin-top: 0.4rem; font-size: 0.88rem; font-weight: 600; }
+    .language-list { display: flex; flex-wrap: wrap; gap: 0.5rem 1.4rem; margin: 0; padding: 0; list-style: none; color: #c7cdce; font-size: 0.94rem; }
+    .language-list strong { color: #fff; }
+
+    @media (max-width: 640px) {
+      .resume-page { padding: 1rem 0.8rem 2.5rem; }
+      .resume-nav { align-items: flex-start; flex-direction: column; }
+      .resume-actions { justify-content: flex-start; width: 100%; }
+      .resume-action { flex: 1 1 145px; }
+      .resume-card { border-radius: 12px; }
+      .resume-contact { align-items: center; flex-direction: column; gap: 0.3rem; }
+      .resume-item .meta { flex-direction: column; }
+    }
+
+    @media print {
+      @page { size: A4; margin: 14mm; }
+      body { background: #fff !important; }
+      .resume-page { max-width: none; padding: 0; color: #111; }
+      .resume-nav, .view-note { display: none !important; }
+      .resume-card { padding: 0; border: 0; background: #fff; box-shadow: none; }
+      .resume-header h1, .resume-item h3, .language-list strong { color: #111; }
+      .resume-header .subtitle, .resume-section h2, .resume-item .meta { color: #176b35; }
+      .resume-section p, .skills-list, .project-points, .language-list, .resume-contact { color: #333; }
+      .resume-page a { color: #176b35; }
+    }
   </style>
 </head>
 <body>
-  <div class="resume-page">
-    <nav class="resume-nav">
-      <a href="/">← Back to Portfolio</a>
-      <button type="button" class="resume-download" onclick="window.print()">Print Resume</button>
+  <main class="resume-page">
+    <nav class="resume-nav" aria-label="CV actions">
+      <a class="back-link" href="index.html">&larr; Back to Portfolio</a>
+      <div class="resume-actions">
+        <a class="resume-action resume-download" href="assets/documents/Md_Mahamudul_Hasan_Professional_CV.pdf" download="Md_Mahamudul_Hasan_Professional_CV.pdf" type="application/pdf">Download CV (PDF)</a>
+        <button type="button" class="resume-action resume-print" onclick="window.print()">Print / Save PDF</button>
+      </div>
     </nav>
 
-    <header class="resume-header">
-      <h1>Mahamudul Hasan</h1>
-      <p class="subtitle">Computer Science & Engineering Student</p>
-      <p class="contact">
-        <span>Bangladesh</span>
-        <span><a href="/contact">Contact</a></span>
-        <span><a href="https://www.linkedin.com/in/mahamudulxhasan/" target="_blank" rel="noopener">LinkedIn</a></span>
-        <span><a href="https://github.com/mahamudul-hasan7" target="_blank" rel="noopener">GitHub</a></span>
-      </p>
-    </header>
+    <p class="view-note">You are viewing the complete web version of my CV. Use the download button only if you want to keep a copy.</p>
 
-    <section class="resume-section">
-      <h2>Education</h2>
-      <div class="resume-item">
-        <h3>B.Sc. in Computer Science & Engineering</h3>
-        <p class="meta"><span>United International University</span><span>Fall 2023 - Expected 2028</span></p>
-        <p>Currently studying. Focus areas include programming, software engineering, databases, web technologies, and core computer science fundamentals.</p>
-      </div>
-      <div class="resume-item">
-        <h3>Higher Secondary Certificate (Science)</h3>
-        <p class="meta"><span>Karatoa Multimedia School and College, Bogura</span><span>2022</span></p>
-        <p>GPA: 5.00 out of 5.00. Board: Rajshahi.</p>
-      </div>
-      <div class="resume-item">
-        <h3>Secondary School Certificate (Science)</h3>
-        <p class="meta"><span>Gobindaganj Government High School, Gaibandha</span><span>2020</span></p>
-        <p>GPA: 4.61 out of 5.00. Board: Dinajpur.</p>
-      </div>
-    </section>
+    <article class="resume-card">
+      <header class="resume-header">
+        <h1>Md. Mahamudul Hasan</h1>
+        <p class="subtitle">Computer Science &amp; Engineering Undergraduate</p>
+        <div class="resume-contact" aria-label="Contact information">
+          <span>Vatara, Dhaka, Bangladesh</span>
+          <a href="tel:+8801863300256">+880 1863-300256</a>
+          <a href="mailto:mahamud.7info@gmail.com">mahamud.7info@gmail.com</a>
+          <a href="https://github.com/mahamudul-hasan7" target="_blank" rel="noopener noreferrer">GitHub</a>
+          <a href="https://www.linkedin.com/in/mahamudulxhasan" target="_blank" rel="noopener noreferrer">LinkedIn</a>
+          <a href="https://www.mahamud.xyz" target="_blank" rel="noopener noreferrer">Portfolio</a>
+        </div>
+      </header>
 
-    <section class="resume-section">
-      <h2>Skills</h2>
-      <ul>
-        <li><strong>Programming:</strong> C, C++, Java, Python, PHP</li>
-        <li><strong>Web:</strong> HTML, CSS, JavaScript</li>
-        <li><strong>Database:</strong> SQL</li>
-        <li><strong>Tools:</strong> GitHub, VS Code</li>
-        <li><strong>Interests:</strong> Software engineering and game development</li>
-      </ul>
-    </section>
+      <section class="resume-section">
+        <h2>Professional Summary</h2>
+        <p>CSE undergraduate with hands-on experience developing full-stack web applications and implementing graph algorithms in Java. Working knowledge of C, C++, Java, Python, JavaScript, PHP, and SQL, with a focus on maintainable software, database-backed systems, and structured problem solving. Seeking opportunities to grow in software engineering while continuing to explore game development.</p>
+      </section>
 
-    <section class="resume-section">
-      <h2>Projects</h2>
-      <div class="resume-item">
-        <h3>Smart City Complaint Management System</h3>
-        <p class="meta">PHP, SQL, HTML, CSS, JavaScript</p>
-        <p>Complaint management system with frontend/backend modules, database SQL files, ERD/schema assets, and a public project repository.</p>
-      </div>
-      <div class="resume-item">
-        <h3>Digital Library Platform</h3>
-        <p class="meta">JavaScript, PHP, CSS, HTML, SQL</p>
-        <p>Digital library platform with backend, collections, explore, login, profile, reader, register, wishlist, authentication, API client, and database files.</p>
-      </div>
-      <div class="resume-item">
-        <h3>Personal Portfolio Website</h3>
-        <p class="meta">HTML, CSS, JavaScript, Vercel</p>
-        <p>Production static portfolio with resume, project, blog, gallery, contact, and content-driven sections.</p>
-      </div>
-    </section>
+      <section class="resume-section education-section">
+        <h2>Education</h2>
+        <div class="resume-item">
+          <h3>B.Sc. in Computer Science &amp; Engineering</h3>
+          <p class="meta"><span>United International University, Dhaka</span><span>Fall 2023 - Expected 2028</span></p>
+        </div>
+        <div class="resume-item">
+          <h3>Higher Secondary Certificate (Science)</h3>
+          <p class="meta"><span>Karatoa Multimedia School and College, Bogura</span><span>2022</span></p>
+          <p>GPA 5.00/5.00 &middot; Rajshahi Board</p>
+        </div>
+        <div class="resume-item">
+          <h3>Secondary School Certificate (Science)</h3>
+          <p class="meta"><span>Gobindaganj Government High School, Gaibandha</span><span>2020</span></p>
+          <p>GPA 4.61/5.00 &middot; Dinajpur Board</p>
+        </div>
+      </section>
 
-    <section class="resume-section">
-      <h2>Certifications & Achievements</h2>
-      <ul>
-        <li>Computer Club and Cultural Club involvement.</li>
-        <li>Native Bengali, working English proficiency, and conversational Hindi.</li>
-        <li>Continuously learning software engineering through project-based work.</li>
-      </ul>
-    </section>
+      <section class="resume-section">
+        <h2>Technical Skills</h2>
+        <ul class="skills-list">
+          <li><strong>Programming:</strong> C, C++, Java, Python, JavaScript, PHP</li>
+          <li><strong>Web &amp; Database:</strong> HTML, CSS, JavaScript, PHP, MySQL, SQL</li>
+          <li><strong>Core:</strong> OOP, Data Structures &amp; Algorithms, DBMS, Graph Algorithms, Web Development, Problem Solving</li>
+          <li><strong>Tools:</strong> Git, GitHub, Visual Studio Code, Figma</li>
+        </ul>
+      </section>
 
-  </div>
+      <section class="resume-section">
+        <h2>Selected Projects</h2>
+        <div class="resume-item">
+          <h3>Smart City Complaint Management System</h3>
+          <p class="meta"><span>PHP, MySQL, JavaScript</span></p>
+          <ul class="project-points">
+            <li>Developed citizen complaint submission and tracking with administrative workflows for complaints, staff, departments, and zones.</li>
+            <li>Structured separate frontend/backend modules and supplied ERD, schema, and SQL setup resources.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://github.com/mahamudul-hasan7/smart_city" target="_blank" rel="noopener noreferrer">Repository</a>
+            <a href="https://smart-city-mahamud.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
+          </div>
+        </div>
+
+        <div class="resume-item">
+          <h3>BrainRoot Digital Library</h3>
+          <p class="meta"><span>JavaScript, PHP, SQL</span></p>
+          <ul class="project-points">
+            <li>Developed a digital library with accounts, collections, profiles, wishlist, ratings, and reading progress.</li>
+            <li>Built reusable authentication, API-client, storage, and database-backed modules.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://github.com/mahamudul-hasan7/BrainRoot-Library" target="_blank" rel="noopener noreferrer">Repository</a>
+            <a href="https://library-mahamud.vercel.app/" target="_blank" rel="noopener noreferrer">Live Demo</a>
+          </div>
+        </div>
+
+        <div class="resume-item">
+          <h3>Graph Algorithms in Java</h3>
+          <p class="meta"><span>Java, BFS, Floyd-Warshall</span></p>
+          <ul class="project-points">
+            <li>Implemented breadth-first search for graph traversal and Floyd-Warshall for all-pairs shortest paths.</li>
+            <li>Documented setup, sample usage, and time-complexity considerations.</li>
+          </ul>
+          <div class="project-links">
+            <a href="https://github.com/mahamudul-hasan/BFS_Algorithm" target="_blank" rel="noopener noreferrer">Repository</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="resume-section">
+        <h2>Campus Involvement</h2>
+        <p>Member of the Computer Club and Cultural Club; participates in technology-focused and cultural activities while strengthening teamwork and communication.</p>
+      </section>
+
+      <section class="resume-section">
+        <h2>Languages</h2>
+        <ul class="language-list">
+          <li><strong>Bengali:</strong> Native</li>
+          <li><strong>English:</strong> Working proficiency</li>
+          <li><strong>Hindi:</strong> Conversational</li>
+        </ul>
+      </section>
+    </article>
+  </main>
   <script src="js/content-loader.js"></script>
 </body>
 </html>
