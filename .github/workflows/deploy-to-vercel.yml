@@ -3,11 +3,18 @@ name: Deploy static portfolio to Vercel
 on:
   push:
     branches: [ main ]
+  workflow_dispatch:
+
+concurrency:
+  group: production-deployment
+  cancel-in-progress: true
 
 jobs:
   vercel-deploy:
     name: Deploy to Vercel
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v4
       - name: Setup Node
@@ -16,9 +23,23 @@ jobs:
           node-version: '20'
       - name: Install Vercel CLI
         run: npm install -g vercel
-      - name: Deploy to Vercel (portfolio folder)
+      - name: Validate project and API security
+        run: npm test
+      - name: Pull Vercel environment
         env:
           VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
-        run: |
-          # deploy the static portfolio folder; requires VERCEL_TOKEN secret
-          vercel --prod --confirm --token "$VERCEL_TOKEN" --cwd ./portfolio
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel pull --yes --environment=production --token "$VERCEL_TOKEN"
+      - name: Build production deployment
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel build --prod --token "$VERCEL_TOKEN"
+      - name: Deploy production build
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+        run: vercel deploy --prebuilt --prod --token "$VERCEL_TOKEN"
